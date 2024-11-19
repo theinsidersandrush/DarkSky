@@ -1,11 +1,14 @@
 ﻿using Cube.UI.Services;
-using DarkSky.API;
-using DarkSky.API.ATProtocol;
-using DarkSky.Helpers;
+using DarkSky.Core.Services;
+using DarkSky.Core.ViewModels;
+using DarkSky.Pages;
+using FishyFlip.Models;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -26,49 +29,53 @@ namespace DarkSky
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
-    {
-		public BlueSkyClient Client;
-        public MainPage()
-        {
-            this.InitializeComponent();
+	{
+		private MainViewModel ViewModel = App.Current.Services.GetService<MainViewModel>();
+		public MainPage()
+		{
+			this.InitializeComponent();
             WindowService.Initialize(AppTitleBar, AppTitle);
             AppNavigation.SelectedItem = AppNavigation.MenuItems[0];
-			login();
+			Bindings.Update();
 		}
 
-		public async void login()
-		{
-			// Refresh token and login
-			if (CredentialHelper.Count() != 0)
-			{
-				var credential = CredentialHelper.RetrieveCredential();
-				try
-				{
-					await App.DarkSkyClient.RefreshManualAsync(credential.Resource);
-				}
-				catch (Exception ex)
-				{ // try full login again
-					await App.DarkSkyClient.LoginAsync(credential.UserName, credential.Password);
-				}
-				Client = App.DarkSkyClient;
-				Bindings.Update();
-			}
-			else
-				((Frame)Window.Current.Content).Navigate(typeof(LoginPage));
-		}
 		// used by URL
-		public ImageSource img(Uri uri)
+		public ImageSource img(string uri)
 		{
 			if (uri == null)
 				throw new ArgumentNullException(nameof(uri));
 
 			// Create a BitmapImage and set its UriSource to the provided Uri
-			var bitmapImage = new BitmapImage(uri);
+			var bitmapImage = new BitmapImage(new Uri(uri));
 			return bitmapImage;
 		}
+
 		private void AppNavigation_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
 		{
-
+			if(sender.SelectedItem == AppNavigation.MenuItems[0])
+			{
+				DualPane.Visibility = Visibility.Visible;
+				WholePane.Visibility = Visibility.Collapsed;
+				PrimaryPane.Navigate(typeof(FeedPage));
+			}
+			else if (sender.SelectedItem == AppNavigation.MenuItems[0])
+			{
+				DualPane.Visibility = Visibility.Visible;
+				WholePane.Visibility = Visibility.Collapsed;
+				PrimaryPane.Navigate(typeof(NotificationPage));
+			}
+			else if (sender.SelectedItem == AppNavigation.FooterMenuItems[0])
+			{
+				DualPane.Visibility = Visibility.Visible;
+				WholePane.Visibility = Visibility.Collapsed;
+				PrimaryPane.Navigate(typeof(ProfilePage));
+			}
+			else if (sender.SelectedItem == AppNavigation.FooterMenuItems[1])
+			{
+				WholePane.Visibility = Visibility.Visible;
+				DualPane.Visibility = Visibility.Collapsed;
+				PrimaryPane.Navigate(typeof(SettingsPage));
+			}
 		}
 	}
 }

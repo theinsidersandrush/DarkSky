@@ -14,35 +14,41 @@
                 IsHitTestVisible="True"
                 VerticalAlignment="Top"
                 Background="Transparent"
-                Height="40"
-                Canvas.ZIndex="1" 
-                Margin="12,0,0,0">
+                HorizontalAlignment="Stretch"
+                Height="48" 
+                Margin="12, 0, 0, 0"
+                Canvas.ZIndex="1">
             <StackPanel Orientation="Horizontal">
-                <Image x:Name="AppFontIcon"
+                    <Image x:Name="AppFontIcon"
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Center"
                     Source="Assets/Square44x44Logo.png" 
                     Width="16" 
                     Height="16"/>
-                <TextBlock x:Name="AppTitle"
+                    <TextBlock x:Name="AppTitle"
                     Text="Darksky"
                     VerticalAlignment="Center"
                     Margin="12, 0, 0, 0"
                     Style="{StaticResource CaptionTextBlockStyle}" />
-                <TextBlock 
+                    <TextBlock 
                     Text="for Bluesky"
                     VerticalAlignment="Center" Opacity="0.4"
                     Margin="4, 0, 0, 0"
                     Style="{StaticResource CaptionTextBlockStyle}" />
             </StackPanel>
         </Border>
+        <AutoSuggestBox Canvas.ZIndex="2" Height="32" PlaceholderText="Search..." Width="300" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 8, 0, 0">
+            <AutoSuggestBox.QueryIcon>
+                <icons:FluentIconElement Symbol="Search20"/>
+            </AutoSuggestBox.QueryIcon>
+        </AutoSuggestBox>
         <muxc:NavigationView
       x:Name="AppNavigation"
       Grid.Row="1"
       IsBackButtonVisible="Collapsed"
       IsBackEnabled="False"
       IsPaneOpen="True"
-      Margin="0, 32, 0, 0"
+      Margin="0, 48, 0, 0"
       IsPaneToggleButtonVisible="False"
       IsSettingsVisible="False"
       IsTitleBarAutoPaddingEnabled="False"
@@ -95,8 +101,8 @@
             <muxc:NavigationView.FooterMenuItems>
                 <muxc:NavigationViewItem Tag="Profile">
                     <StackPanel>
-                        <PersonPicture Height="36" ProfilePicture="{x:Bind img(Client.CurrentProfile.Avatar), Mode=OneWay}"/>
-                        <TextBlock Text="{x:Bind Client.CurrentProfile.DisplayName, Mode=OneWay}"/>
+                        <PersonPicture Height="36" ProfilePicture="{x:Bind img(ViewModel.CurrentProfile.Avatar), Mode=OneWay}"/>
+                        <TextBlock Text="{x:Bind ViewModel.CurrentProfile.DisplayName, Mode=OneWay}"/>
                     </StackPanel>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem Content="Settings" Tag="Settings">
@@ -108,10 +114,15 @@
 
             <muxc:NavigationView.Content>
                 <Grid BorderBrush="{ThemeResource MicaBorderBrush}" BorderThickness="1, 1, 0, 0" CornerRadius="8, 0, 0, 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="600"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                    <Grid x:Name="DualPane" Visibility="Visible">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Frame x:Name="PrimaryPane" Grid.Column="0" BorderThickness="0, 0, 1, 0" BorderBrush="{ThemeResource MicaBorderBrush}"/>
+                        <Frame x:Name="SecondaryPane" Grid.Column="1"/>
+                    </Grid>
+                    <Frame x:Name="WholePane" Visibility="Collapsed"/>
                 </Grid>
             </muxc:NavigationView.Content>
         </muxc:NavigationView>

@@ -37,8 +37,22 @@
                 <PersonPicture Height="72" ProfilePicture="{x:Bind img(ViewModel.CurrentProfile.Avatar), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12, 120, 12, 12" Canvas.ZIndex="1"/>
             </Grid>
             <Grid Grid.Row="1">
-              <!--  <controls:PostControl Post="{x:Bind ViewModel.PinnedProfilePost, Mode=OneWay}"/>-->
-                <ListView ItemsSource="{x:Bind ViewModel.TimelineFeed, Mode=OneWay}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <muxc:NavigationView Grid.Row="0" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" PaneDisplayMode="Top">
+                    <muxc:NavigationView.MenuItems>
+                        <muxc:NavigationViewItem  Content="Posts" />
+                        <muxc:NavigationViewItem  Content="Replies" />
+                        <muxc:NavigationViewItem  Content="Media" />
+                        <muxc:NavigationViewItem  Content="Likes" />
+                    </muxc:NavigationView.MenuItems>
+                    <Frame x:Name="contentFrame"/>
+                </muxc:NavigationView>
+                <controls:PostControl Grid.Row="1" Post="{x:Bind ViewModel.PinnedProfilePost, Mode=OneWay}"/>
+                <ListView Grid.Row="2" ItemsSource="{x:Bind ViewModel.CurrentProfilePosts, Mode=OneWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:FeedViewPost">
                             <controls:PostControl Post="{x:Bind Post, Mode=OneWay}"/>

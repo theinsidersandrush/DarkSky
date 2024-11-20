@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DarkSky.Core.Classes;
 using DarkSky.Core.Services;
 using FishyFlip.Models;
 using System;
@@ -18,10 +19,12 @@ namespace DarkSky.Core.ViewModels
 
 		private ATProtoService atProtoService;
 		private INavigationService navigationService;
-		public LoginViewModel(ATProtoService atProtoService, INavigationService navigationService)
+		private ICredentialService credentialService;
+		public LoginViewModel(ATProtoService atProtoService, INavigationService navigationService, ICredentialService credentialService)
 		{
 			this.atProtoService = atProtoService;
 			this.navigationService = navigationService;
+			this.credentialService = credentialService;
 		}
 
 		[RelayCommand]
@@ -29,7 +32,10 @@ namespace DarkSky.Core.ViewModels
 		{
 			await atProtoService.LoginAsync(UserName, Password);
 			if (atProtoService.Session is not null)
+			{
+				credentialService.SaveCredential(new Credential(atProtoService.Session.Handle.Handle, Password, atProtoService.Session.RefreshJwt));
 				navigationService.NavigateTo<MainViewModel>();
+			}
 		}
 	}
 }

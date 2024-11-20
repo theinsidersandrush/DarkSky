@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DarkSky.Core.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +24,7 @@ namespace DarkSky.Pages
 	/// </summary>
 	public sealed partial class FeedPage : Page
 	{
+		private HomeFeedViewModel ViewModel = App.Current.Services.GetService<HomeFeedViewModel>();
 		public FeedPage()
 		{
 			this.InitializeComponent();

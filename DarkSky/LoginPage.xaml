@@ -13,8 +13,8 @@
     <Grid>
         <StackPanel Spacing="12" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock FontSize="20" Text="DarkSky  Alpha Preview Nightly testing"/>
-            <TextBox x:Name="UsernameBox" Header="Handle"/>
-            <TextBox x:Name="PasswordBox" Header="Password"/>
+            <TextBox x:Name="UsernameBox" Header="Handle" Text="{x:Bind ViewModel.UserName, Mode=TwoWay}"/>
+            <TextBox x:Name="PasswordBox" Header="Password" Text="{x:Bind ViewModel.Password, Mode=TwoWay}"/>
             <Button Command="{x:Bind ViewModel.loginCommand}">Login</Button>
         </StackPanel>
     </Grid>

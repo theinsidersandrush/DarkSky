@@ -18,7 +18,7 @@ namespace DarkSky.Core.ViewModels
 		private PostView pinnedProfilePost;
 
 		[ObservableProperty]
-		private FeedViewPost[] timelineFeed;
+		private FeedViewPost[] currentProfilePosts;
 
 		public ProfileViewModel(ATProtoService atProtoService)
 		{
@@ -36,10 +36,9 @@ namespace DarkSky.Core.ViewModels
 			var c = p.AsT0;
 			PinnedProfilePost = c.Posts[0];
 
-			var g = await atProtoService.ATProtocolClient.Feed.GetTimelineAsync();
-
-			var y = g.AsT0;
-			TimelineFeed = y.Feed;
+			var t = await atProtoService.ATProtocolClient.Feed.GetAuthorFeedAsync(atProtoService.Session.Handle, 50, null, default);
+			var f = t.AsT0;
+			CurrentProfilePosts = f.Feed;
 		}
 	}
 }

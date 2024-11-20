@@ -7,10 +7,23 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
-    xmlns:icons="using:Cube.UI.Icons" xmlns:glow="using:Cube.UI.Controls.Glow" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:icons="using:Cube.UI.Icons" xmlns:glow="using:Cube.UI.Controls.Glow" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:models="using:FishyFlip.Models" xmlns:controls="using:DarkSky.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
-
     <Grid>
-
+        <ListView ItemsSource="{x:Bind ViewModel.TimelineFeed, Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:FeedViewPost">
+                    <controls:PostControl Post="{x:Bind Post, Mode=OneWay}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 </Page>

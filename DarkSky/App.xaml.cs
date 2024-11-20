@@ -41,6 +41,7 @@ namespace DarkSky
 			services.AddTransient<LoginViewModel>();
 			services.AddTransient<MainViewModel>();
             services.AddTransient<ProfileViewModel>();
+			services.AddTransient<HomeFeedViewModel>();
 
 			NavigationService navigationService = new();
 			navigationService.RegisterViewForViewModel(typeof(MainViewModel), typeof(MainPage));

@@ -94,7 +94,7 @@
                         <icons:FluentIconElement Symbol="Bookmark24" Margin="0, 0, 4, 0"/>
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="New Post" Tag="New">
+                <muxc:NavigationViewItem Content="New Post" Tag="New" SelectsOnInvoked="False">
                     <muxc:NavigationViewItem.Icon>
                         <icons:FluentIconElement Symbol="AddSquare24" Margin="0, 0, 4, 0"/>
                     </muxc:NavigationViewItem.Icon>

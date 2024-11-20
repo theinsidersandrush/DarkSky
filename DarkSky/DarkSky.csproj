@@ -120,6 +120,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PostControl.xaml.cs">
+      <DependentUpon>PostControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LegacyPage.xaml.cs">
       <DependentUpon>LegacyPage.xaml</DependentUpon>
     </Compile>
@@ -210,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\PostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LegacyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -242,6 +249,9 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm">
       <Version>8.3.2</Version>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Uwp.Controls.Sizers">
+      <Version>8.1.240916</Version>
     </PackageReference>
     <PackageReference Include="FishyFlip">
       <Version>2.2.0-alpha.38</Version>

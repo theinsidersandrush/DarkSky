@@ -7,33 +7,53 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
-    xmlns:icons="using:Cube.UI.Icons" xmlns:glow="using:Cube.UI.Controls.Glow" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:icons="using:Cube.UI.Icons" xmlns:glow="using:Cube.UI.Controls.Glow" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    xmlns:controls="using:DarkSky.Controls" xmlns:models="using:FishyFlip.Models"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="400"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <StackPanel VerticalAlignment="Top" Spacing="8">
-                <Image Height="160" Source="{x:Bind img(ViewModel.CurrentProfile.Banner), Mode=OneWay}" Stretch="Fill"/>
-                <StackPanel Spacing="8" Margin="12">
-                    <TextBlock Text="{x:Bind ViewModel.CurrentProfile.DisplayName, Mode=OneWay}" FontSize="36" FontWeight="SemiBold"/>
-                    <TextBlock Text="{x:Bind ViewModel.CurrentProfile.Handle, Mode=OneWay}" Opacity="0.7"/>
-                    <StackPanel Orientation="Horizontal" Spacing="4">
-                        <TextBlock Text="{x:Bind ViewModel.CurrentProfile.FollowersCount, Mode=OneWay}" FontWeight="SemiBold"/>
-                        <TextBlock Text="followers " Opacity="0.7"/>
-                        <TextBlock Text="{x:Bind ViewModel.CurrentProfile.FollowsCount, Mode=OneWay}" FontWeight="SemiBold"/>
-                        <TextBlock Text="following " Opacity="0.7"/>
-                        <TextBlock Text="{x:Bind ViewModel.CurrentProfile.PostsCount, Mode=OneWay}" FontWeight="SemiBold"/>
-                        <TextBlock Text="posts " Opacity="0.7"/>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel VerticalAlignment="Top" Spacing="8">
+                    <Image Height="160" Source="{x:Bind img(ViewModel.CurrentProfile.Banner), Mode=OneWay}" Stretch="Fill"/>
+                    <StackPanel Spacing="8" Margin="12, 20, 12, 12">
+                        <TextBlock Text="{x:Bind ViewModel.CurrentProfile.DisplayName, Mode=OneWay}" FontSize="36" FontWeight="SemiBold"/>
+                        <TextBlock Text="{x:Bind ViewModel.CurrentProfile.Handle, Mode=OneWay}" Opacity="0.7"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock Text="{x:Bind ViewModel.CurrentProfile.FollowersCount, Mode=OneWay}" FontWeight="SemiBold"/>
+                            <TextBlock Text="followers " Opacity="0.7"/>
+                            <TextBlock Text="{x:Bind ViewModel.CurrentProfile.FollowsCount, Mode=OneWay}" FontWeight="SemiBold"/>
+                            <TextBlock Text="following " Opacity="0.7"/>
+                            <TextBlock Text="{x:Bind ViewModel.CurrentProfile.PostsCount, Mode=OneWay}" FontWeight="SemiBold"/>
+                            <TextBlock Text="posts " Opacity="0.7"/>
+                        </StackPanel>
+                        <TextBlock Text="{x:Bind ViewModel.CurrentProfile.Description, Mode=OneWay}" TextWrapping="WrapWholeWords"/>
                     </StackPanel>
-                    <TextBlock Text="{x:Bind ViewModel.CurrentProfile.Description, Mode=OneWay}" TextWrapping="WrapWholeWords"/>
                 </StackPanel>
-            </StackPanel>
-            <PersonPicture Height="72" ProfilePicture="{x:Bind img(ViewModel.CurrentProfile.Avatar), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12, 120, 12, 12" Canvas.ZIndex="1"/>
+                <PersonPicture Height="72" ProfilePicture="{x:Bind img(ViewModel.CurrentProfile.Avatar), Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12, 120, 12, 12" Canvas.ZIndex="1"/>
+            </Grid>
+            <Grid Grid.Row="1">
+              <!--  <controls:PostControl Post="{x:Bind ViewModel.PinnedProfilePost, Mode=OneWay}"/>-->
+                <ListView ItemsSource="{x:Bind ViewModel.TimelineFeed, Mode=OneWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="models:FeedViewPost">
+                            <controls:PostControl Post="{x:Bind Post, Mode=OneWay}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </Grid>
         </Grid>
-        <Grid Grid.Row="1"></Grid>
-    </Grid>
+    </ScrollViewer>
 </Page>

@@ -37,6 +37,10 @@ namespace DarkSky
             WindowService.Initialize(AppTitleBar, AppTitle);
             AppNavigation.SelectedItem = AppNavigation.MenuItems[0];
 			Bindings.Update();
+
+			// fix weird titlebar bug
+			AppTitleBar.Height = 50;
+			AppTitleBar.Height = 48;
 		}
 
 		// used by URL

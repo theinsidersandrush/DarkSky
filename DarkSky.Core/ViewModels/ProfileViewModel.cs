@@ -14,6 +14,12 @@ namespace DarkSky.Core.ViewModels
 		[ObservableProperty]
 		private FeedProfile currentProfile;
 
+		[ObservableProperty]
+		private PostView pinnedProfilePost;
+
+		[ObservableProperty]
+		private FeedViewPost[] timelineFeed;
+
 		public ProfileViewModel(ATProtoService atProtoService)
 		{
 			this.atProtoService = atProtoService;
@@ -24,6 +30,16 @@ namespace DarkSky.Core.ViewModels
 		{
 			var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(atProtoService.Session.Did);
 			CurrentProfile = profiles.AsT0;
+			List<ATUri> x = new();
+			x.Add(currentProfile.PinnedPost.Uri);
+			var p = await atProtoService.ATProtocolClient.Feed.GetPostsAsync(x);
+			var c = p.AsT0;
+			PinnedProfilePost = c.Posts[0];
+
+			var g = await atProtoService.ATProtocolClient.Feed.GetTimelineAsync();
+
+			var y = g.AsT0;
+			TimelineFeed = y.Feed;
 		}
 	}
 }

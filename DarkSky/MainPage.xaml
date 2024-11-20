@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
-    xmlns:icons="using:Cube.UI.Icons" xmlns:glow="using:Cube.UI.Controls.Glow" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:icons="using:Cube.UI.Icons" xmlns:glow="using:Cube.UI.Controls.Glow" xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <Grid>
         <Border x:Name="AppTitleBar"
@@ -63,17 +63,21 @@
                         <icons:FluentIconElement Symbol="Home24"/>
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Tag="Notifications">
+                <muxc:NavigationViewItem Tag="Notifications" Content="Notifications">
                     <muxc:NavigationViewItem.Icon>
                         <icons:FluentIconElement Symbol="Alert24"/>
                     </muxc:NavigationViewItem.Icon>
-                    <Grid>
+                    <muxc:NavigationViewItem.InfoBadge>
+                        <muxc:InfoBadge Style="{StaticResource AttentionDotInfoBadgeStyle}"/>
+                    </muxc:NavigationViewItem.InfoBadge>
+
+                    <!-- <Grid>
                         <toolkit:DropShadowPanel Margin="24, 0, 0, 0" ShadowOpacity="0.23" BlurRadius="16" Color="{ThemeResource SystemAccentColorLight3}">
                             <Grid Background="{ThemeResource RadioBrush}" Height="16" Width="16" VerticalAlignment="Center" HorizontalAlignment="Stretch" CornerRadius="100">
                                 <TextBlock FontWeight="SemiBold" Foreground="Black" Margin="0, 0, 0, 1" HorizontalAlignment="Center" VerticalAlignment="Center">0</TextBlock>
                             </Grid>
                         </toolkit:DropShadowPanel>
-                    </Grid>
+                    </Grid>-->
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem Content="Feeds">
                     <muxc:NavigationViewItem.Icon>
@@ -99,7 +103,7 @@
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
-                <muxc:NavigationViewItem Tag="Profile">
+                <muxc:NavigationViewItem Tag="Profile" Style="{ThemeResource ContentNavigatonViewItem}">
                     <StackPanel>
                         <PersonPicture Height="36" ProfilePicture="{x:Bind img(ViewModel.CurrentProfile.Avatar), Mode=OneWay}"/>
                         <TextBlock Text="{x:Bind ViewModel.CurrentProfile.DisplayName, Mode=OneWay}"/>
@@ -113,16 +117,29 @@
             </muxc:NavigationView.FooterMenuItems>
 
             <muxc:NavigationView.Content>
-                <Grid BorderBrush="{ThemeResource MicaBorderBrush}" BorderThickness="1, 1, 0, 0" CornerRadius="8, 0, 0, 0">
-                    <Grid x:Name="DualPane" Visibility="Visible">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Frame x:Name="PrimaryPane" Grid.Column="0" BorderThickness="0, 0, 1, 0" BorderBrush="{ThemeResource MicaBorderBrush}"/>
-                        <Frame x:Name="SecondaryPane" Grid.Column="1"/>
+                <Grid BorderBrush="{ThemeResource MicaBorderBrush}" Background="{ThemeResource MicaDarkBrush}" BorderThickness="1, 1, 0, 0" CornerRadius="8, 0, 0, 0">
+                    <Grid Background="{ThemeResource MicaBlurBrush}">
+                        <Grid x:Name="DualPane" Visibility="Visible">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MinWidth="400"/>
+                                <ColumnDefinition Width="*" MinWidth="200"/>
+                            </Grid.ColumnDefinitions>
+                            <Frame x:Name="PrimaryPane" Grid.Column="0" BorderThickness="0, 0, 1, 0" BorderBrush="{ThemeResource MicaBorderBrush}"/>
+                            <Frame x:Name="SecondaryPane" Grid.Column="1"/>
+
+                            <toolkit:GridSplitter Grid.Column="1"
+            Width="16"
+            HorizontalAlignment="Left"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Auto">
+                                <toolkit:GridSplitter.RenderTransform>
+                                    <TranslateTransform X="-8" />
+                                </toolkit:GridSplitter.RenderTransform>
+                            </toolkit:GridSplitter>
+
+                        </Grid>
+                        <Frame x:Name="WholePane" Visibility="Collapsed"/>
                     </Grid>
-                    <Frame x:Name="WholePane" Visibility="Collapsed"/>
                 </Grid>
             </muxc:NavigationView.Content>
         </muxc:NavigationView>

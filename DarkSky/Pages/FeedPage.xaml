@@ -5,12 +5,32 @@
     xmlns:local="using:DarkSky.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
     xmlns:icons="using:Cube.UI.Icons" xmlns:glow="using:Cube.UI.Controls.Glow" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:models="using:FishyFlip.Models" xmlns:controls="using:DarkSky.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <Grid>
-        <ListView ItemsSource="{x:Bind ViewModel.TimelineFeed, Mode=OneWay}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Background="{ThemeResource MicaDarkBrush}" BorderThickness="0, 0, 0, 1" BorderBrush="{ThemeResource MicaBorderBrush}">
+            <muxc:NavigationView x:Name="FeedNavigation" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" PaneDisplayMode="Top">
+                <muxc:NavigationView.MenuItems>
+                    <muxc:NavigationViewItem Content="Following" />
+                    <muxc:NavigationViewItem Content="Discover" />
+                </muxc:NavigationView.MenuItems>
+                <muxc:NavigationView.FooterMenuItems>
+                    <muxc:NavigationViewItem SelectsOnInvoked="False">
+                        <muxc:NavigationViewItem.Icon>
+                            <icons:FluentIconElement Symbol="AddSquare24" Margin="0, 0, 4, 0"/>
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
+                </muxc:NavigationView.FooterMenuItems>
+            </muxc:NavigationView>
+        </StackPanel>
+        <ListView Grid.Row="1" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind ViewModel.TimelineFeed, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:FeedViewPost">
                     <controls:PostControl Post="{x:Bind Post, Mode=OneWay}"/>

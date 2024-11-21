@@ -5,6 +5,7 @@
     xmlns:local="using:DarkSky.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
     xmlns:icons="using:Cube.UI.Icons" xmlns:glow="using:Cube.UI.Controls.Glow" xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" 
@@ -42,14 +43,13 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <muxc:NavigationView Grid.Row="0" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" PaneDisplayMode="Top">
+                <muxc:NavigationView x:Name="ProfilePostsNavigation" Grid.Row="0" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" PaneDisplayMode="Top">
                     <muxc:NavigationView.MenuItems>
-                        <muxc:NavigationViewItem  Content="Posts" />
-                        <muxc:NavigationViewItem  Content="Replies" />
-                        <muxc:NavigationViewItem  Content="Media" />
-                        <muxc:NavigationViewItem  Content="Likes" />
+                        <muxc:NavigationViewItem Content="Posts" />
+                        <muxc:NavigationViewItem Content="Replies" />
+                        <muxc:NavigationViewItem Content="Media" />
+                        <muxc:NavigationViewItem Content="Likes" />
                     </muxc:NavigationView.MenuItems>
-                    <Frame x:Name="contentFrame"/>
                 </muxc:NavigationView>
                 <controls:PostControl Grid.Row="1" Post="{x:Bind ViewModel.PinnedProfilePost, Mode=OneWay}"/>
                 <ListView Grid.Row="2" ItemsSource="{x:Bind ViewModel.CurrentProfilePosts, Mode=OneWay}">

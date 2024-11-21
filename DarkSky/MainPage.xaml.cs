@@ -1,4 +1,6 @@
-﻿using Cube.UI.Services;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Cube.UI.Services;
+using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels;
 using DarkSky.Pages;
@@ -41,6 +43,30 @@ namespace DarkSky
 			// fix weird titlebar bug
 			AppTitleBar.Height = 50;
 			AppTitleBar.Height = 48;
+
+			// Register a message in some module
+			WeakReferenceMessenger.Default.Register<SecondaryNavigationMessage>(this, (r, m) =>
+			{
+				if(m.Value == 0)
+				{
+					SecondaryPane.Visibility = Visibility.Collapsed;
+					PaneSplitter.Visibility = Visibility.Collapsed;
+					Grid.SetColumnSpan(PrimaryPane, 2);
+				} else
+				{
+					SecondaryPane.Visibility = Visibility.Visible;
+					PaneSplitter.Visibility = Visibility.Visible;
+					Grid.SetColumnSpan(PrimaryPane, 1);
+				}
+			});
+
+			WeakReferenceMessenger.Default.Register<TemporaryOpenPostMessage>(this, (r, m) =>
+			{
+
+				WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(1));
+
+				SecondaryPane.Navigate(typeof(PostPage), m.Value);
+			});
 		}
 
 		// used by URL
@@ -56,29 +82,46 @@ namespace DarkSky
 
 		private void AppNavigation_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
 		{
+			if (sender.SelectedItem is null) return;
+
 			if(sender.SelectedItem == AppNavigation.MenuItems[0])
 			{
-				DualPane.Visibility = Visibility.Visible;
-				WholePane.Visibility = Visibility.Collapsed;
 				PrimaryPane.Navigate(typeof(FeedPage));
 			}
-			else if (sender.SelectedItem == AppNavigation.MenuItems[0])
+			else if (sender.SelectedItem == AppNavigation.MenuItems[1])
 			{
-				DualPane.Visibility = Visibility.Visible;
-				WholePane.Visibility = Visibility.Collapsed;
 				PrimaryPane.Navigate(typeof(NotificationPage));
 			}
-			else if (sender.SelectedItem == AppNavigation.FooterMenuItems[0])
+			else if (sender.SelectedItem == AppNavigation.MenuItems[2])
 			{
-				DualPane.Visibility = Visibility.Visible;
-				WholePane.Visibility = Visibility.Collapsed;
-				PrimaryPane.Navigate(typeof(ProfilePage));
+				PrimaryPane.Navigate(typeof(ChatPage));
+			}
+			else if (sender.SelectedItem == AppNavigation.MenuItems[3])
+			{
+				PrimaryPane.Navigate(typeof(FeedsPage));
+			}
+			else if (sender.SelectedItem == AppNavigation.MenuItems[4])
+			{
+				PrimaryPane.Navigate(typeof(ListsPage));
 			}
 			else if (sender.SelectedItem == AppNavigation.FooterMenuItems[1])
 			{
-				WholePane.Visibility = Visibility.Visible;
-				DualPane.Visibility = Visibility.Collapsed;
+				PrimaryPane.Navigate(typeof(ProfilePage));
+			}
+			else if (sender.SelectedItem == AppNavigation.FooterMenuItems[2])
+			{
 				PrimaryPane.Navigate(typeof(SettingsPage));
+			}
+		}
+
+		private void AppNavigation_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+		{
+			if (args.InvokedItem is null) return;
+			if (args.InvokedItem.ToString() == "New Post")
+			{
+
+				WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(1));
+				SecondaryPane.Navigate(typeof(CreatePostPage));
 			}
 		}
 	}

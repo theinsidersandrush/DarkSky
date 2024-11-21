@@ -29,6 +29,7 @@ namespace DarkSky.Pages
 		public ProfilePage()
 		{
 			this.InitializeComponent();
+			ProfilePostsNavigation.SelectedItem = ProfilePostsNavigation.MenuItems[0];
 		}
 
 		public ImageSource img(string uri)

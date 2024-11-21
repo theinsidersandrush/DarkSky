@@ -49,8 +49,7 @@ namespace DarkSky.Controls
 			
 			}
 		}
-
-		public ImageSource img(string uri)
+		private ImageSource img(string uri)
 		{
 			if (uri == null)
 				throw new ArgumentNullException(nameof(uri));

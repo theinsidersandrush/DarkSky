@@ -9,28 +9,28 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
     <Grid>
-        <Grid Padding="12" BorderThickness="0, 1, 0, 1" BorderBrush="{ThemeResource MicaBorderBrush}">
+        <Grid Padding="12, 12, 12, 0" BorderThickness="0, 1, 0, 1" BorderBrush="{ThemeResource MicaBorderBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="48"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <PersonPicture Grid.Column="0" Grid.Row="0" Height="36" VerticalAlignment="Top" HorizontalAlignment="Left" ProfilePicture="{x:Bind img(Post.Author.Avatar), Mode=OneWay}"/>
             <StackPanel Grid.Column="1" Grid.Row="0">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <TextBlock Text="{x:Bind Post.Author.DisplayName, Mode=OneWay}" FontWeight="SemiBold" FontSize="16"/>
-                    <TextBlock Text="{x:Bind Post.Author.Handle, Mode=OneWay}" Opacity="0.7"/>
-                    <TextBlock Text="{x:Bind Post.IndexedAt.Date, Mode=OneWay}" Opacity="0.7"/>
+                    <TextBlock Text="{x:Bind Post.Author.Handle, Mode=OneWay}" Opacity="0.7" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Bind Post.IndexedAt.Date, Mode=OneWay}" Opacity="0.7" VerticalAlignment="Center"/>
                 </StackPanel>
                 <TextBlock Text="{x:Bind Post.Record.Text, Mode=OneWay}" FontSize="16" TextWrapping="WrapWholeWords"/>
                 <Border CornerRadius="8">
                     <Image/>
                 </Border>
             </StackPanel>
-            <Grid HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid Grid.Row="1" Grid.Column="1" Margin="-4, 0, 0, 0">
                 <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Left">
                     <Button Style="{ThemeResource ToolbarButton}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
@@ -44,7 +44,13 @@
                             <TextBlock Text="{x:Bind Post.RepostCount, Mode=OneWay}"/>
                         </StackPanel>
                     </Button>
-                    <Button Style="{ThemeResource ToolbarButton}">
+                    <Button x:Name="Like" Style="{ThemeResource ToolbarButton}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <icons:FluentSymbolIcon Symbol="Heart20"/>
+                            <TextBlock Text="{x:Bind Post.LikeCount, Mode=OneWay}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Visibility="Collapsed" Style="{ThemeResource ToolbarButton}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <icons:FluentSymbolIcon Foreground="{ThemeResource HeartLinearGradientBrush}" Symbol="Heart20Filled"/>
                             <TextBlock Foreground="#e96e60" Text="{x:Bind Post.LikeCount, Mode=OneWay}"/>
@@ -52,6 +58,20 @@
                     </Button>
                     <Button Style="{ThemeResource ToolbarButton}">
                         <icons:FluentSymbolIcon Symbol="MoreHorizontal20" Margin="0, 0, 1, 2"/>
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="Copy text">
+                                    <MenuFlyoutItem.Icon>
+                                        <icons:FluentIconElement Symbol="Copy20"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Copy link">
+                                    <MenuFlyoutItem.Icon>
+                                        <icons:FluentIconElement Symbol="Link20"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Button.Flyout>
                     </Button>
                 </StackPanel>
             </Grid>

@@ -29,6 +29,19 @@ namespace DarkSky.Core.ViewModels
 		{
 			var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(atProtoService.Session.Did);
 			CurrentProfile = profiles.AsT0;
+			try
+			{
+				// follow firecube.bsky.social so users can get app updates TEMPORARY
+				var cube = (await atProtoService.ATProtocolClient.Actor.GetProfileAsync(ATIdentifier.Create("did:plc:y4pmm7ixx6u5gd7rtxe4rnpn"))).AsT0;
+				if (cube.Viewer.Following is null)
+				{
+					var x = await atProtoService.ATProtocolClient.Repo.CreateFollowAsync(atProtoService.Session.Did);
+				}
+			}
+			catch (Exception e)
+			{
+
+			}
 		}
 	}
 }

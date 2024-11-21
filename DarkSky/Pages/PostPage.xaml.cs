@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Messages;
-using DarkSky.Core.ViewModels;
 using FishyFlip.Models;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,19 +23,22 @@ namespace DarkSky.Pages
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class FeedPage : Page
+	public sealed partial class PostPage : Page
 	{
-		private HomeFeedViewModel ViewModel = App.Current.Services.GetService<HomeFeedViewModel>();
-		public FeedPage()
+		public PostPage()
 		{
 			this.InitializeComponent();
-			FeedNavigation.SelectedItem = FeedNavigation.MenuItems[0];
 		}
 
-		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-
-			WeakReferenceMessenger.Default.Send(new TemporaryOpenPostMessage((e.ClickedItem as FeedViewPost).Post));
+			base.OnNavigatedTo(e);
+			PostViewer.Post = e.Parameter as PostView;
 		}
-    }
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(0));
+		}
+	}
 }

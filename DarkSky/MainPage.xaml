@@ -8,6 +8,7 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
+    SizeChanged="Page_SizeChanged"
     xmlns:icons="using:Cube.UI.Icons" xmlns:glow="using:Cube.UI.Controls.Glow" xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <Grid>

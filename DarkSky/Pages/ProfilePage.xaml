@@ -52,7 +52,7 @@
                     </muxc:NavigationView.MenuItems>
                 </muxc:NavigationView>
                 <controls:PostControl Grid.Row="1" Post="{x:Bind ViewModel.PinnedProfilePost, Mode=OneWay}"/>
-                <ListView Grid.Row="2" ItemsSource="{x:Bind ViewModel.CurrentProfilePosts, Mode=OneWay}">
+                <ListView Grid.Row="2" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind ViewModel.CurrentProfilePosts, Mode=OneWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="models:FeedViewPost">
                             <controls:PostControl Post="{x:Bind Post, Mode=OneWay}"/>

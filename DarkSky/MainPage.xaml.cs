@@ -124,5 +124,12 @@ namespace DarkSky
 				SecondaryPane.Navigate(typeof(CreatePostPage));
 			}
 		}
+
+		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			// fix weird titlebar bug
+			AppTitleBar.Height = 50;
+			AppTitleBar.Height = 48;
+		}
 	}
 }

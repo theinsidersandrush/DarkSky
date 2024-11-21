@@ -1,4 +1,7 @@
-﻿using DarkSky.Core.ViewModels;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using DarkSky.Core.Messages;
+using DarkSky.Core.ViewModels;
+using FishyFlip.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -40,6 +43,12 @@ namespace DarkSky.Pages
 			// Create a BitmapImage and set its UriSource to the provided Uri
 			var bitmapImage = new BitmapImage(new Uri(uri));
 			return bitmapImage;
+		}
+
+		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+		{
+
+			WeakReferenceMessenger.Default.Send(new TemporaryOpenPostMessage((e.ClickedItem as FeedViewPost).Post));
 		}
 	}
 }

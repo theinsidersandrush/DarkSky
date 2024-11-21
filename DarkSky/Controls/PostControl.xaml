@@ -26,8 +26,8 @@
                     <TextBlock Text="{x:Bind Post.IndexedAt.Date, Mode=OneWay}" Opacity="0.7" VerticalAlignment="Center"/>
                 </StackPanel>
                 <TextBlock Text="{x:Bind Post.Record.Text, Mode=OneWay}" FontSize="16" TextWrapping="WrapWholeWords"/>
-                <Border CornerRadius="8">
-                    <Image/>
+                <Border CornerRadius="8" Margin="4">
+                    <Image x:Name="PostImage" MaxHeight="300"/>
                 </Border>
             </StackPanel>
             <Grid Grid.Row="1" Grid.Column="1" Margin="-4, 0, 0, 0">

@@ -47,7 +47,11 @@ namespace DarkSky.Controls
 			{
 				var i = post.Embed as ImageViewEmbed;
 				
-					PostImage.Source = new BitmapImage(new Uri(i.Images[0].Thumb));
+				//	PostImage.Source = new BitmapImage(new Uri(i.Images[0].Thumb));
+			}
+			else if(post.Embed.Type == "app.bsky.embed.external")
+			{
+				var i = post.Embed as ExternalViewEmbed;
 			}
 		}
 		private ImageSource img(string uri)

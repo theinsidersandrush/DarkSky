@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:DarkSky.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:icons="using:Cube.UI.Icons"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:icons="using:Cube.UI.Icons" xmlns:embeds="using:DarkSky.Controls.Embeds"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -27,7 +27,8 @@
                 </StackPanel>
                 <TextBlock Text="{x:Bind Post.Record.Text, Mode=OneWay}" FontSize="16" TextWrapping="WrapWholeWords"/>
                 <Border CornerRadius="8" Margin="4">
-                    <Image x:Name="PostImage" MaxHeight="300"/>
+                   <!-- <Image x:Name="PostImage" MaxHeight="300"/>-->
+                    <embeds:ImageEmbed/>
                 </Border>
             </StackPanel>
             <Grid Grid.Row="1" Grid.Column="1" Margin="-4, 0, 0, 0">

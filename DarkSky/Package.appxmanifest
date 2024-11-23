@@ -7,7 +7,7 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="48d27223-be1e-4b48-b045-3b7046539ec4"
+    Name="FireCubeStudios.DarkSky"
     Publisher="CN=FireCube"
     Version="0.1.0.0" />
 
@@ -15,7 +15,7 @@
 
   <Properties>
     <DisplayName>DarkSky</DisplayName>
-    <PublisherDisplayName>ayush</PublisherDisplayName>
+    <PublisherDisplayName>FireCube</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

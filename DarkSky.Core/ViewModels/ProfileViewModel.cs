@@ -30,12 +30,15 @@ namespace DarkSky.Core.ViewModels
 		{
 			var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(atProtoService.Session.Did);
 			CurrentProfile = profiles.AsT0;
-			List<ATUri> x = new();
-			x.Add(currentProfile.PinnedPost.Uri);
-			var p = await atProtoService.ATProtocolClient.Feed.GetPostsAsync(x);
-			var c = p.AsT0;
-			PinnedProfilePost = c.Posts[0];
-
+			try
+			{
+				List<ATUri> x = new();
+				x.Add(currentProfile.PinnedPost.Uri);
+				var p = await atProtoService.ATProtocolClient.Feed.GetPostsAsync(x);
+				var c = p.AsT0;
+				PinnedProfilePost = c.Posts[0];
+			}
+			catch (Exception ex) { }
 			var t = await atProtoService.ATProtocolClient.Feed.GetAuthorFeedAsync(atProtoService.Session.Handle, 50, null, default);
 			var f = t.AsT0;
 			CurrentProfilePosts = f.Feed;

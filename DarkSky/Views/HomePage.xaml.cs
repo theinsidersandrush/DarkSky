@@ -25,19 +25,13 @@ namespace DarkSky.Views
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class FeedPage : Page
+	public sealed partial class HomePage : Page
 	{
 		private HomeFeedViewModel ViewModel = App.Current.Services.GetService<HomeFeedViewModel>();
-		public FeedPage()
+		public HomePage()
 		{
 			this.InitializeComponent();
 			FeedNavigation.SelectedItem = FeedNavigation.MenuItems[0];
-		}
-
-		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-		{
-
-			WeakReferenceMessenger.Default.Send(new TemporaryOpenPostMessage((e.ClickedItem as FeedViewPost).Post));
 		}
     }
 }

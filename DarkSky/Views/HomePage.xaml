@@ -1,5 +1,5 @@
 <Page
-    x:Class="DarkSky.Views.FeedPage"
+    x:Class="DarkSky.Views.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:DarkSky.UserControls"
@@ -11,6 +11,7 @@
     xmlns:models="using:FishyFlip.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    NavigationCacheMode="Enabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
     <Grid HorizontalAlignment="Stretch">
@@ -41,26 +42,6 @@
                 </muxc:NavigationView.FooterMenuItems>
             </muxc:NavigationView>
         </StackPanel>
-        <ListView Grid.Row="1" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind ViewModel.TimelineFeed, Mode=OneWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:FeedViewPost">
-                    <controls:FeedViewPostControl FeedPost="{x:Bind Mode=OneTime}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Padding" Value="0" />
-                    <Setter Property="Margin" Value="0" />
-                    <Setter Property="MaxWidth" Value="600" />
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="VerticalContentAlignment" Value="Center" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+        <controls:FeedListView Grid.Row="1" FeedSource="{x:Bind ViewModel.TimelinePosts, Mode=OneWay}" HorizontalAlignment="Stretch"/>
     </Grid>
 </Page>

@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using DarkSky.Core.Helpers;
 using DarkSky.Core.Services;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DarkSky.Core.ViewModels
 {
@@ -17,18 +19,21 @@ namespace DarkSky.Core.ViewModels
 		private PostView pinnedProfilePost;
 
 		[ObservableProperty]
-		private FeedViewPost[] currentProfilePosts;
+		private IFeedCursorSource currentProfilePosts;
 
 		public ProfileViewModel(ATProtoService atProtoService)
 		{
 			this.atProtoService = atProtoService;
+			CurrentProfilePosts = new ProfileFeedCursorSource(atProtoService, AuthorFeedFilterType.PostsNoReplies);
 			Setup();
 		}
 
+		// todo fix
 		private async void Setup()
 		{
 			var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(atProtoService.Session.Did);
 			CurrentProfile = profiles.AsT0;
+			
 			try
 			{
 				List<ATUri> x = new();
@@ -38,9 +43,16 @@ namespace DarkSky.Core.ViewModels
 				PinnedProfilePost = c.Posts[0];
 			}
 			catch (Exception ex) { }
-			var t = await atProtoService.ATProtocolClient.Feed.GetAuthorFeedAsync(atProtoService.Session.Handle, 50, null, default);
-			var f = t.AsT0;
-			CurrentProfilePosts = f.Feed;
+
+			var preferencesx = await atProtoService.ATProtocolClient.Actor.GetPreferencesAsync();
+			var preferences = preferencesx.AsT0;
+			foreach (var p in preferences.Preferences) {
+				Debug.WriteLine(p.Type);
+				if(p.Type == "app.bsky.actor.defs#savedFeedsPrefV2")
+				{
+					UnknownRecord pp = p as UnknownRecord;
+				}
+			}
 		}
 	}
 }

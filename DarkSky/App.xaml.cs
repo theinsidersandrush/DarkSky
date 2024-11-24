@@ -41,7 +41,7 @@ namespace DarkSky
 			services.AddSingleton<ATProtoService>();
 			services.AddTransient<LoginViewModel>();
 			services.AddTransient<MainViewModel>();
-            services.AddTransient<ProfileViewModel>();
+            services.AddSingleton<ProfileViewModel>();
 			services.AddSingleton<HomeFeedViewModel>();
 
 			NavigationService navigationService = new();

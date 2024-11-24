@@ -86,7 +86,7 @@ namespace DarkSky
 
 			if(sender.SelectedItem == AppNavigation.MenuItems[0])
 			{
-				PrimaryPane.Navigate(typeof(FeedPage));
+				PrimaryPane.Navigate(typeof(HomePage));
 			}
 			else if (sender.SelectedItem == AppNavigation.MenuItems[1])
 			{

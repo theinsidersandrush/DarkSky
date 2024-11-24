@@ -44,11 +44,5 @@ namespace DarkSky.Views
 			var bitmapImage = new BitmapImage(new Uri(uri));
 			return bitmapImage;
 		}
-
-		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-		{
-
-			WeakReferenceMessenger.Default.Send(new TemporaryOpenPostMessage((e.ClickedItem as FeedViewPost).Post));
-		}
 	}
 }

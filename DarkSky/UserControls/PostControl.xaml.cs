@@ -92,13 +92,6 @@ namespace DarkSky.UserControls
 					EmbedContent.Visibility = Visibility.Collapsed;
 				}
 			}
-
-			if(post.Record.Reply is not null)
-			{
-			}
-			if (post.Label is null) return;
-				Debug.WriteLine(post.Label);
-		
 		}
 	}
 }

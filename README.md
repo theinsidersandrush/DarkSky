@@ -1,6 +1,13 @@
-For DarkSky progress discussions see: [Discord](https://discord.gg/windows-apps-hub-714581497222398064) | [BlueSky](https://bsky.app/profile/firecube.bsky.social)
-
 ![Screenshot-BackgroundCrop,NoMargin,RoundedCorner](https://github.com/user-attachments/assets/51a53382-653a-4277-b1fe-7325b6c3eec0)
+
+<p align="center">
+  <!--<a style="text-decoration:none" href="https://github.com/FireCubeStudios/DarkSky/actions/workflows/ci.yml">
+    <img src="https://github.com/FireCubeStudios/DarkSky/actions/workflows/ci.yml/badge.svg" alt="CI Status" /></a>-->
+  <a style="text-decoration:none" href="https://bsky.app/profile/firecube.bsky.social">
+    <img src="https://img.shields.io/badge/BlueSky-Follow-blue" alt="Follow on BlueSky for updates" /></a>
+  <a style="text-decoration:none" href="https://dsc.gg/devsanx">
+    <img src="https://img.shields.io/discord/714581497222398064?label=Discord&color=7289da" alt="Join discord server to learn more" /></a>
+</p>
 
 <h4 align="center">A modern BlueSky client for Windows.</h3>
 
@@ -57,6 +64,8 @@ DarkSky uses the following libraries:
 
 We thank all contributors and users for their continued support.
 
+<!--
 ---
 
 ![Screenshot-NoBackgroundCrop,Margin,NoRoundedCorner](https://github.com/user-attachments/assets/8c0f2651-b15a-49de-841c-6691f328bea1)
+-->

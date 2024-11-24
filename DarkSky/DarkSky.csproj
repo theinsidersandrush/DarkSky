@@ -138,9 +138,13 @@
     <Compile Include="UserControls\Embeds\LinkEmbed.xaml.cs">
       <DependentUpon>LinkEmbed.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\FeedViewPostControl.xaml.cs">
+      <DependentUpon>FeedViewPostControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\UIHelper.cs" />
     <Compile Include="LegacyPage.xaml.cs">
       <DependentUpon>LegacyPage.xaml</DependentUpon>
     </Compile>
@@ -258,6 +262,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\FeedViewPostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\PostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -341,9 +349,7 @@
       <Name>DarkSky.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="DarkSky_TemporaryKey.pfx" />
   </ItemGroup>

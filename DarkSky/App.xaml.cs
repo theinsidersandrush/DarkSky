@@ -137,7 +137,16 @@ namespace DarkSky
 
 		private static void OnUnobservedException(object? sender, UnobservedTaskExceptionEventArgs e) => e.SetObserved();
 
-		private static void OnUnhandledException(object? sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) => e.Handled = true;
+		private static async void OnUnhandledException(object? sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+		{
+			await new ContentDialog // This code was taken directly from the UnifiedApp class. When a UWP-targeting version of it is created, it will be used here.
+				{
+					Title = "Unhandled exception",
+					Content = e.Message,
+					CloseButtonText = "Close"
+				}
+				.ShowAsync();
+        }
 
 		private void CurrentDomain_FirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
 		{

@@ -68,6 +68,13 @@ namespace DarkSky.UserControls
 					embed.Post = (post.Embed as RecordViewEmbed).Post;
 					EmbedContent.Content = embed;
 				}
+				else if (post.Embed.Type == "app.bsky.embed.recordWithMedia")
+				{
+					EmbedContent.Visibility = Visibility.Visible;
+					PostControl embed = new();
+					embed.Post = (post.Embed as RecordWithMediaViewEmbed).Record.Post;
+					EmbedContent.Content = embed;
+				}
 				else
 				{
 					Debug.WriteLine(post.Embed.Type);

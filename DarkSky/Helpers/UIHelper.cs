@@ -47,7 +47,7 @@ namespace DarkSky.Helpers
 		public static ImageSource Img(string uri)
 		{
 			if (uri == null)
-				throw new ArgumentNullException(nameof(uri));
+				return new BitmapImage();
 
 			// Create a BitmapImage and set its UriSource to the provided Uri
 			var bitmapImage = new BitmapImage(new Uri(uri));

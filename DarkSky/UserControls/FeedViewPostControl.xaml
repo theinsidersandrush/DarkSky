@@ -36,7 +36,7 @@
             <local:PostControl
                 x:Name="ReplyRoot"
                 x:Load="{x:Bind helpers:UIHelper.none(FeedPost.Reply), Mode=OneWay}"
-                Post="{x:Bind FeedPost.Reply.Root, Mode=OneWay}" />
+                Post="{x:Bind FeedPost.Reply.Parent, Mode=OneWay}" />
             <local:PostControl Post="{x:Bind FeedPost.Post, Mode=OneWay}" />
         </StackPanel>
     </Grid>

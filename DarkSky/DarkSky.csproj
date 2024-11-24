@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -128,13 +128,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Embeds\ImageEmbed.xaml.cs">
+    <Compile Include="UserControls\Embeds\ImageEmbed.xaml.cs">
       <DependentUpon>ImageEmbed.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Embeds\LinkEmbed.xaml.cs">
+    <Compile Include="UserControls\Embeds\LinkEmbed.xaml.cs">
       <DependentUpon>LinkEmbed.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PostControl.xaml.cs">
+    <Compile Include="UserControls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="LegacyPage.xaml.cs">
@@ -242,15 +242,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\Embeds\ImageEmbed.xaml">
+    <Page Include="UserControls\Embeds\ImageEmbed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Embeds\LinkEmbed.xaml">
+    <Page Include="UserControls\Embeds\LinkEmbed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PostControl.xaml">
+    <Page Include="UserControls\PostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

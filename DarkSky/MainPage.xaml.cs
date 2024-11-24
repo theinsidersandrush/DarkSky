@@ -3,7 +3,7 @@ using Cube.UI.Services;
 using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels;
-using DarkSky.Pages;
+using DarkSky.Views;
 using FishyFlip.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;

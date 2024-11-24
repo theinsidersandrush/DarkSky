@@ -1,7 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Messages;
+using DarkSky.Core.ViewModels;
 using FishyFlip.Models;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,44 +21,21 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace DarkSky.Pages
+namespace DarkSky.Views
 {
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	[INotifyPropertyChanged]
-	public sealed partial class PostPage : Page
+	public sealed partial class ProfilePage : Page
 	{
-		[ObservableProperty]
-		PostView post;
-		public PostPage()
+		private ProfileViewModel ViewModel = App.Current.Services.GetService<ProfileViewModel>();
+		public ProfilePage()
 		{
 			this.InitializeComponent();
+			ProfilePostsNavigation.SelectedItem = ProfilePostsNavigation.MenuItems[0];
 		}
 
-		protected override void OnNavigatedTo(NavigationEventArgs e)
-		{
-			base.OnNavigatedTo(e);
-			Post = e.Parameter as PostView;
-			SetPost(post);
-		}
-			public void SetPost(PostView post)
-		{
-			if (post.Embed is null) return;
-			if (post.Embed.Type == "app.bsky.embed.images#view")
-			{
-				var i = post.Embed as ImageViewEmbed;
-
-				PostImage.Source = new BitmapImage(new Uri(i.Images[0].Fullsize));
-			}
-		}
-
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(0));
-		}
-
-		private ImageSource img(string uri)
+		public ImageSource img(string uri)
 		{
 			if (uri == null)
 				throw new ArgumentNullException(nameof(uri));
@@ -65,6 +43,12 @@ namespace DarkSky.Pages
 			// Create a BitmapImage and set its UriSource to the provided Uri
 			var bitmapImage = new BitmapImage(new Uri(uri));
 			return bitmapImage;
+		}
+
+		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+		{
+
+			WeakReferenceMessenger.Default.Send(new TemporaryOpenPostMessage((e.ClickedItem as FeedViewPost).Post));
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels;
-using DarkSky.Pages;
+using DarkSky.Views;
 using DarkSky.Services;
 using FishyFlip;
 using FishyFlip.Models;

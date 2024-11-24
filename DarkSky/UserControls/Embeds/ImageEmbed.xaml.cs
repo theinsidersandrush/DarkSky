@@ -1,4 +1,4 @@
-﻿using DarkSky.Pages;
+﻿using DarkSky.Views;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;

@@ -1,14 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DarkSky.Core.Classes;
-using DarkSky.Services;
+using DarkSky.Core.Services;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DarkSky.ViewModels
+namespace DarkSky.Core.ViewModels
 {
 	public partial class LoginViewModel : ObservableObject
 	{

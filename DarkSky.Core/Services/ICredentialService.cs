@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DarkSky.Services
+namespace DarkSky.Core.Services
 {
 	public interface ICredentialService
 	{

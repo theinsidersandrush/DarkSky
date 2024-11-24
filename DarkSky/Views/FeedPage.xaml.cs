@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Messages;
-using DarkSky.ViewModels;
+using DarkSky.Core.ViewModels;
 using FishyFlip.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;

@@ -1,11 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Windows.UI.Xaml.Controls;
-using DarkSky.Services;
+using DarkSky.Core.Services;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
 
-namespace DarkSky.ViewModels
+namespace DarkSky.Core.ViewModels
 {
 	public partial class ProfileViewModel : ObservableObject
 	{

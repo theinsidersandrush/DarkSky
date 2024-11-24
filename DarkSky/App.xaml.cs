@@ -1,5 +1,5 @@
 ﻿using DarkSky.Services;
-using DarkSky.ViewModels;
+using DarkSky.Core.ViewModels;
 using DarkSky.Views;
 using DarkSky.Services;
 using FishyFlip;
@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DarkSky.Core.Services;
 
 namespace DarkSky
 {

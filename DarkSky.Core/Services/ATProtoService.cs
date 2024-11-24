@@ -1,6 +1,6 @@
 ﻿using DarkSky.Core.Classes;
 using FishyFlip;
-using DarkSky.ViewModels;
+using DarkSky.Core.ViewModels;
 using FishyFlip.Models;
 using Google.Protobuf.WellKnownTypes;
 using System;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DarkSky.Services
+namespace DarkSky.Core.Services
 {
 	public class ATProtoService
 	{

@@ -128,10 +128,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\ATProtoService.cs" />
-    <Compile Include="Services\ICredentialService.cs" />
-    <Compile Include="Services\INavigationService.cs" />
-    <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="UserControls\Embeds\ImageEmbed.xaml.cs">
       <DependentUpon>ImageEmbed.xaml</DependentUpon>
     </Compile>
@@ -154,10 +150,6 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\HomeFeedViewModel.cs" />
-    <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\ProfileViewModel.cs" />
     <Compile Include="Views\ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>
     </Compile>

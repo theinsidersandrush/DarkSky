@@ -36,11 +36,11 @@ namespace DarkSky.Core.ViewModels
 				else // the post is a reply, use logic to filter
 				{
 					// only allow replies if it replies to same author
-					if(item.Reply.Parent.Author.Did.Handler == item.Post.Author.Did.Handler)
+					if(item.Reply.Root.Author.Did.Handler == item.Post.Author.Did.Handler)
 					{
 						TimelineFeed.Add(item); // add the reply
 
-						postID.Add(item.Post.Cid.Hash.ToString()); // add parent to hashset so we can filter if it appears later
+						postID.Add(item.Reply.Root.Cid.Hash.ToString()); // add parent to hashset so we can filter if it appears later
 					}
 				}
 			}

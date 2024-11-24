@@ -26,7 +26,7 @@
                     <Image
                         Height="160"
                         Source="{x:Bind img(ViewModel.CurrentProfile.Banner), Mode=OneWay}"
-                        Stretch="Fill" />
+                        Stretch="UniformToFill" />
                     <StackPanel Margin="12,20,12,12" Spacing="8">
                         <TextBlock
                             FontSize="36"

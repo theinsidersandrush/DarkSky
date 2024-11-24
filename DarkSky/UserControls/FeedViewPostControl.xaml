@@ -34,9 +34,15 @@
                 <TextBlock Opacity="0.7" Text="{x:Bind FeedPost.Reason.By.DisplayName, Mode=OneWay}" />
             </StackPanel>
             <local:PostControl
-                x:Name="ReplyRoot"
+                 x:Name="ReplyRoot"
+                 x:Load="False"
+                 Post="{x:Bind FeedPost.Reply.Root, Mode=OneWay}" 
+                ShowReplyBar="True"/>  
+            <local:PostControl
+                x:Name="ReplyParent"
                 x:Load="{x:Bind helpers:UIHelper.none(FeedPost.Reply), Mode=OneWay}"
-                Post="{x:Bind FeedPost.Reply.Parent, Mode=OneWay}" />
+                Post="{x:Bind FeedPost.Reply.Parent, Mode=OneWay}" 
+                ShowReplyBar="True"/>
             <local:PostControl Post="{x:Bind FeedPost.Post, Mode=OneWay}" />
         </StackPanel>
     </Grid>

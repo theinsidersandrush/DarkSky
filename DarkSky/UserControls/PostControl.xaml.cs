@@ -38,6 +38,16 @@ namespace DarkSky.UserControls
 		public static readonly DependencyProperty PostProperty =
 				   DependencyProperty.Register("Post", typeof(PostView), typeof(PostControl), null);
 
+		public bool ShowReplyBar
+		{
+			get => (bool)GetValue(ShowReplyBarProperty);
+			set => SetValue(ShowReplyBarProperty, value);
+		}
+
+		public static readonly DependencyProperty ShowReplyBarProperty =
+			DependencyProperty.Register(nameof(ShowReplyBar), typeof(bool), typeof(PostControl), new PropertyMetadata(false));
+
+
 		public PostControl()
 		{
 			this.InitializeComponent();
@@ -81,6 +91,10 @@ namespace DarkSky.UserControls
 					EmbedContent.Content = null;
 					EmbedContent.Visibility = Visibility.Collapsed;
 				}
+			}
+
+			if(post.Record.Reply is not null)
+			{
 			}
 			if (post.Label is null) return;
 				Debug.WriteLine(post.Label);

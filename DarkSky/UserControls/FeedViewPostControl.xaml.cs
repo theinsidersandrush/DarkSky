@@ -41,7 +41,19 @@ namespace DarkSky.UserControls
 
 		private void SetFeedPost(FeedViewPost post)
 		{
-		
+			if(post.Reply is not null)
+			{
+				if(post.Reply.Parent.Cid.Hash.ToString() != post.Reply.Root.Cid.Hash.ToString())
+				{
+					// post reply parent and root are not the same, show the root too
+					FindName("ReplyRoot");
+				}
+
+				if (post.Reason is not null) {  // if a reply was retweeted then do not show parent or root posts
+					UnloadObject(ReplyParent);
+					UnloadObject(ReplyRoot);
+				}
+			}
 		}
 	}
 }

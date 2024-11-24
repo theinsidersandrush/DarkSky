@@ -25,7 +25,7 @@ namespace DarkSky.Core.ViewModels
 
 		private async void Setup()
 		{
-			var feed = (await atProtoService.ATProtocolClient.Feed.GetTimelineAsync()).AsT0.Feed;
+			var feed = (await atProtoService.ATProtocolClient.Feed.GetTimelineAsync(limit:100)).AsT0.Feed;
 			foreach (var item in feed)
 			{
 				if (item.Reply is null) { // add regular posts
@@ -38,9 +38,13 @@ namespace DarkSky.Core.ViewModels
 					// only allow replies if it replies to same author
 					if(item.Reply.Root.Author.Did.Handler == item.Post.Author.Did.Handler)
 					{
-						TimelineFeed.Add(item); // add the reply
+						// only add if it did not appear before, maybe as part of a reply chain
+						if (!postID.Contains(item.Reply.Root.Cid.Hash.ToString()))
+						{
+							TimelineFeed.Add(item); // add the reply
 
-						postID.Add(item.Reply.Root.Cid.Hash.ToString()); // add parent to hashset so we can filter if it appears later
+							postID.Add(item.Reply.Root.Cid.Hash.ToString()); // add parent to hashset so we can filter if it appears later
+						}
 					}
 				}
 			}

@@ -1,5 +1,6 @@
-![Screenshot-NoBackgroundCrop,Margin,NoRoundedCorner](https://github.com/user-attachments/assets/8c0f2651-b15a-49de-841c-6691f328bea1)
-<!-- please excuse crappy photo -->
+For DarkSky progress discussions see: [Discord](https://discord.gg/windows-apps-hub-714581497222398064) | [BlueSky](https://bsky.app/profile/firecube.bsky.social)
+
+![Screenshot-BackgroundCrop,NoMargin,RoundedCorner](https://github.com/user-attachments/assets/51a53382-653a-4277-b1fe-7325b6c3eec0)
 
 <h4 align="center">A modern BlueSky client for Windows.</h3>
 
@@ -16,8 +17,6 @@ Introducing **DarkSky**, a modern BlueSky client for Windows. Built using UWP an
 - **Speed**: Fast app built with UWP technologies to elevate its speed.
 - **GlowUI**: Stunning design built with GlowUI theming.
 - **UWP**: uwp good
-
-For DarkSky progress discussions see: [Discord](https://discord.gg/windows-apps-hub-714581497222398064) | [BlueSky](https://bsky.app/profile/firecube.bsky.social)
 
 ## 🛠️ Building from source
 
@@ -60,4 +59,4 @@ We thank all contributors and users for their continued support.
 
 ---
 
-![Screenshot-BackgroundCrop,NoMargin,RoundedCorner](https://github.com/user-attachments/assets/51a53382-653a-4277-b1fe-7325b6c3eec0)
+![Screenshot-NoBackgroundCrop,Margin,NoRoundedCorner](https://github.com/user-attachments/assets/8c0f2651-b15a-49de-841c-6691f328bea1)

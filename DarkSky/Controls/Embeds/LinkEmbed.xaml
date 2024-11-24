@@ -9,7 +9,17 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-
+    <Grid BorderBrush="{ThemeResource MicaBorderBrush}" Background="{ThemeResource MicaDarkerBrush}" BorderThickness="1" CornerRadius="8">
+        <Grid Background="{ThemeResource MicaBlurBrush}" Padding="12">
+            <StackPanel Spacing="4">
+                <Border CornerRadius="8" MaxHeight="300" Margin="8">
+                    <Image x:Name="EmbedImage" Visibility="Collapsed" Stretch="UniformToFill"/>
+                </Border>
+                <TextBlock x:Name="Title" FontWeight="SemiBold" TextWrapping="WrapWholeWords"/>
+                <TextBlock Text="{x:Bind Embed.Description, Mode=OneWay}" TextWrapping="WrapWholeWords"/>
+                <MenuFlyoutSeparator/>
+                <TextBlock Text="{x:Bind Embed.Uri, Mode=OneWay}" FontSize="12" Opacity="0.7"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

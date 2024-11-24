@@ -29,16 +29,22 @@
                 </muxc:NavigationView.FooterMenuItems>
             </muxc:NavigationView>
         </StackPanel>
-        <ListView Grid.Row="1" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind ViewModel.TimelineFeed, Mode=OneWay}">
+        <ListView Grid.Row="1" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind ViewModel.TimelineFeed, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:FeedViewPost">
-                    <controls:PostControl Post="{x:Bind Post, Mode=OneWay}"/>
+                    <controls:FeedViewPostControl FeedPost="{x:Bind Mode=OneTime}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Padding" Value="0" />
                     <Setter Property="Margin" Value="0" />
+                    <Setter Property="MaxWidth" Value="600" />
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Center" />
                 </Style>

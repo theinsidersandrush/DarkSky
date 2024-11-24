@@ -10,14 +10,6 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid x:Name="Images">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Grid x:Name="ImagesGrid" CornerRadius="8" ColumnSpacing="8" RowSpacing="8">
     </Grid>
 </UserControl>

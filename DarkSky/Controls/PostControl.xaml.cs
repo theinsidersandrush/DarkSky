@@ -1,11 +1,14 @@
-﻿using FishyFlip.Models;
+﻿using DarkSky.Controls.Embeds;
+using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System.Threading.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -42,26 +45,39 @@ namespace DarkSky.Controls
 
 		public void SetPost(PostView post) 
 		{
-			if (post.Embed is null) return;
-			if(post.Embed.Type == "app.bsky.embed.images#view")
+			if (post.Embed is not null)
 			{
-				var i = post.Embed as ImageViewEmbed;
-				
-				//	PostImage.Source = new BitmapImage(new Uri(i.Images[0].Thumb));
+				if (post.Embed.Type == "app.bsky.embed.images#view")
+				{
+					EmbedContent.Visibility = Visibility.Visible;
+					Embeds.ImageEmbed embed = new();
+					embed.AddImages(post.Embed as ImageViewEmbed);
+					EmbedContent.Content = embed;
+				}
+				else if (post.Embed.Type == "app.bsky.embed.external#view")
+				{
+					EmbedContent.Visibility = Visibility.Visible;
+					Embeds.LinkEmbed embed = new();
+					embed.AddLink(post.Embed as ExternalViewEmbed);
+					EmbedContent.Content = embed;
+				}
+				else if (post.Embed.Type == "app.bsky.embed.record#view")
+				{
+					EmbedContent.Visibility = Visibility.Visible;
+					PostControl embed = new();
+					embed.Post = (post.Embed as RecordViewEmbed).Post;
+					EmbedContent.Content = embed;
+				}
+				else
+				{
+					Debug.WriteLine(post.Embed.Type);
+					EmbedContent.Content = null;
+					EmbedContent.Visibility = Visibility.Collapsed;
+				}
 			}
-			else if(post.Embed.Type == "app.bsky.embed.external")
-			{
-				var i = post.Embed as ExternalViewEmbed;
-			}
-		}
-		private ImageSource img(string uri)
-		{
-			if (uri == null)
-				throw new ArgumentNullException(nameof(uri));
-
-			// Create a BitmapImage and set its UriSource to the provided Uri
-			var bitmapImage = new BitmapImage(new Uri(uri));
-			return bitmapImage;
+			if (post.Label is null) return;
+				Debug.WriteLine(post.Label);
+		
 		}
 	}
 }

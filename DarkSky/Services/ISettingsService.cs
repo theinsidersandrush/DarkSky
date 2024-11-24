@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DarkSky.Core.Services
+namespace DarkSky.Services
 {
 	public interface ISettingsService
 	{

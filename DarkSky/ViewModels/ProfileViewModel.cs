@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using DarkSky.Core.Services;
+using Windows.UI.Xaml.Controls;
+using DarkSky.Services;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace DarkSky.Core.ViewModels
+namespace DarkSky.ViewModels
 {
 	public partial class ProfileViewModel : ObservableObject
 	{
@@ -23,10 +23,10 @@ namespace DarkSky.Core.ViewModels
 		public ProfileViewModel(ATProtoService atProtoService)
 		{
 			this.atProtoService = atProtoService;
-			setup();
+			Setup();
 		}
 
-		private async void setup()
+		private async void Setup()
 		{
 			var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(atProtoService.Session.Did);
 			CurrentProfile = profiles.AsT0;

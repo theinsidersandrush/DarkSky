@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Cube.UI.Services;
 using DarkSky.Core.Messages;
-using DarkSky.Core.Services;
-using DarkSky.Core.ViewModels;
+using DarkSky.Services;
+using DarkSky.ViewModels;
 using DarkSky.Views;
 using FishyFlip.Models;
 using Microsoft.Extensions.DependencyInjection;

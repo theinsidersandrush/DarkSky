@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using DarkSky.Core.Services;
+using DarkSky.Services;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DarkSky.Core.ViewModels
+namespace DarkSky.ViewModels
 {
 	public partial class MainViewModel : ObservableObject
 	{

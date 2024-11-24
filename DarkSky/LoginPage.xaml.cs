@@ -1,4 +1,4 @@
-﻿using DarkSky.Core.ViewModels;
+﻿using DarkSky.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

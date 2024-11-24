@@ -149,7 +149,7 @@
                     <Grid Background="{ThemeResource MicaBlurBrush}">
                         <Grid x:Name="DualPane" Visibility="Visible">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="400" MinWidth="300"/>
+                                <ColumnDefinition Width="500" MinWidth="400"/>
                                 <ColumnDefinition Width="*" MinWidth="200" />
                             </Grid.ColumnDefinitions>
                             <Frame

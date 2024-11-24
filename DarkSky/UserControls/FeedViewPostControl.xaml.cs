@@ -50,8 +50,10 @@ namespace DarkSky.UserControls
 				}
 
 				if (post.Reason is not null) {  // if a reply was retweeted then do not show parent or root posts
-					UnloadObject(ReplyParent);
+					if (ReplyRoot is not null) ReplyRoot.Visibility = Visibility.Collapsed;
+					if (ReplyParent is not null) ReplyParent.Visibility = Visibility.Collapsed;
 					UnloadObject(ReplyRoot);
+					UnloadObject(ReplyParent);
 				}
 			}
 		}

@@ -10,8 +10,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:FishyFlip.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:classes="using:DarkSky.Core.Classes" xmlns:helpers="using:DarkSky.Helpers"
     NavigationCacheMode="Enabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
@@ -78,9 +76,6 @@
                     </muxc:NavigationView>
                 </Grid>
             </controls:FeedListView.Header>
-            <interactivity:Interaction.Behaviors>
-                <behaviors:FadeHeaderBehavior />
-            </interactivity:Interaction.Behaviors>
         </controls:FeedListView>
     </Grid>
 </Page>

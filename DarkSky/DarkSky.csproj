@@ -128,6 +128,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\RichPostTextBox.xaml.cs">
+      <DependentUpon>RichPostTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Embeds\ImageEmbed.xaml.cs">
       <DependentUpon>ImageEmbed.xaml</DependentUpon>
     </Compile>
@@ -252,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\RichPostTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Embeds\ImageEmbed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

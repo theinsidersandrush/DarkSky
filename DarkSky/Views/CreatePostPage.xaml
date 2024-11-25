@@ -47,13 +47,13 @@
                         HorizontalAlignment="Left"
                         Orientation="Horizontal"
                         Spacing="8">
-                        <Button Style="{ThemeResource ToolbarButton}">
+                        <Button Style="{ThemeResource ToolbarButton}" IsEnabled="False">
                             <icons:FluentSymbolIcon Symbol="Image20" />
                         </Button>
-                        <Button Style="{ThemeResource ToolbarButton}">
+                        <Button Style="{ThemeResource ToolbarButton}" IsEnabled="False">
                             <icons:FluentSymbolIcon Symbol="Video20" />
                         </Button>
-                        <Button Style="{ThemeResource ToolbarButton}">
+                        <Button Style="{ThemeResource ToolbarButton}" IsEnabled="False">
                             <icons:FluentSymbolIcon Symbol="Emoji20" />
                         </Button>
                     </StackPanel>
@@ -61,7 +61,7 @@
                         HorizontalAlignment="Right"
                         Orientation="Horizontal"
                         Spacing="8">
-                        <HyperlinkButton Content="English" />
+                        <HyperlinkButton Content="English" IsEnabled="False" />
                         <ToolkitControls:DropShadowPanel
                             CornerRadius="8"
                             OffsetX="4"
@@ -78,7 +78,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0">
+                    <Button Grid.Column="0" IsEnabled="False">
                         Save as draft
                     </Button>
                     <Button
@@ -88,7 +88,29 @@
                         Post
                     </Button>
                 </Grid>
+                <StackPanel
+            Padding="32"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="8">
+                    <TextBlock
+                FontSize="20"
+                HorizontalTextAlignment="Center"
+                Text="More post features are coming soon.." />
+                    <TextBlock
+     HorizontalTextAlignment="Center"
+     Text="There is currently support for basic text posts. Image/video uploading, hastags, mentions are coming next!"
+     TextWrapping="WrapWholeWords" />
+                    <TextBlock
+                HorizontalTextAlignment="Center"
+                Text="The app is being built up rapidly. Follow the progress in BlueSky, GitHub or Discord."
+                TextWrapping="WrapWholeWords" />
+                    <HyperlinkButton HorizontalAlignment="Center" Content="See progress in BlueSky" NavigateUri="https://bsky.app/profile/firecube.bsky.social"/>
+                    <HyperlinkButton HorizontalAlignment="Center" Content="Send feedback in GitHub" NavigateUri="https://github.com/FireCubeStudios/DarkSky"/>
+                    <HyperlinkButton HorizontalAlignment="Center" Content="Join the Discord" NavigateUri="https://discord.com/invite/3WYcKat"/>
+                </StackPanel>
                 <muxc:Expander
+                    Visibility="Collapsed"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Background="{ThemeResource LayerFillColorDefaultBrush}">

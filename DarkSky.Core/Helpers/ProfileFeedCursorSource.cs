@@ -1,5 +1,6 @@
 ﻿using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using Google.Protobuf.WellKnownTypes;
 using System;
@@ -16,17 +17,17 @@ namespace DarkSky.Core.Helpers
 	 */
 	public class ProfileFeedCursorSource : AbstractFeedCursorSource
 	{
-		private AuthorFeedFilterType filter;
-		public ProfileFeedCursorSource(ATProtoService atProtoService, AuthorFeedFilterType filter) : base(atProtoService)
+		private string Filter;
+		public ProfileFeedCursorSource(ATProtoService atProtoService, string filter) : base(atProtoService)
 		{
-			this.filter = filter;
+			this.Filter = filter;
 		}
 
 		public override async Task GetMoreItemsAsync(int limit = 50)
 		{
 			if(IsLoading) return; // Don't load if items are currently loading
 			IsLoading = true;
-			var timeLine = (await atProtoService.ATProtocolClient.Feed.GetAuthorFeedAsync(atProtoService.Session.Handle, filter, limit:limit, cursor:Cursor)).AsT0;
+			GetAuthorFeedOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetAuthorFeedAsync(atProtoService.Session.Handle, limit, Cursor, Filter)).AsT0;
 			Cursor = timeLine.Cursor;
 			foreach (var item in timeLine.Feed)
 			{

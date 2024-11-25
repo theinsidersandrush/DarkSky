@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:FishyFlip.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:classes="using:DarkSky.Core.Classes" xmlns:helpers="using:DarkSky.Helpers"
     NavigationCacheMode="Enabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
@@ -23,7 +23,7 @@
             <StackPanel VerticalAlignment="Top" Spacing="8">
                 <Image
                         Height="160"
-                        Source="{x:Bind img(ViewModel.CurrentProfile.Banner), Mode=OneWay}"
+                        Source="{x:Bind helpers:UIHelper.Img(ViewModel.CurrentProfile.Banner), Mode=OneWay}"
                         Stretch="UniformToFill" />
                 <StackPanel Margin="12,20,12,12" Spacing="8">
                     <TextBlock
@@ -48,7 +48,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Canvas.ZIndex="1"
-                    ProfilePicture="{x:Bind img(ViewModel.CurrentProfile.Avatar), Mode=OneWay}" />
+                    ProfilePicture="{x:Bind helpers:UIHelper.Img(ViewModel.CurrentProfile.Avatar), Mode=OneWay}" />
         </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -61,16 +61,17 @@
                     Grid.Row="0"
                     IsBackButtonVisible="Collapsed"
                     IsSettingsVisible="False"
+                    MenuItemsSource="{x:Bind ViewModel.ProfileNavigationItems, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.SelectedProfileNavigationItem, Mode=TwoWay}"
                     PaneDisplayMode="Top">
-                <muxc:NavigationView.MenuItems>
-                    <muxc:NavigationViewItem Content="Posts" />
-                    <muxc:NavigationViewItem Content="Replies" />
-                    <muxc:NavigationViewItem Content="Media" />
-                    <muxc:NavigationViewItem Content="Likes" />
-                </muxc:NavigationView.MenuItems>
+                <muxc:NavigationView.MenuItemTemplate>
+                    <DataTemplate x:DataType="classes:FeedNavigationItem" >
+                        <muxc:NavigationViewItem Content="{x:Bind Name, Mode=OneWay}"/>
+                    </DataTemplate>
+                </muxc:NavigationView.MenuItemTemplate>
             </muxc:NavigationView>
-           <!-- <controls:PostControl Grid.Row="1" Post="{x:Bind ViewModel.PinnedProfilePost, Mode=OneWay}" MaxWidth="600"/>-->
-            <controls:FeedListView Grid.Row="2" FeedSource="{x:Bind ViewModel.CurrentProfilePosts, Mode=OneWay}" HorizontalAlignment="Stretch"/>
+            <!-- <controls:PostControl Grid.Row="1" Post="{x:Bind ViewModel.PinnedProfilePost, Mode=OneWay}" MaxWidth="600"/>-->
+            <controls:FeedListView Grid.Row="2" FeedSource="{x:Bind ViewModel.SelectedProfileNavigationItem.FeedSource, Mode=OneWay}" HorizontalAlignment="Stretch"/>
         </Grid>
     </Grid>
 </Page>

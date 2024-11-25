@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using FishyFlip.Lexicon.App.Bsky.Embed;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
@@ -24,13 +25,13 @@ namespace DarkSky.UserControls.Embeds
 	public sealed partial class LinkEmbed : UserControl
 	{
 		[ObservableProperty]
-		private ExternalView embed;
+		private ViewExternalExternal embed;
 		public LinkEmbed()
 		{
 			this.InitializeComponent();
 		}
 
-		public void AddLink(ExternalViewEmbed EmbedView)
+		public void AddLink(ViewExternal EmbedView)
 		{
 			this.Embed = EmbedView.External;
 			Title.Text = String.IsNullOrEmpty(Embed.Title) ? Embed.Uri : Embed.Title;

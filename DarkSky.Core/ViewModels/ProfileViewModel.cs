@@ -1,30 +1,38 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using DarkSky.Core.Classes;
 using DarkSky.Core.Helpers;
 using DarkSky.Core.Services;
+using FishyFlip.Lexicon.App.Bsky.Actor;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace DarkSky.Core.ViewModels
 {
 	public partial class ProfileViewModel : ObservableObject
 	{
-		private ATProtoService atProtoService;
+		public ObservableCollection<FeedNavigationItem> ProfileNavigationItems = new();
 
 		[ObservableProperty]
-		private FeedProfile currentProfile;
+		private ProfileViewDetailed currentProfile;
 
 		[ObservableProperty]
 		private PostView pinnedProfilePost;
 
 		[ObservableProperty]
-		private IFeedCursorSource currentProfilePosts;
+		private FeedNavigationItem selectedProfileNavigationItem;
 
+		private ATProtoService atProtoService;
 		public ProfileViewModel(ATProtoService atProtoService)
 		{
 			this.atProtoService = atProtoService;
-			CurrentProfilePosts = new ProfileFeedCursorSource(atProtoService, AuthorFeedFilterType.PostsNoReplies);
+			ProfileNavigationItems.Add(new FeedNavigationItem("Posts", new ProfileFeedCursorSource(atProtoService, "posts_no_replies")));
+			ProfileNavigationItems.Add(new FeedNavigationItem("Replies", new ProfileFeedCursorSource(atProtoService, "posts_with_replies")));
+			ProfileNavigationItems.Add(new FeedNavigationItem("Media", new ProfileFeedCursorSource(atProtoService, "posts_with_media")));
+			SelectedProfileNavigationItem = ProfileNavigationItems[0];
 			Setup();
 		}
 
@@ -43,16 +51,6 @@ namespace DarkSky.Core.ViewModels
 				PinnedProfilePost = c.Posts[0];
 			}
 			catch (Exception ex) { }
-
-			var preferencesx = await atProtoService.ATProtocolClient.Actor.GetPreferencesAsync();
-			var preferences = preferencesx.AsT0;
-			foreach (var p in preferences.Preferences) {
-				Debug.WriteLine(p.Type);
-				if(p.Type == "app.bsky.actor.defs#savedFeedsPrefV2")
-				{
-					UnknownRecord pp = p as UnknownRecord;
-				}
-			}
 		}
 	}
 }

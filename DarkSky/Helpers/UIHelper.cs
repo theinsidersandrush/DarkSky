@@ -12,14 +12,16 @@ namespace DarkSky.Helpers
 {
 	public class UIHelper
 	{
-		public static string SimpleDate(DateTime date)
+		public static string SimpleDate(DateTime? date)
 		{
-			TimeSpan timeDifference = DateTime.Now - date;
+			if (date is null) return "";
+
+			TimeSpan timeDifference = (TimeSpan)(DateTime.Now - date);
 
 			if (timeDifference.TotalDays >= 365) // More than a year ago
-				return date.ToString("MMM d, yyyy");
+				return ((DateTime)date).ToString("MMM d, yyyy");
 			else if (timeDifference.TotalDays >= 30) // More than a month ago but less than a year
-				return date.ToString("MMM d");
+				return ((DateTime)date).ToString("MMM d");
 			else if (timeDifference.TotalDays >= 1) // More than a day but less than a month
 				return $"{(int)timeDifference.TotalDays} {GetSingularOrPlural((int)timeDifference.TotalDays, "day")} ago";
 			else if (timeDifference.TotalHours >= 1) // More than an hour but less than a day
@@ -37,9 +39,10 @@ namespace DarkSky.Helpers
 			return value == 1 ? singular : $"{singular}s";
 		}
 
-		public static string FormatDate(DateTime date)
+		public static string FormatDate(DateTime? date)
 		{
-			return date.ToString("MMMM dd, yyyy 'at' hh:mm tt", CultureInfo.InvariantCulture);
+			if (date is null) return "";
+			return ((DateTime)date).ToString("MMMM dd, yyyy 'at' hh:mm tt", CultureInfo.InvariantCulture);
 		}
 
 		public static bool none(object obj) => obj is not null;

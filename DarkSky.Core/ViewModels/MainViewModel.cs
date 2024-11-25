@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DarkSky.Core.Services;
+using FishyFlip.Lexicon.App.Bsky.Actor;
+using FishyFlip.Lexicon.App.Bsky.Graph;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ namespace DarkSky.Core.ViewModels
 		private INavigationService navigationService;
 
 		[ObservableProperty]
-		private FeedProfile currentProfile;
+		private ProfileViewDetailed currentProfile;
 
 		public MainViewModel(ATProtoService atProtoService, INavigationService navigationService)
 		{
@@ -35,7 +37,7 @@ namespace DarkSky.Core.ViewModels
 				var cube = (await atProtoService.ATProtocolClient.Actor.GetProfileAsync(ATIdentifier.Create("did:plc:y4pmm7ixx6u5gd7rtxe4rnpn"))).AsT0;
 				if (cube.Viewer.Following is null)
 				{
-					var x = await atProtoService.ATProtocolClient.Repo.CreateFollowAsync(atProtoService.Session.Did);
+					var x = await atProtoService.ATProtocolClient.CreateFollowAsync(atProtoService.Session.Did);
 				}
 			}
 			catch (Exception e)

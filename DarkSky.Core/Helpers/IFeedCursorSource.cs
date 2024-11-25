@@ -1,4 +1,5 @@
-﻿using FishyFlip.Models;
+﻿using FishyFlip.Lexicon.App.Bsky.Feed;
+using FishyFlip.Models;
 using Org.BouncyCastle.Asn1.IsisMtt.X509;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,6 @@ namespace DarkSky.Core.Helpers
 
 		Task RefreshAsync();
 		Task GetMoreItemsAsync(int limit = 50);
+		void Clear();
 	}
 }

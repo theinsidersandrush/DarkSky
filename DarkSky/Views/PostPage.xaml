@@ -56,7 +56,7 @@
                         <StackPanel Spacing="12">
                             <TextBlock
                                 FontSize="16"
-                                Text="{x:Bind Post.Record.Text, Mode=OneWay}"
+                                Text="{x:Bind ToPost(Post.Record), Mode=OneWay}"
                                 TextWrapping="WrapWholeWords" />
                             <Border CornerRadius="8">
                                 <Image x:Name="PostImage" Stretch="Fill" />

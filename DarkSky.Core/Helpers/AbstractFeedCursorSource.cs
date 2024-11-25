@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DarkSky.Core.Services;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,12 @@ namespace DarkSky.Core.Helpers
 			Cursor = "";
 			Feed.Clear();
 			await GetMoreItemsAsync();
+		}
+
+		public void Clear()
+		{
+			Feed.Clear();
+			Cursor = "";
 		}
 	}
 }

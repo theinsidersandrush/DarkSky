@@ -1,3 +1,5 @@
+using FishyFlip.Lexicon;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -5,6 +7,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -39,15 +42,28 @@ namespace DarkSky.UserControls
 			this.InitializeComponent();
 		}
 
+		private string ToRepostBy(ATObject? reason)
+		{
+			if (reason is null) return "";
+			else return (reason as ReasonRepost).By.DisplayName;
+		}
+
 		private void SetFeedPost(FeedViewPost post)
 		{
-			if(post.Reply is not null)
+			if (post.Reply is not null)
 			{
-				if(post.Reply.Parent.Cid.Hash.ToString() != post.Reply.Root.Cid.Hash.ToString())
+				FishyFlip.Lexicon.App.Bsky.Feed.ReplyRef reply = post.Reply;
+				PostView root = (PostView)reply.Root;
+				PostView parent = (PostView)reply.Parent;
+				if (parent.Cid != root.Cid) // only show root reply if parent is not root
 				{
 					// post reply parent and root are not the same, show the root too
 					FindName("ReplyRoot");
+					ReplyRoot.Post = root;
 				}
+
+				FindName("ReplyParent"); // always show parent of reply
+				ReplyParent.Post = parent;
 
 				if (post.Reason is not null) {  // if a reply was retweeted then do not show parent or root posts
 					if (ReplyRoot is not null) ReplyRoot.Visibility = Visibility.Collapsed;

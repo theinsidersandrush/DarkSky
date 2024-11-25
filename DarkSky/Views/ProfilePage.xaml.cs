@@ -32,17 +32,6 @@ namespace DarkSky.Views
 		public ProfilePage()
 		{
 			this.InitializeComponent();
-			ProfilePostsNavigation.SelectedItem = ProfilePostsNavigation.MenuItems[0];
-		}
-
-		public ImageSource img(string uri)
-		{
-			if (uri == null)
-				throw new ArgumentNullException(nameof(uri));
-
-			// Create a BitmapImage and set its UriSource to the provided Uri
-			var bitmapImage = new BitmapImage(new Uri(uri));
-			return bitmapImage;
 		}
 	}
 }

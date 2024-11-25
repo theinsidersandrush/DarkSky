@@ -1,4 +1,5 @@
 ﻿using DarkSky.Core.Services;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
@@ -18,27 +19,30 @@ namespace DarkSky.Core.Helpers
 		{
 			if (IsLoading) return; // Don't load if items are currently loading
 			IsLoading = true;
-			Timeline timeLine = (await atProtoService.ATProtocolClient.Feed.GetTimelineAsync(limit, Cursor)).AsT0;
+			GetTimelineOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetTimelineAsync(limit:limit, cursor:Cursor)).AsT0;
 			Cursor = timeLine.Cursor;
 			foreach (var item in timeLine.Feed)
 			{
 				if (item.Reply is null)
 				{ // add regular posts
 				  // only add if it did not appear before, maybe as part of a reply chain
-					if (!postID.Contains(item.Post.Cid.Hash.ToString()))
+					if (!postID.Contains(item.Post.Cid))
 						Feed.Add(item);
 				}
 				else // the post is a reply, use logic to filter
 				{
+					FishyFlip.Lexicon.App.Bsky.Feed.ReplyRef reply = item.Reply;
+					PostView root = (PostView)reply.Root;
+					PostView parent = (PostView)reply.Parent;
 					// only allow replies if it replies to same author
-					if (item.Reply.Root.Author.Did.Handler == item.Post.Author.Did.Handler)
+					if (root.Author.Did.Handler == item.Post.Author.Did.Handler)
 					{
 						// only add if it did not appear before, maybe as part of a reply chain
-						if (!postID.Contains(item.Reply.Root.Cid.Hash.ToString()))
+						if (!postID.Contains(root.Cid))
 						{
 							Feed.Add(item); // add the reply
 
-							postID.Add(item.Reply.Root.Cid.Hash.ToString()); // add parent to hashset so we can filter if it appears later
+							postID.Add(root.Cid); // add parent to hashset so we can filter if it appears later
 						}
 					}
 				}

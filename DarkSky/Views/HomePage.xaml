@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:FishyFlip.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:classes="using:DarkSky.Core.Classes"
     NavigationCacheMode="Enabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
@@ -28,20 +28,23 @@
                 x:Name="FeedNavigation"
                 IsBackButtonVisible="Collapsed"
                 IsSettingsVisible="False"
+                MenuItemsSource="{x:Bind ViewModel.Feeds, Mode=OneWay}"
+                SelectedItem="{x:Bind ViewModel.SelectedFeed, Mode=TwoWay}"
                 PaneDisplayMode="Top">
-                <muxc:NavigationView.MenuItems>
-                    <muxc:NavigationViewItem Content="Following" />
-                    <muxc:NavigationViewItem Content="Discover" />
-                </muxc:NavigationView.MenuItems>
-                <muxc:NavigationView.FooterMenuItems>
+                <muxc:NavigationView.MenuItemTemplate>
+                    <DataTemplate x:DataType="classes:FeedNavigationItem" >
+                        <muxc:NavigationViewItem Content="{x:Bind Name, Mode=OneWay}"/>
+                    </DataTemplate>
+                </muxc:NavigationView.MenuItemTemplate>
+              <!--  <muxc:NavigationView.FooterMenuItems>
                     <muxc:NavigationViewItem SelectsOnInvoked="False">
                         <muxc:NavigationViewItem.Icon>
                             <icons:FluentIconElement Margin="0,0,4,0" Symbol="AddSquare24" />
                         </muxc:NavigationViewItem.Icon>
                     </muxc:NavigationViewItem>
-                </muxc:NavigationView.FooterMenuItems>
+                </muxc:NavigationView.FooterMenuItems>-->
             </muxc:NavigationView>
         </StackPanel>
-        <controls:FeedListView Grid.Row="1" FeedSource="{x:Bind ViewModel.TimelinePosts, Mode=OneWay}" HorizontalAlignment="Stretch"/>
+        <controls:FeedListView Grid.Row="1" FeedSource="{x:Bind ViewModel.SelectedFeed.FeedSource, Mode=OneWay}" HorizontalAlignment="Stretch"/>
     </Grid>
 </Page>

@@ -1,4 +1,7 @@
 ﻿using DarkSky.UserControls.Embeds;
+using FishyFlip.Lexicon;
+using FishyFlip.Lexicon.App.Bsky.Embed;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
@@ -53,6 +56,8 @@ namespace DarkSky.UserControls
 			this.InitializeComponent();
 		}
 
+		private string ToPost(ATObject? record) => (record as FishyFlip.Lexicon.App.Bsky.Feed.Post).Text;
+
 		public void SetPost(PostView post) 
 		{
 			if (post.Embed is not null)
@@ -61,28 +66,28 @@ namespace DarkSky.UserControls
 				{
 					EmbedContent.Visibility = Visibility.Visible;
 					Embeds.ImageEmbed embed = new();
-					embed.AddImages(post.Embed as ImageViewEmbed);
+					embed.AddImages(post.Embed as ViewImages);
 					EmbedContent.Content = embed;
 				}
 				else if (post.Embed.Type == "app.bsky.embed.external#view")
 				{
 					EmbedContent.Visibility = Visibility.Visible;
 					Embeds.LinkEmbed embed = new();
-					embed.AddLink(post.Embed as ExternalViewEmbed);
+					embed.AddLink(post.Embed as ViewExternal);
 					EmbedContent.Content = embed;
 				}
 				else if (post.Embed.Type == "app.bsky.embed.record#view")
 				{
 					EmbedContent.Visibility = Visibility.Visible;
 					PostControl embed = new();
-					embed.Post = (post.Embed as RecordViewEmbed).Post;
+					//embed.Post = (post.Embed as ViewRecord).Post;
 					EmbedContent.Content = embed;
 				}
 				else if (post.Embed.Type == "app.bsky.embed.recordWithMedia")
 				{
 					EmbedContent.Visibility = Visibility.Visible;
 					PostControl embed = new();
-					embed.Post = (post.Embed as RecordWithMediaViewEmbed).Record.Post;
+					//embed.Post = (post.Embed as RecordWithMediaViewEmbed).Record.Post;
 					EmbedContent.Content = embed;
 				}
 				else

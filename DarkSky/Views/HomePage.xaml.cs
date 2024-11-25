@@ -31,7 +31,6 @@ namespace DarkSky.Views
 		public HomePage()
 		{
 			this.InitializeComponent();
-			FeedNavigation.SelectedItem = FeedNavigation.MenuItems[0];
 		}
     }
 }

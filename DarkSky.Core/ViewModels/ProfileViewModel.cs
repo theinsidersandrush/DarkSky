@@ -1,40 +1,62 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using DarkSky.Core.Classes;
 using DarkSky.Core.Helpers;
+using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
+using FishyFlip.Lexicon.App.Bsky.Actor;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace DarkSky.Core.ViewModels
 {
 	public partial class ProfileViewModel : ObservableObject
 	{
-		private ATProtoService atProtoService;
+		public ObservableCollection<FeedNavigationItem> ProfileNavigationItems = new();
 
 		[ObservableProperty]
-		private FeedProfile currentProfile;
+		private ProfileViewDetailed currentProfile;
 
 		[ObservableProperty]
 		private PostView pinnedProfilePost;
 
 		[ObservableProperty]
-		private IFeedCursorSource currentProfilePosts;
+		private FeedNavigationItem selectedProfileNavigationItem;
 
+		private ATProtoService atProtoService;
 		public ProfileViewModel(ATProtoService atProtoService)
 		{
 			this.atProtoService = atProtoService;
-			CurrentProfilePosts = new ProfileFeedCursorSource(atProtoService, AuthorFeedFilterType.PostsNoReplies);
-			Setup();
+			WeakReferenceMessenger.Default.Register<AuthenticationSessionMessage>(this, async (r, m) =>
+			{
+				Setup(m.Value);
+			});
+			if(atProtoService.Session is not null)
+				Setup(atProtoService.Session);
 		}
 
 		// todo fix
-		private async void Setup()
+		private async void Setup(Session session)
 		{
-			var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(atProtoService.Session.Did);
-			CurrentProfile = profiles.AsT0;
-			
 			try
+			{
+				ProfileNavigationItems.Clear();
+			SelectedProfileNavigationItem = null;
+		
+				var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(session.Did);
+				CurrentProfile = profiles.AsT0;
+				ProfileNavigationItems.Add(new FeedNavigationItem("Posts", new ProfileFeedCursorSource(atProtoService, "posts_no_replies")));
+				ProfileNavigationItems.Add(new FeedNavigationItem("Replies", new ProfileFeedCursorSource(atProtoService, "posts_with_replies")));
+				ProfileNavigationItems.Add(new FeedNavigationItem("Media", new ProfileFeedCursorSource(atProtoService, "posts_with_media")));
+				SelectedProfileNavigationItem = ProfileNavigationItems[0];
+			}
+			catch (Exception ex) { }
+			
+		/*	try
 			{
 				List<ATUri> x = new();
 				x.Add(currentProfile.PinnedPost.Uri);
@@ -42,17 +64,7 @@ namespace DarkSky.Core.ViewModels
 				var c = p.AsT0;
 				PinnedProfilePost = c.Posts[0];
 			}
-			catch (Exception ex) { }
-
-			var preferencesx = await atProtoService.ATProtocolClient.Actor.GetPreferencesAsync();
-			var preferences = preferencesx.AsT0;
-			foreach (var p in preferences.Preferences) {
-				Debug.WriteLine(p.Type);
-				if(p.Type == "app.bsky.actor.defs#savedFeedsPrefV2")
-				{
-					UnknownRecord pp = p as UnknownRecord;
-				}
-			}
+			catch (Exception ex) { }*/
 		}
 	}
 }

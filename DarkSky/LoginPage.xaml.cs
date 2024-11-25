@@ -1,4 +1,5 @@
-﻿using DarkSky.Core.ViewModels;
+﻿using Cube.UI.Services;
+using DarkSky.Core.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace DarkSky
 		public LoginPage()
         {
             this.InitializeComponent();
+			WindowService.Initialize(AppTitleBar, AppTitle);
 		}
     }
 }

@@ -41,7 +41,8 @@ namespace DarkSky
 			services.AddSingleton<ATProtoService>();
 			services.AddTransient<LoginViewModel>();
 			services.AddTransient<MainViewModel>();
-            services.AddSingleton<ProfileViewModel>();
+			services.AddTransient<SettingsViewModel>();
+			services.AddSingleton<ProfileViewModel>();
 			services.AddSingleton<HomeFeedViewModel>();
 
 			NavigationService navigationService = new();
@@ -105,6 +106,7 @@ namespace DarkSky
                 if (rootFrame.Content == null)
                 {
 					// ASSUMES NOT LOGGED IN DUE TO NO CREDENTIALS STORED
+					// HANDLES NAVIGATION
 					var a = App.Current.Services.GetService<ATProtoService>();
 	            }
                 // Ensure the current window is active

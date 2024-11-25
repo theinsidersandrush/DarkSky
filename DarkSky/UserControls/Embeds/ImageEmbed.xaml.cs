@@ -1,4 +1,5 @@
 ﻿using DarkSky.Views;
+using FishyFlip.Lexicon.App.Bsky.Embed;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,10 @@ namespace DarkSky.UserControls.Embeds
 			this.InitializeComponent();
 		}
 
-		public void AddImages(ImageViewEmbed embed)
+		public void AddImages(ViewImages embed)
 		{
 			// There will be only 4 images
-			foreach(ImageView imageView in embed.Images)
+			foreach(ViewImage imageView in embed.Images)
 			{
 				Images.Add(new BitmapImage(new Uri(imageView.Thumb)));
 			}
@@ -60,7 +61,7 @@ namespace DarkSky.UserControls.Embeds
 					break;
 			}
 		}
-
+		
 		private void DisplaySingleImage()
 		{
 			AddImageToGrid(Images[0], 0, 0, 1, 1, false);

@@ -1,6 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Messages;
+using FishyFlip.Lexicon;
+using FishyFlip.Lexicon.App.Bsky.Feed;
+using FishyFlip.Lexicon.Com.Atproto.Repo;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
@@ -41,16 +44,16 @@ namespace DarkSky.Views
 			Post = e.Parameter as PostView;
 			SetPost(post);
 		}
-			public void SetPost(PostView post)
+
+		public void SetPost(PostView post)
 		{
 			if (post.Embed is null) return;
 			if (post.Embed.Type == "app.bsky.embed.images#view")
 			{
-				var i = post.Embed as ImageViewEmbed;
-
-				PostImage.Source = new BitmapImage(new Uri(i.Images[0].Fullsize));
 			}
 		}
+
+		private string ToPost(ATObject? record) => (record as FishyFlip.Lexicon.App.Bsky.Feed.Post).Text;
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{

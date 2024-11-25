@@ -6,7 +6,8 @@
     xmlns:local="using:DarkSky.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:models="using:FishyFlip.Models" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
+    xmlns:models="using:FishyFlip.Lexicon.App.Bsky.Feed"
     mc:Ignorable="d">
 
     <Grid>
@@ -17,10 +18,11 @@
         <muxc:ProgressBar x:Name="Progress" Grid.Row="0" x:Load="{x:Bind FeedSource.IsLoading, Mode=OneWay}" IsIndeterminate="True"/>
         <RefreshContainer Grid.Row="1" RefreshRequested="RefreshContainer_RefreshRequested" HorizontalAlignment="Stretch">
             <ListView x:Name="FeedList" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind FeedSource.Feed, Mode=OneWay}" HorizontalAlignment="Stretch"
-                  Loaded="ListView_Loaded">
+                Loaded="ListView_Loaded"
+                Header="{x:Bind Header, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:FeedViewPost">
-                        <local:FeedViewPostControl FeedPost="{x:Bind Mode=OneTime}"/>
+                        <local:FeedViewPostControl FeedPost="{x:Bind Mode=OneWay}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemsPanel>

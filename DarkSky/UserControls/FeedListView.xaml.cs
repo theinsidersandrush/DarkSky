@@ -20,6 +20,7 @@ using Microsoft.Toolkit.Uwp;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -37,8 +38,22 @@ namespace DarkSky.UserControls
 		public static readonly DependencyProperty FeedSourceProperty =
 			DependencyProperty.Register(nameof(FeedSource), typeof(IFeedCursorSource), typeof(FeedListView), new PropertyMetadata(null, OnFeedSourceChanged));
 		
+		// Clear the old CursorSource and start loading items from the new one
 		private static async void OnFeedSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-			=> await ((IFeedCursorSource)e.NewValue).GetMoreItemsAsync();
+		{
+			((IFeedCursorSource)e.OldValue)?.Clear();
+			await ((IFeedCursorSource)e.NewValue)?.GetMoreItemsAsync();
+		}
+
+		public static readonly DependencyProperty HeaderProperty =
+			DependencyProperty.Register(nameof(Header), typeof(object), typeof(FeedListView), new PropertyMetadata(null));       // Default value
+
+		public object Header
+		{
+			get => GetValue(HeaderProperty);
+			set => SetValue(HeaderProperty, value);
+		}
+
 
 		public FeedListView()
 		{

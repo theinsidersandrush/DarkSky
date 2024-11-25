@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="FireCubeStudios.DarkSky"
-    Publisher="CN=FireCube"
-    Version="0.2.2.0" />
+    Name="2505FireCubeStudios.Darksky"
+    Publisher="CN=3C7C8FC9-7104-4B33-8730-EE1E929D5D3B"
+    Version="0.2.4.0" />
 
-  <mp:PhoneIdentity PhoneProductId="48d27223-be1e-4b48-b045-3b7046539ec4" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="6916ad9d-61d4-4569-a8b0-d65d9cdfb407" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>DarkSky</DisplayName>
-    <PublisherDisplayName>FireCube</PublisherDisplayName>
+    <DisplayName>Darksky</DisplayName>
+    <PublisherDisplayName>FireCubeStudios</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="DarkSky.App">
       <uap:VisualElements
-        DisplayName="DarkSky"
+        DisplayName="Darksky"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="A modern BlueSky client for Windows."

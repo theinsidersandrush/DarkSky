@@ -8,10 +8,44 @@
     xmlns:local="using:DarkSky.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid />
+    <Grid Padding="100, 50, 100, 100">
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Spacing="12">
+            <StackPanel Orientation="Horizontal" Spacing="12" Margin="4, 4, 4, 12">
+                <TextBlock FontSize="24" FontWeight="SemiBold">DarkSky</TextBlock>
+                <TextBlock FontSize="20" FontWeight="SemiBold" Opacity="0.7" VerticalAlignment="Bottom">Preview Alpha</TextBlock>
+                <TextBlock FontSize="20" FontWeight="SemiBold" Opacity="0.7" VerticalAlignment="Bottom">v0.2.1</TextBlock>
+            </StackPanel>
+            <TextBlock FontSize="14" FontWeight="SemiBold" Margin="4">Account</TextBlock>
+            <toolkit:SettingsCard
+                               Header="Logout of this account">
+                <toolkit:SettingsCard.HeaderIcon>
+                    <icons:FluentIconElement Symbol="SignOut24"/>
+                </toolkit:SettingsCard.HeaderIcon>
+                <Button Command="{x:Bind ViewModel.logoutCommand, Mode=OneWay}" Content="Log out"/>
+            </toolkit:SettingsCard>
+            <MenuFlyoutSeparator/>
+            <TextBlock
+         FontSize="16" HorizontalAlignment="Left"
+         Text="The app is being built up rapidly. More settings will be available soon"
+         TextWrapping="WrapWholeWords" />
+            <toolkit:SettingsCard
+                  Header="Send feedback in GitHub" Description="Star the repository to help support us!">
+                <HyperlinkButton Content="DarkSky GitHub" NavigateUri="https://github.com/FireCubeStudios/DarkSky"/>
+            </toolkit:SettingsCard>
+            <toolkit:SettingsCard
+        Header="Contact the Developer in Discord" Description="Find me in the #firecubestudios channel in Developer Sanctuary">
+                <HyperlinkButton Content="Our Discord" NavigateUri="https://discord.com/invite/3WYcKat"/>
+            </toolkit:SettingsCard>
+            <toolkit:SettingsCard
+                       Header="See app progress in BlueSky" Description="Give a follow to see progress in-app!">
+                <HyperlinkButton Content="FireCube Bluesky" NavigateUri="https://bsky.app/profile/firecube.bsky.social"/>
+            </toolkit:SettingsCard>
+            
+        </StackPanel>
+    </Grid>
 </Page>

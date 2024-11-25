@@ -38,6 +38,7 @@
         <Grid Grid.Row="1" Padding="24">
             <StackPanel Spacing="12">
                 <TextBox
+                    x:Name="PostText"
                     Height="300"
                     AcceptsReturn="True"
                     Header="Post text:"
@@ -58,6 +59,7 @@
                         </Button>
                     </StackPanel>
                     <StackPanel
+                        Visibility="Collapsed"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal"
                         Spacing="8">
@@ -84,6 +86,7 @@
                     <Button
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
+                        Click="Button_Click_1"
                         Style="{ThemeResource AccentButtonStyle}">
                         Post
                     </Button>

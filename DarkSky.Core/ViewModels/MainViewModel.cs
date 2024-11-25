@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using FishyFlip.Lexicon.App.Bsky.Actor;
 using FishyFlip.Lexicon.App.Bsky.Graph;
@@ -21,23 +23,28 @@ namespace DarkSky.Core.ViewModels
 		{
 			this.atProtoService = atProtoService;
 			this.navigationService = navigationService;
-			if (atProtoService.Session is null)
-				navigationService.NavigateTo<LoginViewModel>();
-			else
-				setup();
+			WeakReferenceMessenger.Default.Register<AuthenticationSessionMessage>(this, (r, m) =>
+			{
+				setup(m.Value);
+			});
+
+			if (atProtoService.Session is not null)
+				setup(atProtoService.Session);
 		}
 
-		private async void setup()
+		private async void setup(Session session)
 		{
-			var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(atProtoService.Session.Did);
-			CurrentProfile = profiles.AsT0;
 			try
 			{
+				var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(session.Did);
+			CurrentProfile = profiles.AsT0;
+
+		
 				// follow firecube.bsky.social so users can get app updates TEMPORARY
 				var cube = (await atProtoService.ATProtocolClient.Actor.GetProfileAsync(ATIdentifier.Create("did:plc:y4pmm7ixx6u5gd7rtxe4rnpn"))).AsT0;
 				if (cube.Viewer.Following is null)
 				{
-					var x = await atProtoService.ATProtocolClient.CreateFollowAsync(atProtoService.Session.Did);
+					var x = await atProtoService.ATProtocolClient.CreateFollowAsync(cube.Did);
 				}
 			}
 			catch (Exception e)

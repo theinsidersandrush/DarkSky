@@ -43,7 +43,17 @@ namespace DarkSky.UserControls
 		{
 			((IFeedCursorSource)e.OldValue)?.Clear();
 			await ((IFeedCursorSource)e.NewValue)?.GetMoreItemsAsync();
-		} 
+		}
+
+		public static readonly DependencyProperty HeaderProperty =
+			DependencyProperty.Register(nameof(Header), typeof(object), typeof(FeedListView), new PropertyMetadata(null));       // Default value
+
+		public object Header
+		{
+			get => GetValue(HeaderProperty);
+			set => SetValue(HeaderProperty, value);
+		}
+
 
 		public FeedListView()
 		{

@@ -10,6 +10,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:FishyFlip.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:classes="using:DarkSky.Core.Classes" xmlns:helpers="using:DarkSky.Helpers"
     NavigationCacheMode="Enabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
@@ -18,60 +20,67 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <StackPanel VerticalAlignment="Top" Spacing="8">
-                <Image
+
+        <!-- <controls:PostControl Grid.Row="1" Post="{x:Bind ViewModel.PinnedProfilePost, Mode=OneWay}" MaxWidth="600"/>-->
+        <controls:FeedListView Grid.Row="2" FeedSource="{x:Bind ViewModel.SelectedProfileNavigationItem.FeedSource, Mode=OneWay}" HorizontalAlignment="Stretch">
+            <controls:FeedListView.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <StackPanel VerticalAlignment="Top" Spacing="8">
+                            <Image
                         Height="160"
                         Source="{x:Bind helpers:UIHelper.Img(ViewModel.CurrentProfile.Banner), Mode=OneWay}"
                         Stretch="UniformToFill" />
-                <StackPanel Margin="12,20,12,12" Spacing="8">
-                    <TextBlock
+                            <StackPanel Margin="12,20,12,12" Spacing="8">
+                                <TextBlock
                             FontSize="36"
                             FontWeight="SemiBold"
                             Text="{x:Bind ViewModel.CurrentProfile.DisplayName, Mode=OneWay}" />
-                    <TextBlock Opacity="0.7" Text="{x:Bind ViewModel.CurrentProfile.Handle, Mode=OneWay}" />
-                    <StackPanel Orientation="Horizontal" Spacing="4">
-                        <TextBlock FontWeight="SemiBold" Text="{x:Bind ViewModel.CurrentProfile.FollowersCount, Mode=OneWay}" />
-                        <TextBlock Opacity="0.7" Text="followers " />
-                        <TextBlock FontWeight="SemiBold" Text="{x:Bind ViewModel.CurrentProfile.FollowsCount, Mode=OneWay}" />
-                        <TextBlock Opacity="0.7" Text="following " />
-                        <TextBlock FontWeight="SemiBold" Text="{x:Bind ViewModel.CurrentProfile.PostsCount, Mode=OneWay}" />
-                        <TextBlock Opacity="0.7" Text="posts " />
-                    </StackPanel>
-                    <TextBlock Text="{x:Bind ViewModel.CurrentProfile.Description, Mode=OneWay}" TextWrapping="WrapWholeWords" />
-                </StackPanel>
-            </StackPanel>
-            <PersonPicture
+                                <TextBlock Opacity="0.7" Text="{x:Bind ViewModel.CurrentProfile.Handle, Mode=OneWay}" />
+                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                    <TextBlock FontWeight="SemiBold" Text="{x:Bind ViewModel.CurrentProfile.FollowersCount, Mode=OneWay}" />
+                                    <TextBlock Opacity="0.7" Text="followers " />
+                                    <TextBlock FontWeight="SemiBold" Text="{x:Bind ViewModel.CurrentProfile.FollowsCount, Mode=OneWay}" />
+                                    <TextBlock Opacity="0.7" Text="following " />
+                                    <TextBlock FontWeight="SemiBold" Text="{x:Bind ViewModel.CurrentProfile.PostsCount, Mode=OneWay}" />
+                                    <TextBlock Opacity="0.7" Text="posts " />
+                                </StackPanel>
+                                <TextBlock Text="{x:Bind ViewModel.CurrentProfile.Description, Mode=OneWay}" TextWrapping="WrapWholeWords" />
+                            </StackPanel>
+                        </StackPanel>
+                        <PersonPicture
                     Height="72"
                     Margin="12,120,12,12"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Canvas.ZIndex="1"
                     ProfilePicture="{x:Bind helpers:UIHelper.Img(ViewModel.CurrentProfile.Avatar), Mode=OneWay}" />
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <muxc:NavigationView
+                    </Grid>
+                    <muxc:NavigationView
                     x:Name="ProfilePostsNavigation"
-                    Grid.Row="0"
+                    Grid.Row="1"
                     IsBackButtonVisible="Collapsed"
                     IsSettingsVisible="False"
                     MenuItemsSource="{x:Bind ViewModel.ProfileNavigationItems, Mode=OneWay}"
                     SelectedItem="{x:Bind ViewModel.SelectedProfileNavigationItem, Mode=TwoWay}"
                     PaneDisplayMode="Top">
-                <muxc:NavigationView.MenuItemTemplate>
-                    <DataTemplate x:DataType="classes:FeedNavigationItem" >
-                        <muxc:NavigationViewItem Content="{x:Bind Name, Mode=OneWay}"/>
-                    </DataTemplate>
-                </muxc:NavigationView.MenuItemTemplate>
-            </muxc:NavigationView>
-            <!-- <controls:PostControl Grid.Row="1" Post="{x:Bind ViewModel.PinnedProfilePost, Mode=OneWay}" MaxWidth="600"/>-->
-            <controls:FeedListView Grid.Row="2" FeedSource="{x:Bind ViewModel.SelectedProfileNavigationItem.FeedSource, Mode=OneWay}" HorizontalAlignment="Stretch"/>
-        </Grid>
+                        <muxc:NavigationView.MenuItemTemplate>
+                            <DataTemplate x:DataType="classes:FeedNavigationItem" >
+                                <muxc:NavigationViewItem Content="{x:Bind Name, Mode=OneWay}"/>
+                            </DataTemplate>
+                        </muxc:NavigationView.MenuItemTemplate>
+                    </muxc:NavigationView>
+                </Grid>
+            </controls:FeedListView.Header>
+            <interactivity:Interaction.Behaviors>
+                <behaviors:FadeHeaderBehavior />
+            </interactivity:Interaction.Behaviors>
+        </controls:FeedListView>
     </Grid>
 </Page>

@@ -26,8 +26,8 @@
             <StackPanel Orientation="Horizontal">
                 <Image
                     x:Name="AppFontIcon"
-                    Width="20"
-                    Height="20"
+                    Width="16"
+                    Height="16"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Source="Assets/Square44x44Logo.png" />
@@ -42,11 +42,11 @@
                     VerticalAlignment="Center"
                     Opacity="0.4"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="for Bluesky | INSIDER PREVIEW ALPHA" />
+                    Text="Insider" SelectionChanged="TextBlock_SelectionChanged" />
             </StackPanel>
         </Border>
         <AutoSuggestBox
-            Width="300"
+            Width="384"
             Height="32"
             Margin="0,8,0,0"
             HorizontalAlignment="Center"

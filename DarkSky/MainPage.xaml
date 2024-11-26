@@ -42,7 +42,7 @@
                     VerticalAlignment="Center"
                     Opacity="0.4"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="Insider" SelectionChanged="TextBlock_SelectionChanged" />
+                    Text="Insider"/>
             </StackPanel>
         </Border>
         <AutoSuggestBox

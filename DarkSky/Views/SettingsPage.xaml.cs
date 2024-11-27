@@ -1,5 +1,8 @@
-﻿using DarkSky.Core.ViewModels;
+﻿using DarkSky.Core.Services;
+using DarkSky.Core.ViewModels;
+using DarkSky.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,10 +27,18 @@ namespace DarkSky.Views
 	/// </summary>
 	public sealed partial class SettingsPage : Page
 	{
-		private SettingsViewModel ViewModel = App.Current.Services.GetService<SettingsViewModel>();
 		public SettingsPage()
 		{
 			this.InitializeComponent();
 		}
-	}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			ATProtoService atProtoService = App.Current.Services.GetService<ATProtoService>();
+			ICredentialService credentialService = App.Current.Services.GetService<ICredentialService>();
+			atProtoService.Session = null;
+			credentialService.RemoveCredentials();
+			((Frame)Window.Current.Content).Navigate(typeof(LoginPage));
+		}
+    }
 }

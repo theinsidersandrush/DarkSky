@@ -20,31 +20,6 @@ namespace DarkSky.Core.Services
 		public ATProtocol ATProtocolClient;
 		public Session Session { get; set; }
 
-		private INavigationService navigationService;
-		private ICredentialService credentialService;
-		public ATProtoService(INavigationService navigationService, ICredentialService credentialService)
-		{
-			this.navigationService = navigationService;
-			this.credentialService = credentialService;
-
-			if (credentialService.Count() == 0)
-			{
-				// DO NOT CHANGE, THIS FIXES A VERY WEIRD BUG WHERE
-				// IF I WENT DIRECTLY TO LOGINVIEWMODEL THEN TO MAINVIEWMODEL, THEN SESSION WOULD ALWAYS BE NULL
-				navigationService.NavigateTo<MainViewModel>(); // dont login, this fixes bug
-				navigationService.NavigateTo<LoginViewModel>(); // show login
-			}
-			else
-				setup(); // login if credential found
-		}
-
-		private async void setup()
-		{
-			Credential credentials = credentialService.GetCredential();
-			await LoginAsync(credentials.username, credentials.password);
-			navigationService.NavigateTo<MainViewModel>();
-		}
-
 		public async Task LoginAsync(string username, string password)
 		{
 			try

@@ -24,6 +24,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using DarkSky.Core.Services;
+using DarkSky.Core.Classes;
 
 namespace DarkSky
 {
@@ -60,7 +61,7 @@ namespace DarkSky
 		/// <summary>
 		/// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
 		/// </summary>
-		public IServiceProvider Services { get; }
+		public IServiceProvider Services { get; set; }
 
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
@@ -68,7 +69,6 @@ namespace DarkSky
 		/// </summary>
 		public App()
         {
-			Services = ServiceContainer.Services = ConfigureServices();
 			this.InitializeComponent();
 			this.Suspending += OnSuspending;
 			UnhandledException += OnUnhandledException;
@@ -81,7 +81,7 @@ namespace DarkSky
 		/// will be used such as when the application is launched to open a specific file.
 		/// </summary>
 		/// <param name="e">Details about the launch request and process.</param>
-		protected override void OnLaunched(LaunchActivatedEventArgs e)
+		protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -103,12 +103,22 @@ namespace DarkSky
 
             if (e.PrelaunchActivated == false)
             {
-                if (rootFrame.Content == null)
-                {
-					// ASSUMES NOT LOGGED IN DUE TO NO CREDENTIALS STORED
-					// HANDLES NAVIGATION
-					var a = App.Current.Services.GetService<ATProtoService>();
-	            }
+				if (rootFrame.Content == null)
+				{
+					CredentialService credentialService = new CredentialService();
+					if (credentialService.Count() == 0)
+					{
+						rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+					}
+					else // login, initialise DI, go to mainpage
+					{
+						App.Current.Services = ServiceContainer.Services = ConfigureServices();
+						Credential credentials = credentialService.GetCredential();
+						ATProtoService proto = Services.GetService<ATProtoService>();
+						await proto.LoginAsync(credentials.username, credentials.password);
+						rootFrame.Navigate(typeof(MainPage), e.Arguments);
+					}
+				}
                 // Ensure the current window is active
                 Window.Current.Activate();
             }

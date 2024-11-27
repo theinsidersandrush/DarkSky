@@ -10,7 +10,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:materials="using:Cube.UI.Materials"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
-    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Grid>
@@ -83,17 +82,10 @@ TextWrapping="WrapWholeWords" />
                 </Grid>
                 <AppBarSeparator Grid.Column="1"/>
                 <StackPanel Spacing="12" Grid.Column="2" VerticalAlignment="Center" Padding="12">
-                    <TextBox
-    x:Name="UsernameBox"
-    Header="Handle"
-                        PlaceholderText="example.bsky.social"
-    Text="{x:Bind ViewModel.UserName, Mode=TwoWay}" />
-                    <TextBox
-    x:Name="PasswordBox"
-    Header="Password"
-                        PlaceholderText="Your app password or password"
-    Text="{x:Bind ViewModel.Password, Mode=TwoWay}" />
-                    <Button Command="{x:Bind ViewModel.loginCommand}">Login</Button>
+                    <TextBox x:Name="UsernameBox" Header="Handle" PlaceholderText="example.bsky.social"/>
+                    <TextBox x:Name="PasswordBox" Header="Password" PlaceholderText="Your app password or password"/>
+                    <Button Click="Button_Click">Login</Button>
+                    <muxc:ProgressBar IsIndeterminate="True" x:Name="LoginBar" Visibility="Collapsed"/>
                 </StackPanel>
             </Grid>
         </Grid>

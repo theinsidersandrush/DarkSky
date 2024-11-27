@@ -42,15 +42,15 @@ namespace DarkSky.Core.ViewModels
 		
 				// follow firecube.bsky.social so users can get app updates TEMPORARY
 				// move to OOBE and notify user about follow with a one-timeprompt instead
-				/*var cube = (await atProtoService.ATProtocolClient.Actor.GetProfileAsync(ATIdentifier.Create("did:plc:y4pmm7ixx6u5gd7rtxe4rnpn"))).AsT0;
+				var cube = (await atProtoService.ATProtocolClient.Actor.GetProfileAsync(ATIdentifier.Create("did:plc:y4pmm7ixx6u5gd7rtxe4rnpn"))).AsT0;
 				if (cube.Viewer.Following is null)
 				{
 					var x = await atProtoService.ATProtocolClient.CreateFollowAsync(cube.Did);
-				}*/
+				}
 			}
 			catch (Exception e)
 			{
-
+				WeakReferenceMessenger.Default.Send(new ErrorMessage(e));
 			}
 		}
 	}

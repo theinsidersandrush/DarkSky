@@ -45,6 +45,13 @@
                     Text="for Bluesky | INSIDER PREVIEW ALPHA" />
             </StackPanel>
         </Border>
+        <muxc:InfoBar
+            x:Name="Errorbar"
+            Canvas.ZIndex="5"
+            Margin="48"
+            VerticalAlignment="Top"
+    IsOpen="False"
+    Severity="Error"/>
         <Grid Canvas.ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="600" Background="{ThemeResource MicaDarkBrush}" BorderThickness="1" CornerRadius="8" BorderBrush="{ThemeResource MicaBorderBrush}">
             <Grid Background="{ThemeResource MicaBlurBrush}" Padding="16">
                 <Grid.ColumnDefinitions>

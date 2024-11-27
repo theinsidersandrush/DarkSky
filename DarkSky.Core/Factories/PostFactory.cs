@@ -32,7 +32,8 @@ namespace DarkSky.Core.Factories
 
 		public async static Task<PostViewModel> Create(ViewRecord viewRecord)
 		{
-			var proto = ServiceContainer.Services.GetService<ATProtoService>().ATProtocolClient;
+			var p = ServiceContainer.Services.GetService<ATProtoService>();
+			var proto = p.ATProtocolClient;
 			var list = new List<ATUri>();
 			list.Add(viewRecord.Uri);
 			var result = await proto.GetPostsAsync(list);

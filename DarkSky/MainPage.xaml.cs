@@ -23,6 +23,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using DarkSky.Core.ViewModels.Temporary;
+using Microsoft.UI.Xaml.Controls;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -63,13 +65,15 @@ namespace DarkSky
 					SecondaryPane.Visibility = Visibility.Collapsed;
 			});
 
-			/*WeakReferenceMessenger.Default.Register<TemporaryOpenPostMessage>(this, (r, m) =>
+			WeakReferenceMessenger.Default.Register<ErrorMessage>(this, async (r, m) =>
 			{
 
-				WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(1));
-
-				SecondaryPane.Navigate(typeof(PostPage), m.Value);
-			});*/
+				Errorbar.IsOpen = true;
+				Errorbar.Title = m.Value.Message;
+				Errorbar.Content = m.Value.StackTrace;
+				await Task.Delay(5000);
+				Errorbar.IsOpen = false;
+			});
 		}
 
 		// used by URL

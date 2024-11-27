@@ -1,4 +1,6 @@
-﻿using Cube.UI.Services;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Cube.UI.Services;
+using DarkSky.Core.Messages;
 using DarkSky.Core.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -7,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -31,6 +34,16 @@ namespace DarkSky
         {
             this.InitializeComponent();
 			WindowService.Initialize(AppTitleBar, AppTitle);
+
+			WeakReferenceMessenger.Default.Register<ErrorMessage>(this, async (r, m) =>
+			{
+
+				Errorbar.IsOpen = true;
+				Errorbar.Title = m.Value.Message;
+				Errorbar.Content = m.Value.StackTrace;
+				await Task.Delay(5000);
+				Errorbar.IsOpen = false;
+			});
 		}
     }
 }

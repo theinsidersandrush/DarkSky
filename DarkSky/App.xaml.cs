@@ -32,7 +32,7 @@ namespace DarkSky
     /// </summary>
     sealed partial class App : Application
     {
-		private static IServiceProvider ConfigureServices()
+		public static IServiceProvider ConfigureServices()
 		{
 			ServiceCollection services = new ServiceCollection();
 

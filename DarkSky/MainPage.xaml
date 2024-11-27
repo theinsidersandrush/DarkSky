@@ -57,6 +57,13 @@
                 <icons:FluentIconElement Symbol="Search20" />
             </AutoSuggestBox.QueryIcon>
         </AutoSuggestBox>
+        <muxc:InfoBar
+            x:Name="Errorbar"
+            Canvas.ZIndex="5"
+            VerticalAlignment="Top"
+            Margin="48"
+    IsOpen="False"
+    Severity="Error"/>
         <muxc:NavigationView
             x:Name="AppNavigation"
             Grid.Row="1"

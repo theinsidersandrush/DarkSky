@@ -21,6 +21,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media;
 using FishyFlip.Lexicon.App.Bsky.Feed;
+using DarkSky.Core.ViewModels.Temporary;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -54,7 +55,6 @@ namespace DarkSky.UserControls
 			set => SetValue(HeaderProperty, value);
 		}
 
-
 		public FeedListView()
 		{
 			this.InitializeComponent();
@@ -62,12 +62,18 @@ namespace DarkSky.UserControls
 
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			WeakReferenceMessenger.Default.Send(new TemporaryOpenPostMessage((e.ClickedItem as FeedViewPost).Post));
+			WeakReferenceMessenger.Default.Send(
+				new SecondaryNavigationMessage(
+					new SecondaryNavigation(typeof(PostViewModel), e.ClickedItem as PostViewModel)));
 		}
 
 		private async void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
 			=> await FeedSource.RefreshAsync();
 
+		#region Incremental loading code
+		/*
+		 * When Listview reaches bottom call FeedSource to generate more posts
+		 */
 		private ScrollViewer _scrollViewer;
 		private void ListView_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -99,5 +105,7 @@ namespace DarkSky.UserControls
 			}
 			return null;
 		}
+
+		#endregion
 	}
 }

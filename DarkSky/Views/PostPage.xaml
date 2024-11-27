@@ -22,22 +22,24 @@
             </Grid.RowDefinitions>
             <Grid
                 Grid.Row="0"
-                Padding="12,0,12,0"
+                Padding="0,0,12,0"
                 Background="{ThemeResource MicaDarkBrush}"
                 BorderBrush="{ThemeResource MicaBorderBrush}"
                 BorderThickness="0,0,0,1">
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <PersonPicture Height="36" ProfilePicture="{x:Bind img(Post.Author.Avatar), Mode=OneWay}" />
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        FontWeight="SemiBold"
-                        Text="{x:Bind Post.Author.DisplayName, Mode=OneWay}" />
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        Opacity="0.7"
-                        Text="{x:Bind Post.Author.Handle, Mode=OneWay}" />
-                </StackPanel>
+                <HyperlinkButton Foreground="{ThemeResource HvidSortBrush}">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PersonPicture Height="36" ProfilePicture="{x:Bind helpers:UIHelper.Img(Post.InternalPost.Author.Avatar), Mode=OneWay}" />
+                        <TextBlock
+                   VerticalAlignment="Center"
+                   FontSize="16"
+                   FontWeight="SemiBold"
+                   Text="{x:Bind Post.InternalPost.Author.DisplayName, Mode=OneWay}" />
+                        <TextBlock
+                   VerticalAlignment="Center"
+                   Opacity="0.7"
+                   Text="{x:Bind Post.InternalPost.Author.Handle, Mode=OneWay}" />
+                    </StackPanel>
+                </HyperlinkButton>
                 <Button
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
@@ -57,7 +59,7 @@
                             <TextBlock
                                 IsTextSelectionEnabled="True"
                                 FontSize="16"
-                                Text="{x:Bind ToPost(Post.Record), Mode=OneWay}"
+                                Text="{x:Bind Post.Text, Mode=OneWay}"
                                 TextWrapping="WrapWholeWords" />
                             <Border CornerRadius="8">
                                 <Image x:Name="PostImage" Stretch="Fill" />
@@ -68,7 +70,7 @@
                         <TextBlock
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Opacity="0.7" Text="{x:Bind helpers:UIHelper.FormatDate(Post.IndexedAt), Mode=OneWay}"/>
+                            Opacity="0.7" Text="{x:Bind helpers:UIHelper.FormatDate(Post.CreatedAt), Mode=OneWay}"/>
                         <StackPanel
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
@@ -90,46 +92,50 @@
                         VerticalAlignment="Center"
                         Orientation="Horizontal"
                         Spacing="24">
-                        <Button Style="{ThemeResource ToolbarButton}" IsEnabled="False">
+                        <Button Style="{ThemeResource ToolbarButton}" IsEnabled="{x:Bind Post.CanReply, Mode=OneWay}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <icons:FluentSymbolIcon Symbol="Comment20" />
                                 <TextBlock Text="{x:Bind Post.ReplyCount, Mode=OneWay}" />
                                 <TextBlock Text="comments" />
                             </StackPanel>
                         </Button>
+                        <Button Style="{ThemeResource ToolbarButton}" Command="{x:Bind Post.RepostCommand, Mode=OneWay}">
+                            <Grid>
+                                <StackPanel x:Name="UnReposted" x:Load="{x:Bind helpers:UIHelper.invert(Post.IsReposted), Mode=OneWay}" Orientation="Horizontal" Spacing="8">
+                                    <icons:FluentSymbolIcon Symbol="ArrowRepeatAll20" />
+                                    <TextBlock Text="{x:Bind Post.RepostCount, Mode=OneWay}" />
+                                    <TextBlock Text="reposts" />
+                                </StackPanel>
+                                <StackPanel x:Name="Reposted" x:Load="{x:Bind Post.IsReposted, Mode=OneWay}" Orientation="Horizontal" Spacing="8">
+                                    <icons:FluentSymbolIcon Foreground="{ThemeResource ResponsiveAccentBrush2}" Symbol="ArrowRepeatAll20" />
+                                    <TextBlock Foreground="{ThemeResource ResponsiveAccentBrush2}" Text="{x:Bind Post.RepostCount, Mode=OneWay}" />
+                                    <TextBlock Foreground="{ThemeResource ResponsiveAccentBrush2}" Text="reposts" />
+                                </StackPanel>
+                            </Grid>
+                        </Button>
                         <Button Style="{ThemeResource ToolbarButton}" IsEnabled="False">
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <icons:FluentSymbolIcon Symbol="ArrowSync20" />
-                                <TextBlock Text="{x:Bind Post.RepostCount, Mode=OneWay}" />
-                                <TextBlock Text="reposts" />
+                                <icons:FluentSymbolIcon Symbol="TextQuote20" />
+                                <TextBlock Text="{x:Bind Post.QuoteCount, Mode=OneWay}" />
+                                <TextBlock Text="quotes" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="Like" Style="{ThemeResource ToolbarButton}" IsEnabled="False">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <icons:FluentSymbolIcon Symbol="Heart20" />
-                                <TextBlock Text="{x:Bind Post.LikeCount, Mode=OneWay}" />
-                                <TextBlock Text="likes" />
-                            </StackPanel>
+                        <Button x:Name="Like" Style="{ThemeResource ToolbarButton}" Command="{x:Bind Post.LikeCommand, Mode=OneWay}">
+                            <Grid>
+                                <StackPanel x:Name="UnLiked" x:Load="{x:Bind helpers:UIHelper.invert(Post.IsLiked), Mode=OneWay}" Orientation="Horizontal" Spacing="8">
+                                    <icons:FluentSymbolIcon Symbol="Heart20" />
+                                    <TextBlock Text="{x:Bind Post.LikeCount, Mode=OneWay}" />
+                                    <TextBlock Text="likes" />
+                                </StackPanel>
+                                <StackPanel x:Name="Liked" x:Load="{x:Bind Post.IsLiked, Mode=OneWay}" Orientation="Horizontal" Spacing="8">
+                                    <icons:FluentSymbolIcon Foreground="{ThemeResource HeartLinearGradientBrush}" Symbol="Heart20Filled" />
+                                    <TextBlock Foreground="#e96e60" Text="{x:Bind Post.LikeCount, Mode=OneWay}" />
+                                    <TextBlock Foreground="#e96e60" Text="likes" />
+                                </StackPanel>
+                            </Grid>
                         </Button>
                     </StackPanel>
-                    <StackPanel
-                        Grid.Row="3"
-            Padding="32"
-            Spacing="8">
-                        <MenuFlyoutSeparator />
-                        <TextBlock
-                FontSize="20"
-                HorizontalTextAlignment="Center"
-                Text="Replies/Replying and more are coming soon.." />
-                        <TextBlock
-                HorizontalTextAlignment="Center"
-                Text="The app is being built up rapidly. Follow the progress in BlueSky, GitHub or Discord."
-                TextWrapping="WrapWholeWords" />
-                        <HyperlinkButton HorizontalAlignment="Center" Content="See progress in BlueSky" NavigateUri="https://bsky.app/profile/firecube.bsky.social"/>
-                        <HyperlinkButton HorizontalAlignment="Center" Content="Send feedback in GitHub" NavigateUri="https://github.com/FireCubeStudios/DarkSky"/>
-                        <HyperlinkButton HorizontalAlignment="Center" Content="Join the Discord" NavigateUri="https://discord.com/invite/3WYcKat"/>
-                    </StackPanel>
-                    <StackPanel Grid.Row="3" Spacing="12" Visibility="Collapsed">
+                    <StackPanel Grid.Row="3" Spacing="12">
                         <MenuFlyoutSeparator />
                         <TextBox AcceptsReturn="True" PlaceholderText="Write your reply" />
                         <Grid>

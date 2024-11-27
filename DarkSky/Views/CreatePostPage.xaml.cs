@@ -38,7 +38,7 @@ namespace DarkSky.Views
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(0));
+			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(new SecondaryNavigation(null)));
 		}
 
 		private async void Button_Click_1(object sender, RoutedEventArgs e)
@@ -53,7 +53,7 @@ namespace DarkSky.Views
 			{
 				var x = (await ATProto.ATProtocolClient.CreatePostAsync(post)).AsT0;
 				PostText.Text = "";
-				WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(0));
+				WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(new SecondaryNavigation(null)));
 			}
 			catch (Exception ex)
 			{

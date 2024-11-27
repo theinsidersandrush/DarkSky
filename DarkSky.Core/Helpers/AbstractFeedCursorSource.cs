@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DarkSky.Core.Services;
+using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
@@ -19,7 +20,7 @@ namespace DarkSky.Core.Helpers
 		[ObservableProperty]
 		private bool isLoading = false;
 
-		public ObservableCollection<FeedViewPost> Feed { get; } = new();
+		public ObservableCollection<PostViewModel> Feed { get; } = new();
 
 		protected string Cursor = "";
 		protected ATProtoService atProtoService;

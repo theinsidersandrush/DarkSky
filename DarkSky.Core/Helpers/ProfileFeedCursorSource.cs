@@ -1,4 +1,5 @@
-﻿using DarkSky.Core.Services;
+﻿using DarkSky.Core.Factories;
+using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels;
 using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
@@ -31,7 +32,7 @@ namespace DarkSky.Core.Helpers
 			Cursor = timeLine.Cursor;
 			foreach (var item in timeLine.Feed)
 			{
-				Feed.Add(item);
+				Feed.Add(PostFactory.Create(item));
 			}
 			IsLoading = false;
 		}

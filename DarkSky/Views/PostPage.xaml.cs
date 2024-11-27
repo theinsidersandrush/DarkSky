@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Messages;
+using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon;
 using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Lexicon.Com.Atproto.Repo;
@@ -32,7 +33,7 @@ namespace DarkSky.Views
 	public sealed partial class PostPage : Page
 	{
 		[ObservableProperty]
-		PostView post;
+		PostViewModel post;
 		public PostPage()
 		{
 			this.InitializeComponent();
@@ -41,8 +42,8 @@ namespace DarkSky.Views
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
-			Post = e.Parameter as PostView;
-			SetPost(post);
+			Post = e.Parameter as PostViewModel;
+			SetPost(Post.InternalPost);
 		}
 
 		public void SetPost(PostView post)
@@ -53,21 +54,9 @@ namespace DarkSky.Views
 			}
 		}
 
-		private string ToPost(ATObject? record) => (record as FishyFlip.Lexicon.App.Bsky.Feed.Post).Text;
-
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(0));
-		}
-
-		private ImageSource img(string uri)
-		{
-			if (uri == null)
-				throw new ArgumentNullException(nameof(uri));
-
-			// Create a BitmapImage and set its UriSource to the provided Uri
-			var bitmapImage = new BitmapImage(new Uri(uri));
-			return bitmapImage;
+			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(null));
 		}
 	}
 }

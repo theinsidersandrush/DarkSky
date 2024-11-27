@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
-    xmlns:models="using:FishyFlip.Lexicon.App.Bsky.Feed"
+    xmlns:models="using:FishyFlip.Lexicon.App.Bsky.Feed" xmlns:temporary="using:DarkSky.Core.ViewModels.Temporary" xmlns:helpers="using:DarkSky.Helpers"
     mc:Ignorable="d">
 
     <Grid>
@@ -21,8 +21,9 @@
                 Loaded="ListView_Loaded"
                 Header="{x:Bind Header, Mode=OneWay}">
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="models:FeedViewPost">
-                        <local:FeedViewPostControl FeedPost="{x:Bind Mode=OneWay}"/>
+                    <DataTemplate x:DataType="temporary:PostViewModel">
+                       <!-- <local:FeedViewPostControl FeedPost="{x:Bind Mode=OneWay}"/>-->
+                        <local:PostControl Post="{x:Bind Mode=OneWay}" BorderThickness="1" BorderBrush="{ThemeResource MicaBorderBrush}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemsPanel>

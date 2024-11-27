@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Media;
 using System.Globalization;
 using System.Diagnostics;
+using Windows.UI.Xaml;
 
 namespace DarkSky.Helpers
 {
@@ -47,6 +48,8 @@ namespace DarkSky.Helpers
 
 		public static bool none(object obj) => obj is not null;
 
+		public static bool invert(bool b) => !b;
+
 		public static ImageSource Img(string uri)
 		{
 			if (uri == null)
@@ -56,5 +59,9 @@ namespace DarkSky.Helpers
 			var bitmapImage = new BitmapImage(new Uri(uri));
 			return bitmapImage;
 		}
+
+		// if a post has a reply do not show the bottom border
+		// used in FeedListView
+		public static Thickness Border(bool hasReply) => hasReply ? new Thickness(0) : new Thickness(0, 0, 0, 1);
 	}
 }

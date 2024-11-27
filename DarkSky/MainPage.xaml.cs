@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using DarkSky.Core.ViewModels.Temporary;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -33,6 +34,7 @@ namespace DarkSky
     public sealed partial class MainPage : Page
 	{
 		private MainViewModel ViewModel = App.Current.Services.GetService<MainViewModel>();
+		private readonly Dictionary<Type, Type> viewModelsToViews = new();
 		public MainPage()
 		{
 			this.InitializeComponent();
@@ -44,29 +46,30 @@ namespace DarkSky
 			AppTitleBar.Height = 50;
 			AppTitleBar.Height = 48;
 
-			// Register a message in some module
+			/*
+			 * Navigate the secondary page
+			 * The SecondaryNavigationMessage contains a "ViewModel" Type and a "payload" object
+			 * The ViewModel type is mapped to a Page that is navigated to
+			 */
+			viewModelsToViews[typeof(PostViewModel)] = typeof(PostPage);
 			WeakReferenceMessenger.Default.Register<SecondaryNavigationMessage>(this, (r, m) =>
 			{
-				if(m.Value == 0)
-				{
-					SecondaryPane.Visibility = Visibility.Collapsed;
-					PaneSplitter.Visibility = Visibility.Collapsed;
-					Grid.SetColumnSpan(PrimaryPane, 2);
-				} else
+				if(m.Value.ViewModel is not null)
 				{
 					SecondaryPane.Visibility = Visibility.Visible;
-					PaneSplitter.Visibility = Visibility.Visible;
-					Grid.SetColumnSpan(PrimaryPane, 1);
+					SecondaryPane.Navigate(viewModelsToViews[m.Value.ViewModel], m.Value.payload);
 				}
+				else //new SecondaryNavigation(null) go to null
+					SecondaryPane.Visibility = Visibility.Collapsed;
 			});
 
-			WeakReferenceMessenger.Default.Register<TemporaryOpenPostMessage>(this, (r, m) =>
+			/*WeakReferenceMessenger.Default.Register<TemporaryOpenPostMessage>(this, (r, m) =>
 			{
 
 				WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(1));
 
 				SecondaryPane.Navigate(typeof(PostPage), m.Value);
-			});
+			});*/
 		}
 
 		// used by URL
@@ -120,7 +123,7 @@ namespace DarkSky
 			if (args.InvokedItem.ToString() == "New Post")
 			{
 
-				WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(1));
+				//WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(1));
 				SecondaryPane.Navigate(typeof(CreatePostPage));
 			}
 		}

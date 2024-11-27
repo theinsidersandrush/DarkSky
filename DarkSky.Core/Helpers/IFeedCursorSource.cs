@@ -1,4 +1,5 @@
-﻿using FishyFlip.Lexicon.App.Bsky.Feed;
+﻿using DarkSky.Core.ViewModels.Temporary;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using Org.BouncyCastle.Asn1.IsisMtt.X509;
 using System;
@@ -17,7 +18,7 @@ namespace DarkSky.Core.Helpers
 	public interface IFeedCursorSource : INotifyPropertyChanged
 	{
 		bool IsLoading { get; set; }
-		ObservableCollection<FeedViewPost> Feed { get; }
+		ObservableCollection<PostViewModel> Feed { get; }
 
 		Task RefreshAsync();
 		Task GetMoreItemsAsync(int limit = 50);

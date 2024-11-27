@@ -155,7 +155,6 @@
                             <Frame
                                 x:Name="PrimaryPane"
                                 Grid.Column="0"
-                                Grid.ColumnSpan="2"
                                 BorderBrush="{ThemeResource MicaBorderBrush}"
                                 BorderThickness="0,0,1,0" />
                             <Frame x:Name="SecondaryPane" Grid.Column="1" />
@@ -166,8 +165,7 @@
                                 Width="16"
                                 HorizontalAlignment="Left"
                                 ResizeBehavior="BasedOnAlignment"
-                                ResizeDirection="Auto"
-                                Visibility="Collapsed">
+                                ResizeDirection="Auto">
                                 <toolkit:GridSplitter.RenderTransform>
                                     <TranslateTransform X="-8" />
                                 </toolkit:GridSplitter.RenderTransform>

@@ -1,4 +1,6 @@
-﻿using DarkSky.UserControls.Embeds;
+﻿using DarkSky.Core.Factories;
+using DarkSky.Core.ViewModels.Temporary;
+using DarkSky.UserControls.Embeds;
 using FishyFlip.Lexicon;
 using FishyFlip.Lexicon.App.Bsky.Embed;
 using FishyFlip.Lexicon.App.Bsky.Feed;
@@ -27,38 +29,26 @@ namespace DarkSky.UserControls
 {
 	public sealed partial class PostControl : UserControl
 	{
-		public PostView Post
+		public PostViewModel Post
 		{
-			get => (PostView)GetValue(PostProperty);
+			get => (PostViewModel)GetValue(PostProperty);
 			set
 			{
 				SetValue(PostProperty, value);
 				if(value is not null)
-					SetPost(value);
+					SetPost(value.InternalPost);
 			}
 		}
 
 		public static readonly DependencyProperty PostProperty =
-				   DependencyProperty.Register("Post", typeof(PostView), typeof(PostControl), null);
-
-		public bool ShowReplyBar
-		{
-			get => (bool)GetValue(ShowReplyBarProperty);
-			set => SetValue(ShowReplyBarProperty, value);
-		}
-
-		public static readonly DependencyProperty ShowReplyBarProperty =
-			DependencyProperty.Register(nameof(ShowReplyBar), typeof(bool), typeof(PostControl), new PropertyMetadata(false));
-
+				   DependencyProperty.Register("Post", typeof(PostViewModel), typeof(PostControl), null);
 
 		public PostControl()
 		{
 			this.InitializeComponent();
 		}
 
-		private string ToPost(ATObject? record) => (record as FishyFlip.Lexicon.App.Bsky.Feed.Post).Text;
-
-		public void SetPost(PostView post) 
+		public async void SetPost(PostView post) 
 		{
 			if (post.Embed is not null)
 			{
@@ -78,10 +68,14 @@ namespace DarkSky.UserControls
 				}
 				else if (post.Embed.Type == "app.bsky.embed.record#view")
 				{
-					EmbedContent.Visibility = Visibility.Visible;
-					PostControl embed = new();
-					//embed.Post = (post.Embed as ViewRecord).Post;
-					EmbedContent.Content = embed;
+					try
+					{
+						PostControl embed = new();
+						embed.Post = await PostFactory.Create(((ViewRecord)(post.Embed as ViewRecordDef).Record));
+						EmbedContent.Content = embed;
+						EmbedContent.Visibility = Visibility.Visible;
+					}
+					catch { }
 				}
 				else if (post.Embed.Type == "app.bsky.embed.recordWithMedia")
 				{

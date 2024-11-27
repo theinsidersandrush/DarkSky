@@ -1,4 +1,6 @@
-﻿using DarkSky.Core.Services;
+﻿using DarkSky.Core.Factories;
+using DarkSky.Core.Services;
+using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
@@ -21,31 +23,47 @@ namespace DarkSky.Core.Helpers
 			IsLoading = true;
 			GetTimelineOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetTimelineAsync(limit:limit, cursor:Cursor)).AsT0;
 			Cursor = timeLine.Cursor;
+
+			/*
+			 * The timeline may contain a post then a reply chain to that post which basically duplicates it
+			 * This logic aims to remove duplicates to show reply chains to the original post instead
+			 */
 			foreach (var item in timeLine.Feed)
 			{
-				if (item.Reply is null)
-				{ // add regular posts
-				  // only add if it did not appear before, maybe as part of a reply chain
-					if (!postID.Contains(item.Post.Cid))
-						Feed.Add(item);
-				}
-				else // the post is a reply, use logic to filter
+				try
 				{
-					FishyFlip.Lexicon.App.Bsky.Feed.ReplyRef reply = item.Reply;
-					PostView root = (PostView)reply.Root;
-					PostView parent = (PostView)reply.Parent;
-					// only allow replies if it replies to same author
-					if (root.Author.Did.Handler == item.Post.Author.Did.Handler)
+					if (item.Reply is null)
+					{ // add regular posts
+					  // only add if it did not appear before, maybe as part of a reply chain
+						if (!postID.Contains(item.Post.Cid))
+							Feed.Add(PostFactory.Create(item));
+					}
+					else // the post is a reply, use logic to filter
 					{
-						// only add if it did not appear before, maybe as part of a reply chain
-						if (!postID.Contains(root.Cid))
+						FishyFlip.Lexicon.App.Bsky.Feed.ReplyRef reply = item.Reply;
+						PostView root = (PostView)reply.Root;
+						PostView parent = (PostView)reply.Parent;
+						// only allow replies if it replies to same author
+						if (root.Author.Did.Handler == item.Post.Author.Did.Handler)
 						{
-							Feed.Add(item); // add the reply
+							// only add if it did not appear before, as part of a reply chain
+							if (!postID.Contains(root.Cid))
+							{
+								// if a reply was retweeted then do not show parent or root posts
+								if (item.Reason is null)
+								{  
+									if (parent.Cid != root.Cid)  // only show root reply if parent is not root
+										Feed.Add(new PostViewModel((PostView)reply.Root) { HasReply = true });
+									Feed.Add(new PostViewModel((PostView)reply.Parent) { HasReply = true, IsReply = true });
+								}
+								Feed.Add(PostFactory.Create(item)); // Show the regular post
 
-							postID.Add(root.Cid); // add parent to hashset so we can filter if it appears later
+								postID.Add(root.Cid); // add root to hashset so we can filter if it appears later
+							}
 						}
 					}
 				}
+				catch { }
 			}
 			IsLoading = false;
 		}

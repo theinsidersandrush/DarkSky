@@ -141,9 +141,6 @@
     <Compile Include="UserControls\FeedListView.xaml.cs">
       <DependentUpon>FeedListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\FeedViewPostControl.xaml.cs">
-      <DependentUpon>FeedViewPostControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
     </Compile>
@@ -270,10 +267,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FeedListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\FeedViewPostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

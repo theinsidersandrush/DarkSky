@@ -34,7 +34,7 @@ namespace DarkSky
     {
 		private static IServiceProvider ConfigureServices()
 		{
-			var services = new ServiceCollection();
+			ServiceCollection services = new ServiceCollection();
 
 			services.AddSingleton<ICredentialService, CredentialService>();
 			services.AddSingleton<ISettingsService, SettingsService>();
@@ -68,7 +68,7 @@ namespace DarkSky
 		/// </summary>
 		public App()
         {
-			Services = ConfigureServices();
+			Services = ServiceContainer.Services = ConfigureServices();
 			this.InitializeComponent();
 			this.Suspending += OnSuspending;
 			UnhandledException += OnUnhandledException;

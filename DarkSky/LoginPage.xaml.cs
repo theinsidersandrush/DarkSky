@@ -1,7 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using Cube.UI.Services;
+using DarkSky.Core.Classes;
 using DarkSky.Core.Messages;
+using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels;
+using DarkSky.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -29,7 +32,7 @@ namespace DarkSky
     /// </summary>
     public sealed partial class LoginPage : Page
     {
-		private LoginViewModel ViewModel = App.Current.Services.GetService<LoginViewModel>();
+	//	private LoginViewModel ViewModel = App.Current.Services.GetService<LoginViewModel>();
 		public LoginPage()
         {
             this.InitializeComponent();
@@ -45,5 +48,25 @@ namespace DarkSky
 				Errorbar.IsOpen = false;
 			});
 		}
-    }
+
+		private async void Button_Click(object sender, RoutedEventArgs e)
+		{
+			LoginBar.Visibility = Visibility.Visible;
+			ATProtoService proto = new();
+			CredentialService credentialService = new CredentialService();
+			await proto.LoginAsync(UsernameBox.Text, PasswordBox.Text);
+			if (proto.Session is not null)
+			{
+				credentialService.SaveCredential(new Credential(proto.Session.Handle.Handle, PasswordBox.Text, proto.Session.RefreshJwt));
+
+				App.Current.Services = ServiceContainer.Services = App.ConfigureServices();
+
+				ATProtoService protoDI = App.Current.Services.GetService<ATProtoService>();
+				protoDI.ATProtocolClient = proto.ATProtocolClient;
+				protoDI.Session = proto.Session;
+				((Frame)Window.Current.Content).Navigate(typeof(MainPage));
+			}
+			LoginBar.Visibility = Visibility.Collapsed;
+		}
+	}
 }

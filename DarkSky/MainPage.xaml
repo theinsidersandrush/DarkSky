@@ -10,7 +10,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
-    NavigationCacheMode="Enabled"
     SizeChanged="Page_SizeChanged"
     mc:Ignorable="d">
     <Grid>

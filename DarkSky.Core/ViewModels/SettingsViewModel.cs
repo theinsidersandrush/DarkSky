@@ -20,13 +20,5 @@ namespace DarkSky.Core.ViewModels
 			this.navigationService = navigationService;
 			this.credentialService = credentialService;
 		}
-
-		[RelayCommand]
-		private void logout()
-		{
-			atProtoService.Session = null;
-			credentialService.RemoveCredentials();
-			navigationService.NavigateTo<LoginViewModel>();
-		}
 	}
 }

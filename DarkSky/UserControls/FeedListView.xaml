@@ -23,7 +23,9 @@
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="temporary:PostViewModel">
                        <!-- <local:FeedViewPostControl FeedPost="{x:Bind Mode=OneWay}"/>-->
-                        <local:PostControl Post="{x:Bind Mode=OneWay}" BorderThickness="1" BorderBrush="{ThemeResource MicaBorderBrush}"/>
+                        <Border BorderThickness="{x:Bind helpers:UIHelper.Border(HasReply), Mode=OneWay}" BorderBrush="{ThemeResource MicaBorderBrush}">
+                            <local:PostControl Post="{x:Bind Mode=OneWay}"/>
+                        </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ItemsPanel>

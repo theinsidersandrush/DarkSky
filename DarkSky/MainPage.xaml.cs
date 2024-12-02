@@ -56,7 +56,7 @@ namespace DarkSky
 			viewModelsToViews[typeof(PostViewModel)] = typeof(PostPage);
 			WeakReferenceMessenger.Default.Register<SecondaryNavigationMessage>(this, (r, m) =>
 			{
-				if(m.Value.ViewModel is not null)
+				if(m.Value is not null)
 				{
 					SecondaryPane.Visibility = Visibility.Visible;
 					SecondaryPane.Navigate(viewModelsToViews[m.Value.ViewModel], m.Value.payload);

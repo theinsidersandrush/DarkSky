@@ -43,7 +43,7 @@ namespace DarkSky.Views
 
 		private async void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			if (PostText.Text.Length > 300) return;
+			/*if (PostText.Text.Length > 300) return;
 			Post post = new Post();
 			post.CreatedAt = DateTime.Now;
 			post.Langs = new List<string>();
@@ -58,7 +58,7 @@ namespace DarkSky.Views
 			catch (Exception ex)
 			{
 
-			}
+			}*/
 		}
     }
 }

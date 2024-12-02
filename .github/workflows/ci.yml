@@ -1,0 +1,180 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+
+env:
+  WORKING_DIR:                   '${{ github.workspace }}'
+  APPX_SELFSIGNED_CERT_PATH:     '${{ github.workspace }}\.github\workflows\DarkSky_SelfSigned.pfx'
+  ARTIFACTS_STAGING_DIR:         '${{ github.workspace }}\artifacts'
+  APPX_PACKAGE_DIR:              '${{ github.workspace }}\artifacts\AppxPackages'
+  PROJECT_DIR:                   '${{ github.workspace }}\DarkSky'
+  PROJECT_PATH:                  '${{ github.workspace }}\DarkSky\DarkSky.wapproj'
+  SOLUTION_PATH:                 '${{ github.workspace }}\DarkSky.sln'
+  AUTOMATED_TESTS_ARCHITECTURE:  'x64'
+  AUTOMATED_TESTS_CONFIGURATION: 'Release'
+
+jobs:
+
+  check-formatting:
+    name: Validate XAML formatting
+
+    if: github.repository_owner == 'FireCubeStudios'
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+
+    - name: Checkout the repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+    
+    - name: Install XamlStyler console
+      run: 'dotnet tool install --global XamlStyler.Console'
+
+    - name: Check XAML formatting
+      id: check-step
+      run: |
+        $changedFiles = (git diff --diff-filter=d --name-only HEAD~1) -split "\n" | Where-Object {$_ -like "*.xaml"}
+        foreach ($file in $changedFiles)
+        {
+          xstyler -p -l None -f $file
+          if ($LASTEXITCODE -ne 0)
+          {
+            echo "::error file=$file::Format check failed"
+          }
+        }
+      continue-on-error: true
+    
+    - name: Fail if necessary
+      if: steps.check-step.outcome == 'failure'
+      run: exit 1
+
+  build:
+    name: Build
+
+    if: github.repository_owner == 'FireCubeStudios'
+
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Debug, Release]
+        platform: [x64, arm64]
+    env:
+      CONFIGURATION: ${{ matrix.configuration }}
+      ARCHITECTURE: ${{ matrix.platform }}
+
+    steps:
+
+    - name: Checkout the repository
+      uses: actions/checkout@v4
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore NuGet
+      shell: pwsh
+      run: 'nuget restore $env:SOLUTION_PATH'
+
+    - name: Restore DarkSky
+      shell: pwsh
+      run: |
+        msbuild $env:SOLUTION_PATH `
+          -t:Restore `
+          -p:Platform=$env:ARCHITECTURE `
+          -p:Configuration=$env:CONFIGURATION `
+          -p:PublishReadyToRun=true
+
+    - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
+      name: Build DarkSky
+      run: |
+        msbuild `
+          $env:PACKAGE_PROJECT_PATH `
+          -t:Build `
+          -clp:ErrorsOnly `
+          -p:Configuration=$env:CONFIGURATION `
+          -p:Platform=$env:ARCHITECTURE `
+          -p:AppxBundle=Never
+
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
+      name: Create self signed cert as a pfx file
+      run: ./.github/scripts/Generate-SelfCertPfx.ps1 -Destination "$env:APPX_SELFSIGNED_CERT_PATH"
+
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
+      name: Build & package DarkSky
+      run: |
+        msbuild `
+          $env:PACKAGE_PROJECT_PATH `
+          -t:Build `
+          -t:_GenerateAppxPackage `
+          -clp:ErrorsOnly `
+          -p:Configuration=$env:CONFIGURATION `
+          -p:Platform=$env:ARCHITECTURE `
+          -p:AppxBundlePlatforms=$env:AUTOMATED_TESTS_ARCHITECTURE `
+          -p:AppxBundle=Always `
+          -p:UapAppxPackageBuildMode=SideloadOnly `
+          -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
+          -p:AppxPackageSigningEnabled=true `
+          -p:PackageCertificateKeyFile=$env:APPX_SELFSIGNED_CERT_PATH `
+          -p:PackageCertificatePassword="" `
+          -p:PackageCertificateThumbprint=""
+
+    - name: Upload the packages to Artifacts Registry
+      uses: actions/upload-artifact@v4
+      with:
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}
+
+    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+      name: Get artifact size
+      id: get_artifact_size
+      uses: actions/github-script@v6
+      with:
+        result-encoding: string
+        script: |
+          const { data: artifacts } = await github.rest.actions.listArtifactsForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+
+          const artifact = artifacts.artifacts.find(a => a.name === 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})');
+          
+          if (artifact)
+          {
+            console.log('Artifact Size: ${artifact.size_in_bytes} bytes');
+            core.setOutput("artifact-size", artifact.size_in_bytes);
+            return "${artifact.size_in_bytes}"
+          }
+          else
+          {
+            console.log('Artifact not found.');
+            return "0"
+          }
+
+    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+      name: Display artifact size
+      run: 'echo "Artifact size is ${{ steps.get_artifact_size.outputs.artifact-size }} bytes."'
+
+    #- if: github.event_name == 'pull_request' && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
+    #  uses: marocchino/sticky-pull-request-comment@v1
+    #  with:
+    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #    header: ci-comment
+    #    message: 'Artifact size is ${{ steps.get_artifact_size.outputs.artifact-size }} bytes.'

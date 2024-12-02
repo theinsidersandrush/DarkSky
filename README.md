@@ -1,3 +1,5 @@
+
+
 ![Screenshot-BackgroundCrop,NoMargin,RoundedCorner](https://github.com/user-attachments/assets/51a53382-653a-4277-b1fe-7325b6c3eec0)
 
 <p align="center">
@@ -9,7 +11,16 @@
     <img src="https://img.shields.io/discord/714581497222398064?label=Discord&color=7289da" alt="Join discord server to learn more" /></a>
 </p>
 
-<h4 align="center">A modern BlueSky client for Windows.</h3>
+<p align="center">
+  <!-- Store Badge -->
+  <a style="text-decoration:none" href="https://apps.microsoft.com/detail/9np22dtfscts?launch=true&mode=full">
+    <picture>
+      <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/files-community/Files/a80d7bfa23418689ec2c50249f7e68c89a64b8a4/.github/assets/StoreBadge-dark.png" width="220" />
+      <img src="https://raw.githubusercontent.com/files-community/Files/a80d7bfa23418689ec2c50249f7e68c89a64b8a4/.github/assets/StoreBadge-light.png" width="220" />
+  </picture></a>
+</p>
+
+<!--<h4 align="center">A modern BlueSky client for Windows.</h3>-->
 
 ---
 

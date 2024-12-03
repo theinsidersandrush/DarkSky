@@ -3,8 +3,8 @@
 ![Screenshot-BackgroundCrop,NoMargin,RoundedCorner](https://github.com/user-attachments/assets/51a53382-653a-4277-b1fe-7325b6c3eec0)
 
 <p align="center">
-  <!--<a style="text-decoration:none" href="https://github.com/FireCubeStudios/DarkSky/actions/workflows/ci.yml">
-    <img src="https://github.com/FireCubeStudios/DarkSky/actions/workflows/ci.yml/badge.svg" alt="CI Status" /></a>-->
+  <a style="text-decoration:none" href="https://github.com/FireCubeStudios/DarkSky/actions/workflows/ci.yml">
+    <img src="https://github.com/FireCubeStudios/DarkSky/actions/workflows/ci.yml/badge.svg" alt="CI Status" /></a>
   <a style="text-decoration:none" href="https://bsky.app/profile/firecube.bsky.social">
     <img src="https://img.shields.io/badge/BlueSky-Follow-blue" alt="Follow on BlueSky for updates" /></a>
   <a style="text-decoration:none" href="https://dsc.gg/devsanx">

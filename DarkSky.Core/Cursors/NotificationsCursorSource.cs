@@ -1,0 +1,28 @@
+﻿using DarkSky.Core.Factories;
+using DarkSky.Core.Cursors;
+using DarkSky.Core.Services;
+using DarkSky.Core.ViewModels.Temporary;
+using FishyFlip.Lexicon.App.Bsky.Feed;
+using FishyFlip.Lexicon.App.Bsky.Notification;
+using FishyFlip.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DarkSky.Core.Cursors
+{
+	public class NotificationsCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
+	{
+		public NotificationsCursorSource(ATProtoService atProtoService) : base(atProtoService) { }
+
+		protected override async Task OnGetMoreItemsAsync(int limit = 50)
+		{
+			ListNotificationsOutput notifications = (await atProtoService.ATProtocolClient.Notification.ListNotificationsAsync(limit, false, Cursor)).AsT0;
+			Cursor = notifications.Cursor;
+			foreach (var item in notifications.Notifications)
+			{
+			}
+		}
+	}
+}

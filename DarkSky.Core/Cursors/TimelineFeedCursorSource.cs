@@ -1,4 +1,7 @@
-﻿using DarkSky.Core.Factories;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using DarkSky.Core.Factories;
+using DarkSky.Core.Cursors;
+using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon.App.Bsky.Feed;
@@ -8,20 +11,18 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DarkSky.Core.Helpers
+namespace DarkSky.Core.Cursors
 {
-	public class TimelineFeedCursorSource : AbstractFeedCursorSource
+	public class TimelineFeedCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
 	{
 		public TimelineFeedCursorSource(ATProtoService atProtoService) : base(atProtoService) { }
 
 		// Prevent duplicates loading with replies and posts
 		private HashSet<string> postID = new HashSet<string>();
 
-		public override async Task GetMoreItemsAsync(int limit = 5)
+		protected override async Task OnGetMoreItemsAsync(int limit = 5)
 		{
-			if (IsLoading) return; // Don't load if items are currently loading
-			IsLoading = true;
-			GetTimelineOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetTimelineAsync(limit:limit, cursor:Cursor)).AsT0;
+			GetTimelineOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetTimelineAsync(limit: limit, cursor: Cursor)).AsT0;
 			Cursor = timeLine.Cursor;
 
 			/*
@@ -40,7 +41,7 @@ namespace DarkSky.Core.Helpers
 					}
 					else // the post is a reply, use logic to filter
 					{
-						FishyFlip.Lexicon.App.Bsky.Feed.ReplyRef reply = item.Reply;
+						ReplyRef reply = item.Reply;
 						PostView root = (PostView)reply.Root;
 						PostView parent = (PostView)reply.Parent;
 						// only allow replies if it replies to same author
@@ -51,7 +52,7 @@ namespace DarkSky.Core.Helpers
 							{
 								// if a reply was retweeted then do not show parent or root posts
 								if (item.Reason is null)
-								{  
+								{
 									if (parent.Cid != root.Cid)  // only show root reply if parent is not root
 										Feed.Add(new PostViewModel((PostView)reply.Root) { HasReply = true });
 									Feed.Add(new PostViewModel((PostView)reply.Parent) { HasReply = true, IsReply = true });
@@ -63,9 +64,11 @@ namespace DarkSky.Core.Helpers
 						}
 					}
 				}
-				catch { }
+				catch (Exception e)
+				{
+					WeakReferenceMessenger.Default.Send(new ErrorMessage(e));
+				}
 			}
-			IsLoading = false;
 		}
 	}
 }

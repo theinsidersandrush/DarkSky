@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Classes;
-using DarkSky.Core.Helpers;
+using DarkSky.Core.Cursors;
 using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using FishyFlip.Lexicon.App.Bsky.Actor;
@@ -20,9 +20,6 @@ namespace DarkSky.Core.ViewModels
 
 		[ObservableProperty]
 		private ProfileViewDetailed currentProfile;
-
-		[ObservableProperty]
-		private PostView pinnedProfilePost;
 
 		[ObservableProperty]
 		private FeedNavigationItem selectedProfileNavigationItem;
@@ -45,7 +42,7 @@ namespace DarkSky.Core.ViewModels
 			try
 			{
 				ProfileNavigationItems.Clear();
-			SelectedProfileNavigationItem = null;
+				SelectedProfileNavigationItem = null;
 		
 				var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(session.Did);
 				CurrentProfile = profiles.AsT0;
@@ -54,17 +51,10 @@ namespace DarkSky.Core.ViewModels
 				ProfileNavigationItems.Add(new FeedNavigationItem("Media", new ProfileFeedCursorSource(atProtoService, "posts_with_media")));
 				SelectedProfileNavigationItem = ProfileNavigationItems[0];
 			}
-			catch (Exception ex) { }
-			
-		/*	try
+			catch (Exception ex)
 			{
-				List<ATUri> x = new();
-				x.Add(currentProfile.PinnedPost.Uri);
-				var p = await atProtoService.ATProtocolClient.Feed.GetPostsAsync(x);
-				var c = p.AsT0;
-				PinnedProfilePost = c.Posts[0];
+				WeakReferenceMessenger.Default.Send(new ErrorMessage(ex));
 			}
-			catch (Exception ex) { }*/
 		}
 	}
 }

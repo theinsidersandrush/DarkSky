@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Classes;
-using DarkSky.Core.Helpers;
+using DarkSky.Core.Cursors;
 using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using FishyFlip.Lexicon.App.Bsky.Actor;
@@ -65,7 +65,10 @@ namespace DarkSky.Core.ViewModels
 				}
 				SelectedFeed = Feeds[0];
 			}
-			catch { }
+			catch (Exception e)
+			{
+				WeakReferenceMessenger.Default.Send(new ErrorMessage(e));
+			}
 		}
 	}
 }

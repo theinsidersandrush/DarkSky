@@ -1,5 +1,7 @@
 ﻿using DarkSky.Core.Factories;
+using DarkSky.Core.Cursors;
 using DarkSky.Core.Services;
+using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
@@ -7,27 +9,22 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DarkSky.Core.Helpers
+namespace DarkSky.Core.Cursors
 {
-	public class FeedCursorSource : AbstractFeedCursorSource
+	public class FeedCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
 	{
 		private string FeedUri;
-		public FeedCursorSource(ATProtoService atProtoService, string feed) : base(atProtoService) 
-		{ 
-			this.FeedUri = feed;
+		public FeedCursorSource(ATProtoService atProtoService, string feed) : base(atProtoService)
+		{
+			FeedUri = feed;
 		}
 
-		public override async Task GetMoreItemsAsync(int limit = 50)
+		protected override async Task OnGetMoreItemsAsync(int limit = 50)
 		{
-			if (IsLoading) return; // Don't load if items are currently loading
-			IsLoading = true;
 			GetFeedOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetFeedAsync(new ATUri(FeedUri), limit, Cursor)).AsT0;
 			Cursor = timeLine.Cursor;
 			foreach (var item in timeLine.Feed)
-			{
 				Feed.Add(PostFactory.Create(item));
-			}
-			IsLoading = false;
 		}
 	}
 }

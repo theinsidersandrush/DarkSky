@@ -1,4 +1,6 @@
-﻿using DarkSky.Core.Factories;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using DarkSky.Core.Factories;
+using DarkSky.Core.Messages;
 using DarkSky.Core.ViewModels.Temporary;
 using DarkSky.UserControls.Embeds;
 using FishyFlip.Lexicon;
@@ -75,7 +77,10 @@ namespace DarkSky.UserControls
 						EmbedContent.Content = embed;
 						EmbedContent.Visibility = Visibility.Visible;
 					}
-					catch { }
+					catch (Exception e)
+					{
+						WeakReferenceMessenger.Default.Send(new ErrorMessage(e));
+					}
 				}
 				else if (post.Embed.Type == "app.bsky.embed.recordWithMedia")
 				{

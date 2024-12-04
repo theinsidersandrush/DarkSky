@@ -40,7 +40,6 @@ namespace DarkSky
 
 			WeakReferenceMessenger.Default.Register<ErrorMessage>(this, async (r, m) =>
 			{
-
 				Errorbar.IsOpen = true;
 				Errorbar.Title = m.Value.Message;
 				Errorbar.Content = m.Value.StackTrace;

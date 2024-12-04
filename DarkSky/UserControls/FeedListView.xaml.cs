@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.Messaging;
-using DarkSky.Core.Helpers;
 using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels;
@@ -22,6 +21,7 @@ using System.Diagnostics;
 using Windows.UI.Xaml.Media;
 using FishyFlip.Lexicon.App.Bsky.Feed;
 using DarkSky.Core.ViewModels.Temporary;
+using DarkSky.Core.Cursors;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

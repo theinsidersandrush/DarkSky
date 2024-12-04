@@ -1,4 +1,4 @@
-﻿using DarkSky.Core.Helpers;
+﻿using DarkSky.Core.Cursors;
 using System;
 using System.Collections.Generic;
 using System.Text;

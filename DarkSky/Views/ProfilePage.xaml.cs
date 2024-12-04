@@ -1,8 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-using DarkSky.Core.Messages;
-using DarkSky.Core.ViewModels;
-using FishyFlip.Models;
-using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using DarkSky.Core.ViewModels.Temporary;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +14,6 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -26,12 +23,21 @@ namespace DarkSky.Views
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
+	[INotifyPropertyChanged]
 	public sealed partial class ProfilePage : Page
 	{
-		private ProfileViewModel ViewModel = App.Current.Services.GetService<ProfileViewModel>();
+		[ObservableProperty]
+		ProfileViewModel profile;
+
 		public ProfilePage()
 		{
 			this.InitializeComponent();
+		}
+
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
+			Profile = e.Parameter as ProfileViewModel;
 		}
 	}
 }

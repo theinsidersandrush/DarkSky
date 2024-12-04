@@ -15,7 +15,7 @@ namespace DarkSky.Core.Cursors
 {
 	public class TimelineFeedCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
 	{
-		public TimelineFeedCursorSource(ATProtoService atProtoService) : base(atProtoService) { }
+		public TimelineFeedCursorSource() : base() { }
 
 		// Prevent duplicates loading with replies and posts
 		private HashSet<string> postID = new HashSet<string>();

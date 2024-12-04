@@ -55,11 +55,11 @@ namespace DarkSky.Core.ViewModels
 							if ((bool)item.Pinned && item.TypeValue == "feed")
 							{
 								var f = (await atProtoService.ATProtocolClient.Feed.GetFeedGeneratorAsync(new ATUri(item.Value))).AsT0;
-								Feeds.Add(new FeedNavigationItem(f.View.DisplayName, new FeedCursorSource(atProtoService, item.Value)));
+								Feeds.Add(new FeedNavigationItem(f.View.DisplayName, new FeedCursorSource(item.Value)));
 							}
 
 							if (item.TypeValue == "timeline")
-								Feeds.Add(new FeedNavigationItem("Following", new TimelineFeedCursorSource(atProtoService)));
+								Feeds.Add(new FeedNavigationItem("Following", new TimelineFeedCursorSource()));
 						}
 					}
 				}

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using DarkSky.Core.Factories;
 using DarkSky.Core.Messages;
 using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon;
@@ -57,6 +58,11 @@ namespace DarkSky.Views
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(null));
+		}
+
+		private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+		{
+			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(new SecondaryNavigation(typeof(ProfileViewModel), await ProfileFactory.Create(Post.InternalPost.Author))));
 		}
 	}
 }

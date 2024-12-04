@@ -54,12 +54,21 @@ namespace DarkSky
 			 * The ViewModel type is mapped to a Page that is navigated to
 			 */
 			viewModelsToViews[typeof(PostViewModel)] = typeof(PostPage);
+			viewModelsToViews[typeof(ProfileViewModel)] = typeof(ProfilePage);
 			WeakReferenceMessenger.Default.Register<SecondaryNavigationMessage>(this, (r, m) =>
 			{
 				if(m.Value is not null)
 				{
-					SecondaryPane.Visibility = Visibility.Visible;
-					SecondaryPane.Navigate(viewModelsToViews[m.Value.ViewModel], m.Value.payload);
+					if(m.Value.payload is ProfileViewModel)
+					{
+						PrimaryPane.Navigate(viewModelsToViews[m.Value.ViewModel], m.Value.payload);
+						AppNavigation.SelectedItem = null;
+					}
+					else
+					{
+						SecondaryPane.Visibility = Visibility.Visible;
+						SecondaryPane.Navigate(viewModelsToViews[m.Value.ViewModel], m.Value.payload);
+					}
 				}
 				else //new SecondaryNavigation(null) go to null
 					SecondaryPane.Visibility = Visibility.Collapsed;
@@ -67,7 +76,6 @@ namespace DarkSky
 
 			WeakReferenceMessenger.Default.Register<ErrorMessage>(this, async (r, m) =>
 			{
-
 				Errorbar.IsOpen = true;
 				Errorbar.Title = m.Value.Message;
 				Errorbar.Content = m.Value.StackTrace;
@@ -113,7 +121,7 @@ namespace DarkSky
 			}
 			else if (sender.SelectedItem == AppNavigation.FooterMenuItems[1])
 			{
-				PrimaryPane.Navigate(typeof(ProfilePage));
+				PrimaryPane.Navigate(typeof(ProfilePage), ViewModel.CurrentProfile);
 			}
 			else if (sender.SelectedItem == AppNavigation.FooterMenuItems[2])
 			{

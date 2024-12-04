@@ -26,7 +26,7 @@
                 Background="{ThemeResource MicaDarkBrush}"
                 BorderBrush="{ThemeResource MicaBorderBrush}"
                 BorderThickness="0,0,0,1">
-                <HyperlinkButton Foreground="{ThemeResource HvidSortBrush}">
+                <HyperlinkButton Click="HyperlinkButton_Click" Foreground="{ThemeResource HvidSortBrush}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <PersonPicture Height="36" ProfilePicture="{x:Bind helpers:UIHelper.Img(Post.InternalPost.Author.Avatar), Mode=OneWay}" />
                         <TextBlock

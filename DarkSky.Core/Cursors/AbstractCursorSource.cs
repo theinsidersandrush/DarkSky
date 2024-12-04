@@ -7,6 +7,7 @@ using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Lexicon.App.Bsky.Graph;
 using FishyFlip.Models;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,12 +28,7 @@ namespace DarkSky.Core.Cursors
 		public ObservableCollection<T> Feed { get; } = new();
 
 		protected string Cursor = "";
-		protected ATProtoService atProtoService;
-
-		public AbstractCursorSource(ATProtoService atProtoService)
-		{
-			this.atProtoService = atProtoService;
-		}
+		protected ATProtoService atProtoService = ServiceContainer.Services.GetService<ATProtoService>();
 
 		public virtual async Task GetMoreItemsAsync(int limit = 50)
 		{

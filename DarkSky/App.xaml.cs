@@ -43,7 +43,6 @@ namespace DarkSky
 			services.AddTransient<LoginViewModel>();
 			services.AddTransient<MainViewModel>();
 			services.AddTransient<SettingsViewModel>();
-			services.AddSingleton<ProfileViewModel>();
 			services.AddSingleton<HomeFeedViewModel>();
 
 			NavigationService navigationService = new();

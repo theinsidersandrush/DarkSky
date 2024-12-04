@@ -21,23 +21,25 @@ namespace DarkSky.Core.Cursors
 	public class ProfileFeedCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
 	{
 		private string Filter;
-		private string PinnedPostCID;
-		public ProfileFeedCursorSource(ATProtoService atProtoService, string filter) : base(atProtoService)
+		private ProfileViewModel Profile;
+		public ProfileFeedCursorSource(ProfileViewModel profile, string filter) : base()
 		{
 			Filter = filter;
+			Profile = profile;
 		}
 
 		protected override async Task OnGetMoreItemsAsync(int limit = 50)
 		{
-			GetAuthorFeedOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetAuthorFeedAsync(atProtoService.Session.Handle, limit, Cursor, Filter, false)).AsT0;
+			GetAuthorFeedOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetAuthorFeedAsync(Profile.Handle, limit, Cursor, Filter, false)).AsT0;
 			Cursor = timeLine.Cursor;
-			if(Feed.Count == 0) // Add pinned post if it exists
-			{
 
-			}
+			if(Feed.Count == 0 && Profile.PinnedPost is not null) // Add pinned post first if it exists
+				Feed.Add(Profile.PinnedPost);
+
 			foreach (var item in timeLine.Feed)
 			{
-				if(item.Post.Cid != PinnedPostCID) // Ignore post if it was a pinned post
+				// Ignore pinned posts if there are any
+				if (Profile.PinnedPost is null || item.Post.Cid != Profile.PinnedPost.Cid)
 					Feed.Add(PostFactory.Create(item));
 			}
 		}

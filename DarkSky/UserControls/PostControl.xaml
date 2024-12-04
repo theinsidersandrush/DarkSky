@@ -25,12 +25,19 @@
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <StackPanel
-                x:Name="RepostContent" VerticalAlignment="Bottom" Spacing="4" Orientation="Horizontal" Padding="20, 0, 0, 0"
+                x:Name="RepostContent" VerticalAlignment="Center" Spacing="4" Orientation="Horizontal" Padding="32, 0, 0, 0"
                 x:Load="{x:Bind helpers:UIHelper.none(Post.RepostedBy), Mode=OneWay}"
                 Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                <icons:FluentSymbolIcon Margin="0,0,4,0" Opacity="0.7" Symbol="ArrowRepeatAll16" />
+                <icons:FluentSymbolIcon Margin="6,0,2,0" Opacity="0.7" Symbol="ArrowRepeatAll16" />
                 <TextBlock Opacity="0.7" Text="Reposted by " />
                 <TextBlock Opacity="0.7" Text="{x:Bind Post.RepostedBy, Mode=OneWay}" />
+            </StackPanel>
+            <StackPanel
+                  x:Name="PinnedContent" VerticalAlignment="Center" Spacing="4" Orientation="Horizontal" Padding="32, 0, 0, 0"
+                  x:Load="{x:Bind Post.IsPinned, Mode=OneWay}"
+                  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                <icons:FluentSymbolIcon Margin="0,0,2,0" Opacity="0.7" Symbol="Pin16" />
+                <TextBlock Opacity="0.7" Text="Pinned" />
             </StackPanel>
             <PersonPicture
                 Grid.Row="1" Grid.Column="0" Height="36" HorizontalAlignment="Left" VerticalAlignment="Top"

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
+using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon.App.Bsky.Actor;
 using FishyFlip.Lexicon.App.Bsky.Graph;
 using FishyFlip.Models;
@@ -17,7 +18,7 @@ namespace DarkSky.Core.ViewModels
 		private INavigationService navigationService;
 
 		[ObservableProperty]
-		private ProfileViewDetailed currentProfile;
+		private ProfileViewModel currentProfile;
 
 		public MainViewModel(ATProtoService atProtoService, INavigationService navigationService)
 		{
@@ -37,7 +38,7 @@ namespace DarkSky.Core.ViewModels
 			try
 			{
 				var profiles = await atProtoService.ATProtocolClient.Actor.GetProfileAsync(session.Did);
-				CurrentProfile = profiles.AsT0;
+				CurrentProfile = new ProfileViewModel(profiles.AsT0);
 
 		
 				// follow firecube.bsky.social so users can get app updates TEMPORARY

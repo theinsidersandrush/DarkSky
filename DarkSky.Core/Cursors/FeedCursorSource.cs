@@ -14,7 +14,7 @@ namespace DarkSky.Core.Cursors
 	public class FeedCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
 	{
 		private string FeedUri;
-		public FeedCursorSource(ATProtoService atProtoService, string feed) : base(atProtoService)
+		public FeedCursorSource(string feed) : base()
 		{
 			FeedUri = feed;
 		}

@@ -14,7 +14,7 @@ namespace DarkSky.Core.Cursors
 {
 	public class NotificationsCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
 	{
-		public NotificationsCursorSource(ATProtoService atProtoService) : base(atProtoService) { }
+		public NotificationsCursorSource() : base() { }
 
 		protected override async Task OnGetMoreItemsAsync(int limit = 50)
 		{

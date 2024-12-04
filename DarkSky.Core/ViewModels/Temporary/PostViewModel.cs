@@ -9,6 +9,7 @@ using FishyFlip.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,9 @@ namespace DarkSky.Core.ViewModels.Temporary
 		#region Built in properties
 
 		[ObservableProperty]
+		private string? cid;
+
+		[ObservableProperty]
 		private DateTime createdAt;
 
 		[ObservableProperty]
@@ -78,12 +82,11 @@ namespace DarkSky.Core.ViewModels.Temporary
 		private ATUri LikeUri;
 		private ATUri RepostUri;
 		private ATProtoService ATProtoService = ServiceContainer.Services.GetService<ATProtoService>();
-		/*
-		 * This could be moved to a Factory method?
-		 */
+
 		public PostViewModel(PostView post)
 		{
 			this.InternalPost = post;
+			this.Cid = post.Cid;
 			this.PostRecord = post.Record as Post;
 			this.Text = PostRecord.Text;
 			this.CreatedAt = post.IndexedAt ?? DateTime.Now;

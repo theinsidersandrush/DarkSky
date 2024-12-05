@@ -16,7 +16,8 @@ namespace DarkSky.Core.ViewModels
 {
 	public partial class NotificationsViewModel : ObservableObject
 	{
-		public ObservableCollection<FeedNavigationItem> Feeds = new();
+		[ObservableProperty]
+		private NotificationsCursorSource notificationsSource = new NotificationsCursorSource();
 
 		private ATProtoService atProtoService;
 		public NotificationsViewModel(ATProtoService atProtoService)

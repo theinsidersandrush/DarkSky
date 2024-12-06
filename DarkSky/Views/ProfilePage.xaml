@@ -11,7 +11,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:classes="using:DarkSky.Core.Classes" 
-    xmlns:helpers="using:DarkSky.Helpers" xmlns:controls="using:DarkSky.UserControls"
+    xmlns:helpers="using:DarkSky.Helpers" xmlns:usercontrols="using:DarkSky.UserControls" xmlns:controls="using:DarkSky.Controls"
     NavigationCacheMode="Enabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
@@ -21,8 +21,8 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <controls:FeedListView Grid.Row="2" FeedSource="{x:Bind Profile.SelectedProfileNavigationItem.FeedSource, Mode=OneWay}" HorizontalAlignment="Stretch">
-            <controls:FeedListView.Header>
+        <usercontrols:FeedListView Grid.Row="2" FeedSource="{x:Bind Profile.SelectedProfileNavigationItem.FeedSource, Mode=OneWay}" HorizontalAlignment="Stretch">
+            <usercontrols:FeedListView.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -48,7 +48,7 @@
                                     <TextBlock FontWeight="SemiBold" Text="{x:Bind Profile.PostsCount, Mode=OneWay}" />
                                     <TextBlock Opacity="0.7" Text="posts " />
                                 </StackPanel>
-                                <TextBlock Text="{x:Bind Profile.Description, Mode=OneWay}" TextWrapping="WrapWholeWords" />
+                                <controls:RichFacetTextBlock RichText="{x:Bind Profile.RichDescription, Mode=OneWay}" IsTextSelectionEnabled="True"/>
                             </StackPanel>
                         </StackPanel>
                         <PersonPicture
@@ -74,7 +74,7 @@
                         </muxc:NavigationView.MenuItemTemplate>
                     </muxc:NavigationView>
                 </Grid>
-            </controls:FeedListView.Header>
-        </controls:FeedListView>
+            </usercontrols:FeedListView.Header>
+        </usercontrols:FeedListView>
     </Grid>
 </Page>

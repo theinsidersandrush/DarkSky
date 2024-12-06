@@ -134,8 +134,7 @@ namespace DarkSky
 			if (args.InvokedItem is null) return;
 			if (args.InvokedItem.ToString() == "New Post")
 			{
-
-				//WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(1));
+				SecondaryPane.Visibility = Visibility.Visible;
 				SecondaryPane.Navigate(typeof(CreatePostPage));
 			}
 		}

@@ -38,7 +38,7 @@
         </Grid>
         <Grid Grid.Row="1" Padding="24">
             <StackPanel Spacing="12">
-                <controls:RichPostTextBox Height="300"/>
+                <controls:RichPostTextBox x:Name="PostTextBox" Height="300"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -76,7 +76,7 @@
                     <HyperlinkButton HorizontalAlignment="Center" Content="Send feedback in GitHub" NavigateUri="https://github.com/FireCubeStudios/DarkSky"/>
                     <HyperlinkButton HorizontalAlignment="Center" Content="Join the Discord" NavigateUri="https://discord.com/invite/3WYcKat"/>
                 </StackPanel>
-                <muxc:Expander
+                <muxc:Expander Visibility="Collapsed"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Background="{ThemeResource LayerFillColorDefaultBrush}">

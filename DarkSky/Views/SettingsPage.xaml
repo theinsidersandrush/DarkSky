@@ -13,16 +13,15 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
-    <Grid Padding="100, 50, 100, 100">
+    <Grid Padding="12">
         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Spacing="12">
             <StackPanel Orientation="Horizontal" Spacing="12" Margin="4, 4, 4, 12">
                 <TextBlock FontSize="24" FontWeight="SemiBold">DarkSky</TextBlock>
-                <TextBlock FontSize="20" FontWeight="SemiBold" Opacity="0.7" VerticalAlignment="Bottom">Preview Alpha</TextBlock>
+                <TextBlock FontSize="20" FontWeight="SemiBold" Opacity="0.7" VerticalAlignment="Bottom">Preview</TextBlock>
                 <TextBlock FontSize="20" FontWeight="SemiBold" Opacity="0.7" VerticalAlignment="Bottom">v0.3.7</TextBlock>
             </StackPanel>
             <TextBlock FontSize="14" FontWeight="SemiBold" Margin="4">Account</TextBlock>
-            <toolkit:SettingsCard
-                               Header="Logout of this account">
+            <toolkit:SettingsCard Header="Logout of this account">
                 <toolkit:SettingsCard.HeaderIcon>
                     <icons:FluentIconElement Symbol="SignOut24"/>
                 </toolkit:SettingsCard.HeaderIcon>

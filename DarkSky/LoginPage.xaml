@@ -8,7 +8,8 @@
     xmlns:local="using:DarkSky"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:materials="using:Cube.UI.Materials"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    xmlns:materials="using:Cube.UI.Materials"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
@@ -41,7 +42,7 @@
                     VerticalAlignment="Center"
                     Opacity="0.4"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="for Bluesky | INSIDER PREVIEW ALPHA" />
+                    Text="for Bluesky | PREVIEW" />
             </StackPanel>
         </Border>
         <muxc:InfoBar
@@ -62,16 +63,12 @@
                     <StackPanel Spacing="12" Grid.Column="2" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal" Spacing="12" Margin="4, 4, 4, 12">
                             <TextBlock FontSize="24" FontWeight="SemiBold">DarkSky</TextBlock>
-                            <TextBlock FontSize="20" FontWeight="SemiBold" Opacity="0.7" VerticalAlignment="Bottom">Preview Alpha</TextBlock>
+                            <TextBlock FontSize="20" FontWeight="SemiBold" Opacity="0.7" VerticalAlignment="Bottom">Preview</TextBlock>
                         </StackPanel>
                         <TextBlock
       HorizontalTextAlignment="Left" HorizontalAlignment="Left"
-      Text="The app is being built up rapidly. A lot of features are not yet implemented but are coming within the next few weeks!"
+      Text="Sign in with a BlueSky account using the handle/email and the password/App password"
       TextWrapping="WrapWholeWords" />
-                        <TextBlock
-HorizontalTextAlignment="Left" HorizontalAlignment="Left"
-Text="Login credentials are stored securely locally. Login requires a BlueSky account, 2FA is not supported yet, custom PDS is not supported yet"
-TextWrapping="WrapWholeWords" />
                         <HyperlinkButton HorizontalAlignment="Center" Content="Send feedback in GitHub" NavigateUri="https://github.com/FireCubeStudios/DarkSky"/>
                         <HyperlinkButton HorizontalAlignment="Center" Content="Join the Discord" NavigateUri="https://discord.com/invite/3WYcKat"/>
                         <TextBlock

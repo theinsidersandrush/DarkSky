@@ -54,9 +54,9 @@ Spacing="8">
     OffsetY="4"
     ShadowOpacity="0.4"
     Color="Black">
-                <TextBlock VerticalAlignment="Center" Text="300" />
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind LimitValueStr(PostText.Text), Mode=OneWay}" />
             </ToolkitControls:DropShadowPanel>
-            <muxc:ProgressRing IsIndeterminate="False" Value="60" />
+            <muxc:ProgressRing IsIndeterminate="False" Minimum="0" Value="{x:Bind LimitValue(PostText.Text), Mode=OneWay}" Maximum="300"/>
         </StackPanel>
     </Grid>
 </UserControl>

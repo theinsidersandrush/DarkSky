@@ -52,50 +52,6 @@ namespace DarkSky.UserControls
 
 		public async void SetPost(PostView post) 
 		{
-			if (post.Embed is not null)
-			{
-				if (post.Embed.Type == "app.bsky.embed.images#view")
-				{
-					EmbedContent.Visibility = Visibility.Visible;
-					Embeds.ImageEmbed embed = new();
-					embed.AddImages(post.Embed as ViewImages);
-					EmbedContent.Content = embed;
-				}
-				else if (post.Embed.Type == "app.bsky.embed.external#view")
-				{
-					EmbedContent.Visibility = Visibility.Visible;
-					Embeds.LinkEmbed embed = new();
-					embed.AddLink(post.Embed as ViewExternal);
-					EmbedContent.Content = embed;
-				}
-				else if (post.Embed.Type == "app.bsky.embed.record#view")
-				{
-					try
-					{
-						PostControl embed = new();
-						embed.Post = await PostFactory.Create(((ViewRecord)(post.Embed as ViewRecordDef).Record));
-						EmbedContent.Content = embed;
-						EmbedContent.Visibility = Visibility.Visible;
-					}
-					catch (Exception e)
-					{
-						WeakReferenceMessenger.Default.Send(new ErrorMessage(e));
-					}
-				}
-				else if (post.Embed.Type == "app.bsky.embed.recordWithMedia")
-				{
-					EmbedContent.Visibility = Visibility.Visible;
-					PostControl embed = new();
-					//embed.Post = (post.Embed as RecordWithMediaViewEmbed).Record.Post;
-					EmbedContent.Content = embed;
-				}
-				else
-				{
-					Debug.WriteLine(post.Embed.Type);
-					EmbedContent.Content = null;
-					EmbedContent.Visibility = Visibility.Collapsed;
-				}
-			}
 		}
 	}
 }

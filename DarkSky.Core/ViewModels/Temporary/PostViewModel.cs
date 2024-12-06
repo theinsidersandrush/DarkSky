@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DarkSky.Core.Classes;
 using DarkSky.Core.Services;
 using FishyFlip.Lexicon;
 using FishyFlip.Lexicon.App.Bsky.Feed;
@@ -78,6 +79,9 @@ namespace DarkSky.Core.ViewModels.Temporary
 		[ObservableProperty]
 		private bool canReply;
 
+		[ObservableProperty]
+		private RichText richText;
+
 		private Post PostRecord;
 		private ATUri LikeUri;
 		private ATUri RepostUri;
@@ -94,7 +98,7 @@ namespace DarkSky.Core.ViewModels.Temporary
 			this.ReplyCount = post.ReplyCount ?? 0;
 			this.QuoteCount = post.QuoteCount ?? 0;
 			this.RepostCount = post.RepostCount ?? 0;
-
+			this.richText = new RichText(this.text, this.PostRecord.Facets);
 			if (InternalPost.Viewer is not null)
 			{
 				IsLiked = post.Viewer.Like is not null; // Post is liked by current user

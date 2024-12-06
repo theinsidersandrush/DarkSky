@@ -62,7 +62,9 @@ namespace DarkSky.Views
 
 		private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
 		{
-			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(new SecondaryNavigation(typeof(ProfileViewModel), await ProfileFactory.Create(Post.InternalPost.Author))));
+			WeakReferenceMessenger.Default.Send(
+				new SecondaryNavigationMessage(
+					new SecondaryNavigation(typeof(ProfileViewModel), await ProfileFactory.Create(Post.InternalPost.Author))));
 		}
 	}
 }

@@ -76,7 +76,7 @@ TextWrapping="WrapWholeWords" />
                         <HyperlinkButton HorizontalAlignment="Center" Content="Join the Discord" NavigateUri="https://discord.com/invite/3WYcKat"/>
                         <TextBlock
 HorizontalTextAlignment="Left" HorizontalAlignment="Left"
-Text="v 0.2.1"
+Text="v 0.3.7"
 TextWrapping="WrapWholeWords" />
                     </StackPanel>
                 </Grid>

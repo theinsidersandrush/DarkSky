@@ -10,7 +10,7 @@
     xmlns:local="using:DarkSky.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:helpers="using:DarkSky.Helpers"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:helpers="using:DarkSky.Helpers" xmlns:embeds="using:DarkSky.UserControls.Embeds" xmlns:controls1="using:DarkSky.Controls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
 
@@ -56,14 +56,13 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <StackPanel Spacing="12">
-                            <TextBlock
-                                IsTextSelectionEnabled="True"
-                                FontSize="16"
-                                Text="{x:Bind Post.Text, Mode=OneWay}"
-                                TextWrapping="WrapWholeWords" />
-                            <Border CornerRadius="8">
-                                <Image x:Name="PostImage" Stretch="Fill" />
-                            </Border>
+                            <controls1:RichFacetTextBlock FontSize="16"
+                                RichText="{x:Bind Post.RichText, Mode=OneWay}"
+                                IsTextSelectionEnabled="True" />
+                            <embeds:EmbedControl x:Name="EmbedContent" IsPreview="False"
+                                x:Load="{x:Bind helpers:UIHelper.none(Post.InternalPost.Embed), Mode=OneWay}"
+                                Embed="{x:Bind Post.InternalPost.Embed, Mode=OneWay}"
+                                HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Row="1">

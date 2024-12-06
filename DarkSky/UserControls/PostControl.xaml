@@ -8,7 +8,7 @@
     xmlns:icons="using:Cube.UI.Icons"
     xmlns:local="using:DarkSky.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:controls="using:DarkSky.Controls"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -80,16 +80,12 @@
                         <TextBlock Opacity="0.7" Text="UNFINISHED" />
                     </StackPanel>
                 </Grid>
-                <TextBlock
-                    FontSize="16"
-                    Text="{x:Bind Post.Text, Mode=OneWay}"
-                    TextWrapping="WrapWholeWords" />
+                <controls:RichFacetTextBlock FontSize="16" RichText="{x:Bind Post.RichText, Mode=OneWay}"/>
             </StackPanel>
-            <ContentControl
-                x:Name="EmbedContent"
-                Grid.Row="2"
-                Grid.Column="1"
-                Margin="0,12,0,0"
+            <embeds:EmbedControl x:Name="EmbedContent" IsPreview="True"
+                x:Load="{x:Bind helpers:UIHelper.none(Post.InternalPost.Embed), Mode=OneWay}"
+                Embed="{x:Bind Post.InternalPost.Embed, Mode=OneWay}"
+                Grid.Row="2" Grid.Column="1" Margin="0,12,0,0"
                 HorizontalAlignment="Center"
                 CornerRadius="8" />
             <Grid

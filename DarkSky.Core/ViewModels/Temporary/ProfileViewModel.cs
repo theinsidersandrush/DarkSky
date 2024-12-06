@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 
 namespace DarkSky.Core.ViewModels.Temporary
@@ -71,7 +72,6 @@ namespace DarkSky.Core.ViewModels.Temporary
 			this.FollowersCount = profileView.FollowersCount ?? 0;
 			this.FollowsCount = profileView.FollowsCount ?? 0;
 			this.PostsCount = profileView.PostsCount ?? 0;
-
 			ProfileNavigationItems.Add(new FeedNavigationItem("Posts", new ProfileFeedCursorSource(this, "posts_no_replies")));
 			ProfileNavigationItems.Add(new FeedNavigationItem("Replies", new ProfileFeedCursorSource(this, "posts_with_replies")));
 			ProfileNavigationItems.Add(new FeedNavigationItem("Media", new ProfileFeedCursorSource(this, "posts_with_media")));

@@ -84,7 +84,7 @@
             </StackPanel>
             <embeds:EmbedControl x:Name="EmbedContent"
                 x:Load="{x:Bind helpers:UIHelper.none(Post.InternalPost.Embed), Mode=OneWay}"
-                Embed="{x:Bind Post.InternalPost.Embed, Mode=OneWay}"
+                Post="{x:Bind Post, Mode=OneWay}"
                 Grid.Row="2" Grid.Column="1" Margin="0,12,0,0"
                 HorizontalAlignment="Center"
                 CornerRadius="8" />

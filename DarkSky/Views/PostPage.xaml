@@ -61,7 +61,7 @@
                                 IsTextSelectionEnabled="True" />
                             <embeds:EmbedControl x:Name="EmbedContent"
                                 x:Load="{x:Bind helpers:UIHelper.none(Post.InternalPost.Embed), Mode=OneWay}"
-                                Embed="{x:Bind Post.InternalPost.Embed, Mode=OneWay}"
+                                Post="{x:Bind Post, Mode=OneWay}"
                                 HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Grid>

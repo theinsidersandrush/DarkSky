@@ -109,13 +109,17 @@ namespace DarkSky
 			}
 			else if (sender.SelectedItem == AppNavigation.MenuItems[2])
 			{
-				PrimaryPane.Navigate(typeof(ChatPage));
+				PrimaryPane.Navigate(typeof(SearchPage));
 			}
 			else if (sender.SelectedItem == AppNavigation.MenuItems[3])
 			{
-				PrimaryPane.Navigate(typeof(FeedsPage));
+				PrimaryPane.Navigate(typeof(ChatPage));
 			}
 			else if (sender.SelectedItem == AppNavigation.MenuItems[4])
+			{
+				PrimaryPane.Navigate(typeof(FeedsPage));
+			}
+			else if (sender.SelectedItem == AppNavigation.MenuItems[5])
 			{
 				PrimaryPane.Navigate(typeof(ListsPage));
 			}

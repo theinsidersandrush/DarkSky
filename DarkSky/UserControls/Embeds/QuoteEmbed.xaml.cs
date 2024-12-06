@@ -41,6 +41,12 @@ namespace DarkSky.UserControls.Embeds
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			if (Post is null) return;
+			/*
+			 * Since we ae opening the post in a new pageit is no longer "quoted" 
+			 * So we can reset it's quote depth index to 0
+			 * This way it can render new quotes if it quotes any other posts
+			 */
+			Post.QuoteDepthIndex = 0;
 			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(
 				new SecondaryNavigation(typeof(PostViewModel), Post)));
 		}

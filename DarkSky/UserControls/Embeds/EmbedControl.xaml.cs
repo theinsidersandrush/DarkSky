@@ -14,22 +14,23 @@ using static System.Net.Mime.MediaTypeNames;
 using FishyFlip.Lexicon.Tools.Ozone.Team;
 using Application = Windows.UI.Xaml.Application;
 using System.Threading.Tasks;
+using DarkSky.Core.ViewModels.Temporary;
 
 namespace DarkSky.UserControls.Embeds
 {
 	public sealed partial class EmbedControl : UserControl
 	{
-		public ATObject Embed
+		public PostViewModel Post
 		{
-			get => (ATObject)GetValue(EmbedProperty);
+			get => (PostViewModel)GetValue(PostProperty);
 			set 
 			{
-				SetValue(EmbedProperty, value);
-				SetEmbed(value);
+				SetValue(PostProperty, value);
+				SetEmbed(value.InternalPost.Embed);
 			}
 		}
 
-		public static readonly DependencyProperty EmbedProperty = DependencyProperty.Register(nameof(Embed), typeof(ATObject), typeof(EmbedControl), new PropertyMetadata(null));
+		public static readonly DependencyProperty PostProperty = DependencyProperty.Register(nameof(Post), typeof(PostViewModel), typeof(EmbedControl), new PropertyMetadata(null));
 
 		public EmbedControl()
 		{
@@ -89,8 +90,21 @@ namespace DarkSky.UserControls.Embeds
 		{
 			try
 			{
+				/*
+				 * Quote posts render recursively, to prevent this we keep a track of the quote depth
+				 * If the Quote depth is more than a certain number we stop rendering
+				 */
+				if (Post.QuoteDepthIndex > 1) return; 
+
+
 				QuoteEmbed quote = new();
-				quote.setpost(await PostFactory.CreateAsync(((ViewRecord)(embed as ViewRecordDef).Record)));
+				var quotedPost = await PostFactory.CreateAsync(((ViewRecord)(embed as ViewRecordDef).Record));
+
+				// For recursive quote post rendering set the quote depth
+				// Set the post being quoted depth index as += 1 of the post quotin git
+				quotedPost.QuoteDepthIndex = Post.QuoteDepthIndex + 1;
+
+				quote.setpost(quotedPost);
 				Container.Children.Add(quote);
 			}
 			catch (Exception ex)

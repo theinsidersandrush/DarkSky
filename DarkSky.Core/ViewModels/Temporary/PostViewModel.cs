@@ -79,6 +79,18 @@ namespace DarkSky.Core.ViewModels.Temporary
 		[ObservableProperty]
 		private bool canReply;
 
+		/*
+		 * Currently quote posts render recursively, this causes a crash in a quote chain
+		 * We use this property to track the depth of a quote post to prevent further loading of quotes
+		 * If a PostViewModel is being quoted by another Post we increase this value by 1
+		 * For example in a Feed list a post may be quoted, the post being quoted will have an index +1
+		 * The default value is 0 as we assume most posts arent being quoted
+		 * We can add logic to stop quote rendering if the quoteIndex is above a threshold
+		 * QuoteEmbed and EmbedControl currently have the logic handling this
+		 */
+		[ObservableProperty]
+		private int quoteDepthIndex = 0;
+
 		[ObservableProperty]
 		private RichText richText;
 

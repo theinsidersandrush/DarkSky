@@ -40,19 +40,11 @@ namespace DarkSky.Views
 			this.InitializeComponent();
 		}
 
-		protected override void OnNavigatedTo(NavigationEventArgs e)
+		protected async override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
 			Post = e.Parameter as PostViewModel;
-			SetPost(Post.InternalPost);
-		}
-
-		public void SetPost(PostView post)
-		{
-			if (post.Embed is null) return;
-			if (post.Embed.Type == "app.bsky.embed.images#view")
-			{
-			}
+			//await Post.GetThreadAsync();
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -62,7 +54,9 @@ namespace DarkSky.Views
 
 		private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
 		{
-			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(new SecondaryNavigation(typeof(ProfileViewModel), await ProfileFactory.Create(Post.InternalPost.Author))));
+			WeakReferenceMessenger.Default.Send(
+				new SecondaryNavigationMessage(
+					new SecondaryNavigation(typeof(ProfileViewModel), await ProfileFactory.Create(Post.InternalPost.Author))));
 		}
 	}
 }

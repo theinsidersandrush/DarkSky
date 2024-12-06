@@ -31,10 +31,10 @@ namespace DarkSky.Core.Factories
 			return ViewModel;
 		}
 
-		public async static Task<PostViewModel> Create(ViewRecord viewRecord)
-			=> await PostFactory.Create(viewRecord.Uri);
+		public async static Task<PostViewModel> CreateAsync(ViewRecord viewRecord)
+			=> await PostFactory.CreateAsync(viewRecord.Uri);
 
-		public async static Task<PostViewModel> Create(ATUri Uri)
+		public async static Task<PostViewModel> CreateAsync(ATUri Uri)
 		{
 			var proto = ServiceContainer.Services.GetService<ATProtoService>().ATProtocolClient;
 			var result = await proto.GetPostsAsync(new List<ATUri> { Uri });

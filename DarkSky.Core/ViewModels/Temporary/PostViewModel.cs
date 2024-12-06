@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DarkSky.Core.Classes;
 using DarkSky.Core.Services;
 using FishyFlip.Lexicon;
 using FishyFlip.Lexicon.App.Bsky.Feed;
@@ -78,7 +79,11 @@ namespace DarkSky.Core.ViewModels.Temporary
 		[ObservableProperty]
 		private bool canReply;
 
+		[ObservableProperty]
+		private RichText richText;
+
 		private Post PostRecord;
+		private ATUri PostUri;
 		private ATUri LikeUri;
 		private ATUri RepostUri;
 		private ATProtoService ATProtoService = ServiceContainer.Services.GetService<ATProtoService>();
@@ -88,22 +93,34 @@ namespace DarkSky.Core.ViewModels.Temporary
 			this.InternalPost = post;
 			this.Cid = post.Cid;
 			this.PostRecord = post.Record as Post;
-			this.Text = PostRecord.Text;
+			this.Text = PostRecord.Text ?? "";
 			this.CreatedAt = post.IndexedAt ?? DateTime.Now;
 			this.LikeCount = post.LikeCount ?? 0;
 			this.ReplyCount = post.ReplyCount ?? 0;
 			this.QuoteCount = post.QuoteCount ?? 0;
 			this.RepostCount = post.RepostCount ?? 0;
-
-			if (InternalPost.Viewer is not null)
+			this.PostUri = post.Uri;
+			this.richText = new RichText(this.text, this.PostRecord.Facets);
+			if (post.Viewer is not null)
 			{
 				IsLiked = post.Viewer.Like is not null; // Post is liked by current user
 				IsReposted = post.Viewer.Repost is not null; // Post is reposted by current user
 				IsPinned = post.Viewer.Pinned ?? false;
 				CanReply = !post.Viewer.ReplyDisabled ?? true;
-				LikeUri = InternalPost.Viewer.Like;
-				RepostUri = InternalPost.Viewer.Repost;
+				LikeUri = post.Viewer.Like;
+				RepostUri = post.Viewer.Repost;
 			}
+		}
+
+		[RelayCommand]
+		public async Task<ThreadViewPost> GetThreadAsync()
+		{
+			var result = await ATProtoService.ATProtocolClient.Feed.GetPostThreadAsync(PostUri);
+			if(result.IsT0)
+			{
+				return result.AsT0.Thread as ThreadViewPost;
+			}
+			throw new Exception();
 		}
 
 		[RelayCommand]

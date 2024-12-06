@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using FishyFlip.Lexicon.App.Bsky.Embed;
+using CommunityToolkit.Mvvm.Messaging;
+using DarkSky.Core.Factories;
+using DarkSky.Core.Messages;
+using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
@@ -8,14 +11,12 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -23,30 +24,25 @@ using Windows.UI.Xaml.Navigation;
 namespace DarkSky.UserControls.Embeds
 {
 	[INotifyPropertyChanged]
-	public sealed partial class LinkEmbed : UserControl
+	public sealed partial class QuoteEmbed : UserControl
 	{
 		[ObservableProperty]
-		private ViewExternalExternal embed;
-		public LinkEmbed()
+		private PostViewModel post;
+		public QuoteEmbed()
 		{
 			this.InitializeComponent();
 		}
 
-		public void AddLink(ViewExternal EmbedView)
+		public void setpost(PostViewModel post)
 		{
-			this.Embed = EmbedView.External;
-			Title.Text = String.IsNullOrEmpty(Embed.Title) ? Embed.Uri : Embed.Title;
-
-			if (!String.IsNullOrEmpty(Embed.Thumb))
-			{
-				EmbedImage.Visibility = Visibility.Visible;
-				EmbedImage.Source = new BitmapImage(new Uri(Embed.Thumb));
-			}
+			Post = post;
 		}
 
-		private async void Button_Click(object sender, RoutedEventArgs e)
+		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			await Launcher.LaunchUriAsync(new Uri(embed.Uri));
+			if (Post is null) return;
+			WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(
+				new SecondaryNavigation(typeof(PostViewModel), Post)));
 		}
-    }
+	}
 }

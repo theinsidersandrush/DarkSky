@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DarkSky.Core.Cursors
 {
-	public class NotificationsCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
+	public class NotificationsCursorSource : AbstractCursorSource<Notification>
 	{
 		public NotificationsCursorSource() : base() { }
 
@@ -22,6 +22,7 @@ namespace DarkSky.Core.Cursors
 			Cursor = notifications.Cursor;
 			foreach (var item in notifications.Notifications)
 			{
+				Feed.Add(item);
 			}
 		}
 	}

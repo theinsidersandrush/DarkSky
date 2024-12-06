@@ -9,7 +9,7 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
 
-    <Grid BorderBrush="{ThemeResource MicaBorderBrush}" Background="{ThemeResource MicaDarkerBrush}" BorderThickness="1" CornerRadius="8">
+    <Button Click="Button_Click" Padding="0" Style="{ThemeResource CardButton}" BorderBrush="{ThemeResource MicaBorderBrush}" Background="{ThemeResource MicaDarkerBrush}" BorderThickness="1" CornerRadius="8">
        <Grid Background="{ThemeResource MicaBlurBrush}" Padding="12">
             <StackPanel Spacing="4">
                 <Border CornerRadius="8" MaxHeight="300" Margin="8">
@@ -18,8 +18,8 @@
                 <TextBlock x:Name="Title" FontWeight="SemiBold" TextWrapping="WrapWholeWords"/>
                 <TextBlock Text="{x:Bind Embed.Description, Mode=OneWay}" TextWrapping="WrapWholeWords"/>
                 <MenuFlyoutSeparator/>
-                <TextBlock Text="{x:Bind Embed.Uri, Mode=OneWay}" FontSize="12" Opacity="0.7"/>
+                <TextBlock Text="{x:Bind Embed.Uri, Mode=OneWay}" FontSize="12" Opacity="0.7" TextTrimming="CharacterEllipsis"/>
             </StackPanel>
         </Grid>
-    </Grid>
+    </Button>
 </UserControl>

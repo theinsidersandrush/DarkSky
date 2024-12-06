@@ -1,5 +1,4 @@
-﻿using FishyFlip.Lexicon.App.Bsky.Embed;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,25 +11,17 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace DarkSky.UserControls.Embeds
+namespace DarkSky.UserControls
 {
-	public sealed partial class ImageEmbed : UserControl
+	public sealed partial class PostThreadView : UserControl
 	{
-		private List<ViewImage> Images = new();
-		public ImageEmbed()
+		public PostThreadView()
 		{
 			this.InitializeComponent();
-		}
-
-		public void AddImages(ViewImages embed)
-		{
-			foreach (ViewImage imageView in embed.Images)
-				Images.Add(imageView);
 		}
 	}
 }

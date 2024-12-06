@@ -4,11 +4,14 @@ using DarkSky.Core.Cursors;
 using DarkSky.Core.Factories;
 using DarkSky.Core.Services;
 using FishyFlip.Lexicon.App.Bsky.Actor;
+using FishyFlip.Lexicon.App.Bsky.Richtext;
 using FishyFlip.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace DarkSky.Core.ViewModels.Temporary
@@ -52,6 +55,14 @@ namespace DarkSky.Core.ViewModels.Temporary
 		[ObservableProperty]
 		private ProfileViewDetailed profile;
 
+		/* 
+		 * Descriptions support Facets however the API only returns a plain string
+		 * We need to manually parse the facets from the Description string
+		 * We do this in the constructor with FishyFlip Facet.Parse method
+		 */
+		[ObservableProperty]
+		private RichText richDescription;
+
 		#region Feeds
 		public ObservableCollection<FeedNavigationItem> ProfileNavigationItems = new();
 
@@ -67,15 +78,18 @@ namespace DarkSky.Core.ViewModels.Temporary
 			this.DisplayName = profileView.DisplayName ?? profileView.Handle.ToString();
 			this.Avatar = profileView.Avatar;
 			this.Banner = profileView.Banner;
-			this.Description = profileView.Description;
+			this.Description = profileView.Description ?? "";
 			this.FollowersCount = profileView.FollowersCount ?? 0;
 			this.FollowsCount = profileView.FollowsCount ?? 0;
 			this.PostsCount = profileView.PostsCount ?? 0;
-
 			ProfileNavigationItems.Add(new FeedNavigationItem("Posts", new ProfileFeedCursorSource(this, "posts_no_replies")));
 			ProfileNavigationItems.Add(new FeedNavigationItem("Replies", new ProfileFeedCursorSource(this, "posts_with_replies")));
 			ProfileNavigationItems.Add(new FeedNavigationItem("Media", new ProfileFeedCursorSource(this, "posts_with_media")));
 			SelectedProfileNavigationItem = ProfileNavigationItems[0];
+
+			// Profile Descriptions supports Facets but the API does not return them
+			// To fix this we manually parse the Facets using FishyFlip Facet.Parse method
+			RichDescription = new RichText(Description, Facet.Parse(Description, new ProfileViewBasic[0]).ToList());
 
 			Setup();
 		}
@@ -84,7 +98,7 @@ namespace DarkSky.Core.ViewModels.Temporary
 		{
 			if (Profile.PinnedPost is not null)
 			{
-				this.PinnedPost = await PostFactory.Create(Profile.PinnedPost.Uri);
+				this.PinnedPost = await PostFactory.CreateAsync(Profile.PinnedPost.Uri);
 				this.PinnedPost.IsPinned = true;
 			}
 		}

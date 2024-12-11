@@ -83,9 +83,9 @@ namespace DarkSky.Core.ViewModels.Temporary
 			this.FollowsCount = profileView.FollowsCount ?? 0;
 			this.PostsCount = profileView.PostsCount ?? 0;
 			ProfileNavigationItems.Add(new FeedNavigationItem("Posts", new ProfileFeedCursorSource(this, "posts_no_replies")));
+			SelectedProfileNavigationItem = ProfileNavigationItems[0];
 			ProfileNavigationItems.Add(new FeedNavigationItem("Replies", new ProfileFeedCursorSource(this, "posts_with_replies")));
 			ProfileNavigationItems.Add(new FeedNavigationItem("Media", new ProfileFeedCursorSource(this, "posts_with_media")));
-			SelectedProfileNavigationItem = ProfileNavigationItems[0];
 
 			// Profile Descriptions supports Facets but the API does not return them
 			// To fix this we manually parse the Facets using FishyFlip Facet.Parse method

@@ -46,7 +46,6 @@ namespace DarkSky.Core.ViewModels
 				var preferences = x.AsT0;
 				foreach (var p in preferences.Preferences)
 				{
-					Debug.WriteLine(p.Type);
 					if (p.Type == "app.bsky.actor.defs#savedFeedsPrefV2")
 					{
 						SavedFeedsPrefV2 feeds = p as SavedFeedsPrefV2;
@@ -60,10 +59,12 @@ namespace DarkSky.Core.ViewModels
 
 							if (item.TypeValue == "timeline")
 								Feeds.Add(new FeedNavigationItem("Following", new TimelineFeedCursorSource()));
+
+							if (SelectedFeed is null) // percieved faster performance
+								SelectedFeed = Feeds[0];
 						}
 					}
 				}
-				SelectedFeed = Feeds[0];
 			}
 			catch (Exception e)
 			{

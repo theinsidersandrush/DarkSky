@@ -143,6 +143,11 @@ namespace DarkSky.Controls
 						int linkStartIndex = startIndex - currentIndex;
 						int linkEndIndex = Math.Min(endIndex - currentIndex, run.Text.Length);
 
+						if(linkStartIndex < 0) // error handling
+						{
+							Debug.WriteLine(RichText.Text);
+							return;
+						}
 						// Split the current Run into three parts
 						string beforeLink = run.Text.Substring(0, linkStartIndex);
 						string linkText = run.Text.Substring(linkStartIndex, linkEndIndex - linkStartIndex);

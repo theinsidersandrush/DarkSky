@@ -12,7 +12,7 @@
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:classes="using:DarkSky.Core.Classes" 
     xmlns:helpers="using:DarkSky.Helpers" xmlns:usercontrols="using:DarkSky.UserControls" xmlns:controls="using:DarkSky.Controls"
-    NavigationCacheMode="Enabled"
+    NavigationCacheMode="Disabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
     <Grid>

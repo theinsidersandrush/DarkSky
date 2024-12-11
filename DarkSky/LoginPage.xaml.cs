@@ -53,10 +53,10 @@ namespace DarkSky
 			LoginBar.Visibility = Visibility.Visible;
 			ATProtoService proto = new();
 			CredentialService credentialService = new CredentialService();
-			await proto.LoginAsync(UsernameBox.Text, PasswordBox.Text);
+			await proto.LoginAsync(UsernameBox.Text, PasswordBox.Password);
 			if (proto.Session is not null)
 			{
-				credentialService.SaveCredential(new Credential(proto.Session.Handle.Handle, PasswordBox.Text, proto.Session.RefreshJwt));
+				credentialService.SaveCredential(new Credential(proto.Session.Handle.Handle, PasswordBox.Password, proto.Session.RefreshJwt));
 
 				App.Current.Services = ServiceContainer.Services = App.ConfigureServices();
 

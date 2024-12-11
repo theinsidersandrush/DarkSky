@@ -80,7 +80,7 @@ TextWrapping="WrapWholeWords" />
                 <AppBarSeparator Grid.Column="1"/>
                 <StackPanel Spacing="12" Grid.Column="2" VerticalAlignment="Center" Padding="12">
                     <TextBox x:Name="UsernameBox" Header="Handle" PlaceholderText="example.bsky.social"/>
-                    <TextBox x:Name="PasswordBox" Header="Password" PlaceholderText="Your app password or password"/>
+                    <PasswordBox x:Name="PasswordBox" Header="Password" PlaceholderText="Your app password or password"/>
                     <Button Click="Button_Click">Login</Button>
                     <muxc:ProgressBar IsIndeterminate="True" x:Name="LoginBar" Visibility="Collapsed"/>
                 </StackPanel>

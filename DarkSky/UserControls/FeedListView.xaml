@@ -28,6 +28,7 @@
                         </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <!-- disable virtualisation to fix caching bug, BIG HIT ON PERFORMANCE-->
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel />

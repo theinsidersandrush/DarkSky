@@ -44,7 +44,7 @@
                     Text="Insider"/>
             </StackPanel>
         </Border>
-        <AutoSuggestBox
+        <AutoSuggestBox Visibility="Collapsed"
             Width="384"
             Height="32"
             Margin="0,8,0,0"
@@ -106,17 +106,17 @@
                         <icons:FluentIconElement Symbol="Search24" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Chat">
+                <muxc:NavigationViewItem Content="Chat" Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <icons:FluentIconElement Symbol="Chat24" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Feeds">
+                <muxc:NavigationViewItem Content="Feeds" Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <icons:FluentIconElement Symbol="BroadActivityFeed24" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Lists">
+                <muxc:NavigationViewItem Content="Lists" Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <icons:FluentIconElement Symbol="List24" />
                     </muxc:NavigationViewItem.Icon>

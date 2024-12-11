@@ -67,13 +67,17 @@
                         </StackPanel>
                         <TextBlock
       HorizontalTextAlignment="Left" HorizontalAlignment="Left"
-      Text="Sign in with a BlueSky account using the handle/email and the password/App password"
+      Text="Sign in with a BlueSky account using the handle/email and the password/App password."
       TextWrapping="WrapWholeWords" />
+                        <TextBlock
+HorizontalTextAlignment="Left" HorizontalAlignment="Left"
+Text="This app is in a public beta and we need your help to make it better! Please report any issues you encounter to GitHub"
+TextWrapping="WrapWholeWords" />
                         <HyperlinkButton HorizontalAlignment="Center" Content="Send feedback in GitHub" NavigateUri="https://github.com/FireCubeStudios/DarkSky"/>
                         <HyperlinkButton HorizontalAlignment="Center" Content="Join the Discord" NavigateUri="https://discord.com/invite/3WYcKat"/>
                         <TextBlock
 HorizontalTextAlignment="Left" HorizontalAlignment="Left"
-Text="v 0.3.7"
+Text="v 0.3.8"
 TextWrapping="WrapWholeWords" />
                     </StackPanel>
                 </Grid>

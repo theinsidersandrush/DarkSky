@@ -20,7 +20,7 @@ namespace DarkSky.Core.Cursors
 		// Prevent duplicates loading with replies and posts
 		private HashSet<string> postID = new HashSet<string>();
 
-		protected override async Task OnGetMoreItemsAsync(int limit = 5)
+		protected override async Task OnGetMoreItemsAsync(int limit = 20)
 		{
 			GetTimelineOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetTimelineAsync(limit: limit, cursor: Cursor)).AsT0;
 			Cursor = timeLine.Cursor;

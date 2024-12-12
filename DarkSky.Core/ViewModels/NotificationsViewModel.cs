@@ -28,8 +28,8 @@ namespace DarkSky.Core.ViewModels
 				Setup(m.Value);
 			});
 
-			if (atProtoService.Session is not null)
-				Setup(atProtoService.Session);
+			if (atProtoService.ATProtocolClient.Session is not null)
+				Setup(atProtoService.ATProtocolClient.Session);
 		}
 
 		private async void Setup(Session session)

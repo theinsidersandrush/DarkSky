@@ -35,9 +35,9 @@ namespace DarkSky.Core.ViewModels
 		private async Task login()
 		{
 			await atProtoService.LoginAsync(UserName, Password);
-			if (atProtoService.Session is not null)
+			if (atProtoService.ATProtocolClient.Session is not null)
 			{
-				credentialService.SaveCredential(new Credential(atProtoService.Session.Handle.Handle, Password, atProtoService.Session.RefreshJwt));
+				credentialService.SaveCredential(new Credential(atProtoService.ATProtocolClient.Session.Handle.Handle, Password, atProtoService.ATProtocolClient.Session.RefreshJwt));
 				navigationService.NavigateTo<MainViewModel>();
 			}
 		}

@@ -30,7 +30,7 @@ namespace DarkSky.Core.Cursors
 		protected string Cursor = "";
 		protected ATProtoService atProtoService = ServiceContainer.Services.GetService<ATProtoService>();
 
-		public virtual async Task GetMoreItemsAsync(int limit = 50)
+		public virtual async Task GetMoreItemsAsync(int limit = 20)
 		{
 			try
 			{
@@ -48,7 +48,7 @@ namespace DarkSky.Core.Cursors
 			}
 		}
 
-		protected abstract Task OnGetMoreItemsAsync(int limit = 50);
+		protected abstract Task OnGetMoreItemsAsync(int limit = 20);
 
 		public async Task RefreshAsync()
 		{

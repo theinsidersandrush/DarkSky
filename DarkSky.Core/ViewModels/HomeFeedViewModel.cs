@@ -30,8 +30,8 @@ namespace DarkSky.Core.ViewModels
 				Setup(m.Value);
 			});
 
-			if (atProtoService.Session is not null)
-				Setup(atProtoService.Session);
+			if (atProtoService.ATProtocolClient.Session is not null)
+				Setup(atProtoService.ATProtocolClient.Session);
 		}
 
 		// todo fix
@@ -41,7 +41,6 @@ namespace DarkSky.Core.ViewModels
 			{
 				SelectedFeed = null;
 				Feeds.Clear();
-				atProtoService.Session = session;
 				var x = await atProtoService.ATProtocolClient.Actor.GetPreferencesAsync();
 				var preferences = x.AsT0;
 				foreach (var p in preferences.Preferences)

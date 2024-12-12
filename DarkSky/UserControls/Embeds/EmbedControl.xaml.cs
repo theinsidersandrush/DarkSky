@@ -101,11 +101,13 @@ namespace DarkSky.UserControls.Embeds
 				 * Quote posts render recursively, to prevent this we keep a track of the quote depth
 				 * If the Quote depth is more than a certain number we stop rendering
 				 */
-				if (Post.QuoteDepthIndex > 1) return; 
+				if (Post.QuoteDepthIndex > 1) return;
 
 
+				var e = (embed as ViewRecordDef);
+				if (e.Record is not ViewRecord) return;
 				QuoteEmbed quote = new();
-				var quotedPost = await PostFactory.CreateAsync(((ViewRecord)(embed as ViewRecordDef).Record));
+				var quotedPost = await PostFactory.CreateAsync(((ViewRecord)e.Record));
 
 				// For recursive quote post rendering set the quote depth
 				// Set the post being quoted depth index as += 1 of the post quotin git

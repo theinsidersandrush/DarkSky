@@ -10,13 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace DarkSky.Core.ViewModels.Temporary
 {
-	public partial class ProfileViewModel : ObservableObject
+	public partial class ProfileViewModel : ObservableObject, INotifyPropertyChanged
 	{
 		[ObservableProperty]
 		private ATHandle? handle;

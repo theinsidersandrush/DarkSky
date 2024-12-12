@@ -63,6 +63,7 @@ namespace DarkSky
 		/// </summary>
 		public IServiceProvider Services { get; set; }
 
+		private CredentialService CredentialService = new CredentialService();
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
@@ -70,6 +71,13 @@ namespace DarkSky
 		public App()
         {
 			this.InitializeComponent();
+			if (CredentialService.Count() != 0)
+			{
+				App.Current.Services = ServiceContainer.Services = ConfigureServices();
+				Credential credentials = CredentialService.GetCredential();
+				ATProtoService proto = Services.GetService<ATProtoService>();
+				_ = proto.LoginAsync(credentials.username, credentials.password);
+			}
 			this.Suspending += OnSuspending;
 			UnhandledException += OnUnhandledException;
 			TaskScheduler.UnobservedTaskException += OnUnobservedException;
@@ -103,19 +111,15 @@ namespace DarkSky
 
             if (e.PrelaunchActivated == false)
             {
+				Windows.ApplicationModel.Core.CoreApplication.EnablePrelaunch(true);
 				if (rootFrame.Content == null)
 				{
-					CredentialService credentialService = new CredentialService();
-					if (credentialService.Count() == 0)
+					if (CredentialService.Count() == 0)
 					{
 						rootFrame.Navigate(typeof(LoginPage), e.Arguments);
 					}
 					else // login, initialise DI, go to mainpage
 					{
-						App.Current.Services = ServiceContainer.Services = ConfigureServices();
-						Credential credentials = credentialService.GetCredential();
-						ATProtoService proto = Services.GetService<ATProtoService>();
-						await proto.LoginAsync(credentials.username, credentials.password);
 						rootFrame.Navigate(typeof(MainPage), e.Arguments);
 					}
 				}

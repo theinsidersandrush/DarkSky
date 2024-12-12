@@ -19,8 +19,7 @@ namespace DarkSky.Core.Services
 	public partial class ATProtoService : ObservableObject
 	{
 		//  .WithInstanceUrl(new Uri(Host)) for PDS https://bsky.social";
-		public ATProtocol ATProtocolClient;
-		public Session Session { get; set; }
+		public ATProtocol ATProtocolClient = new ATProtocolBuilder().EnableAutoRenewSession(true).Build();
 
 		public async Task LoginAsync(string username, string password)
 		{
@@ -28,7 +27,7 @@ namespace DarkSky.Core.Services
 			{
 				ATProtocolClient = new ATProtocolBuilder().EnableAutoRenewSession(true).Build();
 				// We use CreateSessionAsync to get error message if login fails to display to the user
-				var result = await ATProtocolClient.CreateSessionAsync(username, password);
+				var result = await ATProtocolClient.AuthenticateWithPasswordResultAsync(username, password);
 				if (result.IsT0 && result.AsT0 is not null)
 				{
 					// code for refresh token
@@ -36,10 +35,7 @@ namespace DarkSky.Core.Services
 					var authSession = new AuthSession(session2);
 					Session session3 = await ATProtocolClient.AuthenticateWithPasswordSessionAsync(authSession);*/
 
-					// Authenticate the library with the session details
-					var a = new AuthSession(new Session(result.AsT0.Did, result.AsT0.DidDoc, result.AsT0.Handle, result.AsT0.Email, result.AsT0.AccessJwt, result.AsT0.RefreshJwt));
-					Session = await ATProtocolClient.AuthenticateWithPasswordSessionAsync(a) ?? throw new Exception("AuthenticateWithPasswordSessionAsync failed, please report this to GitHub");
-					WeakReferenceMessenger.Default.Send(new AuthenticationSessionMessage(Session));
+					WeakReferenceMessenger.Default.Send(new AuthenticationSessionMessage(ATProtocolClient.Session));
 				}
 				else
 				{

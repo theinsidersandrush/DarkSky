@@ -25,29 +25,25 @@ using Windows.UI.Xaml.Navigation;
 using DarkSky.Core.ViewModels.Temporary;
 using Microsoft.UI.Xaml.Controls;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Diagnostics;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace DarkSky
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+	/// <summary>
+	/// An empty page that can be used on its own or navigated to within a Frame.
+	/// </summary>
+	[INotifyPropertyChanged]
     public sealed partial class MainPage : Page
 	{
-		private MainViewModel ViewModel = App.Current.Services.GetService<MainViewModel>();
+		[ObservableProperty]
+		private MainViewModel viewModel;
 		private readonly Dictionary<Type, Type> viewModelsToViews = new();
 		public MainPage()
 		{
 			this.InitializeComponent();
-            WindowService.Initialize(AppTitleBar, AppTitle);
-            AppNavigation.SelectedItem = AppNavigation.MenuItems[0];
-			Bindings.Update();
-
-			// fix weird titlebar bug
-			AppTitleBar.Height = 50;
-			AppTitleBar.Height = 48;
-
 			/*
 			 * Navigate the secondary page
 			 * The SecondaryNavigationMessage contains a "ViewModel" Type and a "payload" object
@@ -76,12 +72,28 @@ namespace DarkSky
 
 			WeakReferenceMessenger.Default.Register<ErrorMessage>(this, async (r, m) =>
 			{
-				Errorbar.IsOpen = true;
-				Errorbar.Title = m.Value.Message;
-				Errorbar.Content = m.Value.StackTrace;
-				await Task.Delay(5000);
-				Errorbar.IsOpen = false;
+				await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async() =>
+				{
+					Errorbar.IsOpen = true;
+					Errorbar.Title = m.Value.Message;
+					Errorbar.Content = m.Value.StackTrace;
+					await Task.Delay(5000);
+					Errorbar.IsOpen = false;
+				});
 			});
+		}
+
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			base.OnNavigatedTo(e);
+			ViewModel = App.Current.Services.GetService<MainViewModel>();
+			WindowService.Initialize(AppTitleBar, AppTitle);
+			AppNavigation.SelectedItem = AppNavigation.MenuItems[0];
+			Bindings.Update();
+
+			// fix weird titlebar bug
+			AppTitleBar.Height = 50;
+			AppTitleBar.Height = 48;
 		}
 
 		// used by URL

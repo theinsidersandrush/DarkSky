@@ -28,7 +28,7 @@
                 x:Name="RepostContent" VerticalAlignment="Center" Spacing="4" Orientation="Horizontal" Padding="32, 0, 0, 0"
                 x:Load="{x:Bind helpers:UIHelper.none(Post.RepostedBy), Mode=OneWay}"
                 Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                <icons:FluentSymbolIcon Margin="6,0,2,0" Opacity="0.7" Symbol="ArrowRepeatAll16" />
+                <icons:FluentSymbolIcon Margin="0,0,2,0" Opacity="0.7" Symbol="ArrowRepeatAll16" />
                 <TextBlock Opacity="0.7" Text="Reposted by " />
                 <TextBlock Opacity="0.7" Text="{x:Bind Post.RepostedBy, Mode=OneWay}" />
             </StackPanel>

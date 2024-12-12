@@ -19,7 +19,7 @@ namespace DarkSky.Core.Cursors
 			FeedUri = feed;
 		}
 
-		protected override async Task OnGetMoreItemsAsync(int limit = 50)
+		protected override async Task OnGetMoreItemsAsync(int limit = 20)
 		{
 			GetFeedOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetFeedAsync(new ATUri(FeedUri), limit, Cursor)).AsT0;
 			Cursor = timeLine.Cursor;

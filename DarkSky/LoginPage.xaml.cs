@@ -56,15 +56,14 @@ namespace DarkSky
 			ATProtoService proto = new();
 			CredentialService credentialService = new CredentialService();
 			await proto.LoginAsync(UsernameBox.Text, PasswordBox.Password);
-			if (proto.Session is not null)
+			if (proto.ATProtocolClient.Session is not null)
 			{
-				credentialService.SaveCredential(new Credential(proto.Session.Handle.Handle, PasswordBox.Password, proto.Session.RefreshJwt));
+				credentialService.SaveCredential(new Credential(proto.ATProtocolClient.Session.Handle.Handle, PasswordBox.Password, proto.ATProtocolClient.Session.RefreshJwt));
 
 				App.Current.Services = ServiceContainer.Services = App.ConfigureServices();
 
 				ATProtoService protoDI = App.Current.Services.GetService<ATProtoService>();
 				protoDI.ATProtocolClient = proto.ATProtocolClient;
-				protoDI.Session = proto.Session;
 				((Frame)Window.Current.Content).Navigate(typeof(MainPage));
 			}
 			LoginBar.Visibility = Visibility.Collapsed;

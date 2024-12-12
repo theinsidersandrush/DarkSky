@@ -4,6 +4,8 @@ using DarkSky.Core.Factories;
 using DarkSky.Core.Helpers;
 using DarkSky.Core.Messages;
 using DarkSky.Core.ViewModels.Temporary;
+using DarkSky.UserControls.Embeds;
+using FishyFlip.Lexicon;
 using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Lexicon.App.Bsky.Richtext;
 using FishyFlip.Models;
@@ -45,15 +47,22 @@ namespace DarkSky.Controls
 		public RichText RichText
 		{
 			get => (RichText)GetValue(RichTextProperty);
-			set
-			{
-				SetValue(RichTextProperty, value);
-				setup(value);
-			}
+			set => SetValue(RichTextProperty, value);
 		}
 
 		public static readonly DependencyProperty RichTextProperty =
-			DependencyProperty.Register(nameof(RichText), typeof(RichText), typeof(RichFacetTextBlock), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(RichText), typeof(RichText), typeof(RichFacetTextBlock), new PropertyMetadata(null, OnRichTextChanged));
+
+		// Adding the PropertyChanged method fixes virtualisation duplication bug
+		private static void OnRichTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is RichFacetTextBlock t)
+			{
+				t.Bindings.Update();
+				if(e.NewValue is not null)
+					t.setup(e.NewValue as RichText);
+			}
+		}
 
 		public bool IsTextSelectionEnabled
 		{
@@ -73,6 +82,8 @@ namespace DarkSky.Controls
 		{
 			if(text is not null)
 			{
+				RichTextBlock.Inlines.Clear(); // Clear the old text, prevents duplicates with virtualisation
+
 				var run = new Run	{	Text = text.Text	};
 				RichTextBlock.Inlines.Add(run);
 				

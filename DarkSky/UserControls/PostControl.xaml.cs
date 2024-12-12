@@ -34,24 +34,22 @@ namespace DarkSky.UserControls
 		public PostViewModel Post
 		{
 			get => (PostViewModel)GetValue(PostProperty);
-			set
-			{
-				SetValue(PostProperty, value);
-				if(value is not null)
-					SetPost(value.InternalPost);
-			}
+			set => SetValue(PostProperty, value);
 		}
 
 		public static readonly DependencyProperty PostProperty =
-				   DependencyProperty.Register("Post", typeof(PostViewModel), typeof(PostControl), null);
+				   DependencyProperty.Register("Post", typeof(PostViewModel), typeof(PostControl), new PropertyMetadata(null, OnPostChanged));
+
+		// Adding the PropertyChanged method fixes virtualisation duplication bug
+		private static void OnPostChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is PostControl p)
+				p.Bindings.Update();
+		}
 
 		public PostControl()
 		{
 			this.InitializeComponent();
-		}
-
-		public async void SetPost(PostView post) 
-		{
 		}
 	}
 }

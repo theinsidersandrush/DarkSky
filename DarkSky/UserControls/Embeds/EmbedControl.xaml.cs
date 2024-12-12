@@ -15,6 +15,7 @@ using FishyFlip.Lexicon.Tools.Ozone.Team;
 using Application = Windows.UI.Xaml.Application;
 using System.Threading.Tasks;
 using DarkSky.Core.ViewModels.Temporary;
+using Google.Protobuf.WellKnownTypes;
 
 namespace DarkSky.UserControls.Embeds
 {
@@ -23,14 +24,20 @@ namespace DarkSky.UserControls.Embeds
 		public PostViewModel Post
 		{
 			get => (PostViewModel)GetValue(PostProperty);
-			set 
-			{
-				SetValue(PostProperty, value);
-				SetEmbed(value.InternalPost.Embed);
-			}
+			set => SetValue(PostProperty, value);
 		}
 
-		public static readonly DependencyProperty PostProperty = DependencyProperty.Register(nameof(Post), typeof(PostViewModel), typeof(EmbedControl), new PropertyMetadata(null));
+		public static readonly DependencyProperty PostProperty = DependencyProperty.Register(nameof(Post), typeof(PostViewModel), typeof(EmbedControl), new PropertyMetadata(null, OnPostChanged));
+
+		// Adding the PropertyChanged method fixes virtualisation duplication bug
+		private static void OnPostChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is EmbedControl c)
+			{
+				if (e.NewValue is not null)
+					c.SetEmbed((e.NewValue as PostViewModel).InternalPost.Embed);
+			}	
+		}
 
 		public EmbedControl()
 		{
@@ -39,7 +46,7 @@ namespace DarkSky.UserControls.Embeds
 
 		private async void SetEmbed(ATObject embed)
 		{
-			Container.Children.Clear(); // fix duplicates bug
+			Container.Children.Clear(); // fix duplicates bug in virtualisation 
 			if (embed is not null)
 			{
 				if (embed.Type == "app.bsky.embed.images#view")

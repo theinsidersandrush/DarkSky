@@ -52,11 +52,6 @@
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Padding" Value="0" />

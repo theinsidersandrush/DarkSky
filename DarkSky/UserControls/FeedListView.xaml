@@ -22,19 +22,13 @@
                 Header="{x:Bind Header, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="temporary:PostViewModel">
-                       <!-- <local:FeedViewPostControl FeedPost="{x:Bind Mode=OneWay}"/>-->
+                        <!-- <local:FeedViewPostControl FeedPost="{x:Bind Mode=OneWay}"/>-->
                         <Border BorderThickness="{x:Bind helpers:UIHelper.Border(HasReply), Mode=OneWay}" Margin="-16, 0, -16, 0" Padding="0, 0, 16, 0" BorderBrush="{ThemeResource MicaBorderBrush}">
                             <local:PostControl Post="{x:Bind Mode=OneWay}"/>
                         </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <!-- disable virtualisation to fix caching bug, BIG HIT ON PERFORMANCE-->
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-             <!--   <ListView.ItemContainerStyle>
+                <!--   <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Padding" Value="0" />
                         <Setter Property="Margin" Value="0" />

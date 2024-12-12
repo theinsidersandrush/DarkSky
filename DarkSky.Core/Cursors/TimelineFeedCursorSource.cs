@@ -42,7 +42,9 @@ namespace DarkSky.Core.Cursors
 					else // the post is a reply, use logic to filter
 					{
 						ReplyRef reply = item.Reply;
+						if (reply.Root is not PostView) continue;
 						PostView root = (PostView)reply.Root;
+						if (reply.Parent is not PostView) continue;
 						PostView parent = (PostView)reply.Parent;
 						// only allow replies if it replies to same author
 						if (root.Author.Did.Handler == item.Post.Author.Did.Handler)

@@ -25,13 +25,14 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using DarkSky.Core.Services;
 using DarkSky.Core.Classes;
+using DarkSky.Core.Services.Interfaces;
 
 namespace DarkSky
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    sealed partial class App : Application
+	/// <summary>
+	/// Provides application-specific behavior to supplement the default Application class.
+	/// </summary>
+	sealed partial class App : Application
     {
 		public static IServiceProvider ConfigureServices()
 		{
@@ -39,12 +40,14 @@ namespace DarkSky
 
 			services.AddSingleton<ICredentialService, CredentialService>();
 			services.AddSingleton<ISettingsService, SettingsService>();
+			services.AddSingleton<IAccountService, AccountService>();
 			services.AddSingleton<ATProtoService>();
 			services.AddTransient<LoginViewModel>();
 			services.AddTransient<MainViewModel>();
 			services.AddTransient<SettingsViewModel>();
 			services.AddTransient<NotificationsViewModel>();
 			services.AddSingleton<HomeFeedViewModel>();
+			services.AddSingleton<ListsViewModel>();
 
 			NavigationService navigationService = new();
 			navigationService.RegisterViewForViewModel(typeof(MainViewModel), typeof(MainPage));

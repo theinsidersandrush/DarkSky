@@ -21,7 +21,7 @@ using System.Diagnostics;
 using Windows.UI.Xaml.Media;
 using FishyFlip.Lexicon.App.Bsky.Feed;
 using DarkSky.Core.ViewModels.Temporary;
-using DarkSky.Core.Cursors;
+using DarkSky.Core.Cursors.Feeds;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

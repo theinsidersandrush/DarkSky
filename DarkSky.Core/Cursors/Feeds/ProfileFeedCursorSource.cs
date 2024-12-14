@@ -1,5 +1,4 @@
 ﻿using DarkSky.Core.Factories;
-using DarkSky.Core.Cursors;
 using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels;
 using DarkSky.Core.ViewModels.Temporary;
@@ -13,7 +12,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DarkSky.Core.Cursors
+namespace DarkSky.Core.Cursors.Feeds
 {
 	/*
 	 * Load posts from a Profile
@@ -33,14 +32,14 @@ namespace DarkSky.Core.Cursors
 			GetAuthorFeedOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetAuthorFeedAsync(Profile.Handle, limit, Cursor, Filter, false)).AsT0;
 			Cursor = timeLine.Cursor;
 
-			if(Feed.Count == 0 && Profile.PinnedPost is not null) // Add pinned post first if it exists
-				Feed.Add(Profile.PinnedPost);
+			if (Items.Count == 0 && Profile.PinnedPost is not null) // Add pinned post first if it exists
+				Items.Add(Profile.PinnedPost);
 
 			foreach (var item in timeLine.Feed)
 			{
 				// Ignore pinned posts if there are any
 				if (Profile.PinnedPost is null || item.Post.Cid != Profile.PinnedPost.Cid)
-					Feed.Add(PostFactory.Create(item));
+					Items.Add(PostFactory.Create(item));
 			}
 		}
 	}

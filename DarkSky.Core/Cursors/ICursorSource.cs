@@ -15,7 +15,7 @@ namespace DarkSky.Core.Cursors
 	public interface ICursorSource<T> : INotifyPropertyChanged
 	{
 		bool IsLoading { get; set; }
-		ObservableCollection<T> Feed { get; }
+		ObservableCollection<T> Items { get; }
 
 		Task RefreshAsync();
 		Task GetMoreItemsAsync(int limit = 50);

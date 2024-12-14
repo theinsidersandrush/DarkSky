@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DarkSky.Core.Classes;
 using DarkSky.Core.Cursors;
+using DarkSky.Core.Cursors.Feeds;
 using DarkSky.Core.Factories;
 using DarkSky.Core.Services;
 using FishyFlip.Lexicon.App.Bsky.Actor;
@@ -87,7 +88,6 @@ namespace DarkSky.Core.ViewModels.Temporary
 			SelectedProfileNavigationItem = ProfileNavigationItems[0];
 			ProfileNavigationItems.Add(new FeedNavigationItem("Replies", new ProfileFeedCursorSource(this, "posts_with_replies")));
 			ProfileNavigationItems.Add(new FeedNavigationItem("Media", new ProfileFeedCursorSource(this, "posts_with_media")));
-
 			// Profile Descriptions supports Facets but the API does not return them
 			// To fix this we manually parse the Facets using FishyFlip Facet.Parse method
 			RichDescription = new RichText(Description, Facet.Parse(Description, new ProfileViewBasic[0]).ToList());
@@ -102,6 +102,8 @@ namespace DarkSky.Core.ViewModels.Temporary
 				this.PinnedPost = await PostFactory.CreateAsync(Profile.PinnedPost.Uri);
 				this.PinnedPost.IsPinned = true;
 			}
+
+
 		}
 	}
 }

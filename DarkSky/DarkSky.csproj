@@ -201,6 +201,9 @@
     <Compile Include="Views\Temporary\CreatePostPage.xaml.cs">
       <DependentUpon>CreatePostPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Temporary\ListPage.xaml.cs">
+      <DependentUpon>ListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Temporary\PostPage.xaml.cs">
       <DependentUpon>PostPage.xaml</DependentUpon>
     </Compile>
@@ -259,6 +262,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <None Include="Assets\BlueSky\list.webp" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -360,6 +364,10 @@
     <Page Include="Views\Temporary\CreatePostPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Temporary\ListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Temporary\PostPage.xaml">
       <Generator>MSBuild:Compile</Generator>

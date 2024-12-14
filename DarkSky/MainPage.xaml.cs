@@ -27,6 +27,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Diagnostics;
+using Cube.UI.Brushes;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -53,6 +54,9 @@ namespace DarkSky
 		public MainPage()
 		{
 			this.InitializeComponent();
+			var m = new MicaAltBrush();
+			m.Kind = (int)BackdropKind.BaseAlt;
+			this.Background = m;
 			AppNavigation.SelectedItem = AppNavigation.MenuItems[0];
 			Bindings.Update();
 			/*
@@ -176,10 +180,17 @@ namespace DarkSky
 			AppTitleBar.Height = 50;
 			AppTitleBar.Height = 48;
 
-			if(e.NewSize.Width > 500)
-				VisualStateManager.GoToState(this, "WideState", true);
-			else
-				VisualStateManager.GoToState(this, "NarrowState", true);
+			try
+			{
+				if (e.NewSize.Width > 500)
+					VisualStateManager.GoToState(this, "WideState", true);
+				else
+				{
+					VisualStateManager.GoToState(this, "NarrowState", true);
+					PrimaryPaneCollapsed = false;
+				}
+			}
+			catch { }
 		}
 	}
 }

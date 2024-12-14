@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <muxc:ProgressBar x:Name="Progress" Grid.Row="0" x:Load="{x:Bind FeedSource.IsLoading, Mode=OneWay}" IsIndeterminate="True"/>
         <RefreshContainer Grid.Row="1" RefreshRequested="RefreshContainer_RefreshRequested" HorizontalAlignment="Stretch">
-            <ListView x:Name="FeedList" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind FeedSource.Feed, Mode=OneWay}" HorizontalAlignment="Stretch"
+            <ListView x:Name="FeedList" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind FeedSource.Items, Mode=OneWay}" HorizontalAlignment="Stretch"
                 Loaded="ListView_Loaded"
                 Header="{x:Bind Header, Mode=OneWay}">
                 <ListView.ItemTemplate>

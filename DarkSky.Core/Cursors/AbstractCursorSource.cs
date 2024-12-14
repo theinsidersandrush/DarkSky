@@ -25,7 +25,7 @@ namespace DarkSky.Core.Cursors
 		[ObservableProperty]
 		private bool isLoading = false;
 
-		public ObservableCollection<T> Feed { get; } = new();
+		public ObservableCollection<T> Items { get; } = new();
 
 		protected string Cursor = "";
 		protected ATProtoService atProtoService = ServiceContainer.Services.GetService<ATProtoService>();
@@ -53,13 +53,13 @@ namespace DarkSky.Core.Cursors
 		public async Task RefreshAsync()
 		{
 			Cursor = "";
-			Feed.Clear();
+			Items.Clear();
 			await GetMoreItemsAsync();
 		}
 
 		public void Clear()
 		{
-			Feed.Clear();
+			Items.Clear();
 			Cursor = "";
 		}
 	}

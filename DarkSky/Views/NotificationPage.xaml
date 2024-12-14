@@ -41,7 +41,7 @@
             </Grid>
             <muxc:ProgressBar x:Name="Progress" Grid.Row="1" x:Load="{x:Bind ViewModel.NotificationsSource.IsLoading, Mode=OneWay}" IsIndeterminate="True"/>
             <RefreshContainer Grid.Row="2" RefreshRequested="RefreshContainer_RefreshRequested" HorizontalAlignment="Stretch">
-                <ListView x:Name="FeedList" SelectionMode="None" ItemsSource="{x:Bind ViewModel.NotificationsSource.Feed, Mode=OneWay}" HorizontalAlignment="Stretch" Loaded="ListView_Loaded">
+                <ListView x:Name="FeedList" SelectionMode="None" ItemsSource="{x:Bind ViewModel.NotificationsSource.Items, Mode=OneWay}" HorizontalAlignment="Stretch" Loaded="ListView_Loaded">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="notification:Notification">
                             <StackPanel Orientation="Horizontal" Spacing="4" Padding="12, 8, 12, 8">

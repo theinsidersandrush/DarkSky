@@ -22,7 +22,7 @@ namespace DarkSky.Core.Cursors
 			Cursor = notifications.Cursor;
 			foreach (var item in notifications.Notifications)
 			{
-				Feed.Add(item);
+				Items.Add(item);
 			}
 		}
 	}

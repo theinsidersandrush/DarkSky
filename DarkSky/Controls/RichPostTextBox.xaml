@@ -25,8 +25,8 @@
         OffsetY="4" HorizontalAlignment="Center"
         ShadowOpacity="0.4" Margin="12" 
         Color="Black">
-            <TextBox x:Name="PostText"
-               AcceptsReturn="True" Style="{ThemeResource GlowTextBox}"
+            <TextBox x:Name="PostText" BorderThickness="1" BorderBrush="{ThemeResource MicaBorderBrush}"
+               AcceptsReturn="True"
                PlaceholderText="What's up?" />
         </ToolkitControls:DropShadowPanel>
         <StackPanel Grid.Row="1"

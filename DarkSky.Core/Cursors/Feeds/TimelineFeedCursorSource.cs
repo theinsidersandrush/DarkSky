@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Factories;
-using DarkSky.Core.Cursors;
 using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels.Temporary;
@@ -11,7 +10,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DarkSky.Core.Cursors
+namespace DarkSky.Core.Cursors.Feeds
 {
 	public class TimelineFeedCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
 	{
@@ -37,7 +36,7 @@ namespace DarkSky.Core.Cursors
 					{ // add regular posts
 					  // only add if it did not appear before, maybe as part of a reply chain
 						if (!postID.Contains(item.Post.Cid))
-							Feed.Add(PostFactory.Create(item));
+							Items.Add(PostFactory.Create(item));
 					}
 					else // the post is a reply, use logic to filter
 					{
@@ -58,10 +57,10 @@ namespace DarkSky.Core.Cursors
 								if (item.Reason is null)
 								{
 									if (parent.Cid != root.Cid)  // only show root reply if parent is not root
-										Feed.Add(new PostViewModel((PostView)reply.Root) { HasReply = true });
-									Feed.Add(new PostViewModel((PostView)reply.Parent) { HasReply = true, IsReply = true });
+										Items.Add(new PostViewModel((PostView)reply.Root) { HasReply = true });
+									Items.Add(new PostViewModel((PostView)reply.Parent) { HasReply = true, IsReply = true });
 								}
-								Feed.Add(PostFactory.Create(item)); // Show the regular post
+								Items.Add(PostFactory.Create(item)); // Show the regular post
 
 								postID.Add(root.Cid); // add root to hashset so we can filter if it appears later
 							}

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Classes;
 using DarkSky.Core.Cursors;
+using DarkSky.Core.Cursors.Feeds;
 using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using FishyFlip.Lexicon.App.Bsky.Actor;

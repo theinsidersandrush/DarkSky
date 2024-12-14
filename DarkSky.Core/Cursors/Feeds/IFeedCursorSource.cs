@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DarkSky.Core.Cursors
+namespace DarkSky.Core.Cursors.Feeds
 {
 	/*
 	 * An interface for loading FeedViewPost items using a Cursor with refresh and incremental loading support

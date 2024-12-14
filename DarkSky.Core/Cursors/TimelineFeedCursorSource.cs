@@ -46,7 +46,9 @@ namespace DarkSky.Core.Cursors
 						PostView root = (PostView)reply.Root;
 						if (reply.Parent is not PostView) continue;
 						PostView parent = (PostView)reply.Parent;
+
 						// only allow replies if it replies to same author
+						// Actually we might need to change this
 						if (root.Author.Did.Handler == item.Post.Author.Did.Handler)
 						{
 							// only add if it did not appear before, as part of a reply chain

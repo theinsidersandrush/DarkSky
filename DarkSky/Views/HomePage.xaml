@@ -27,7 +27,7 @@
             <muxc:NavigationView
                 x:Name="FeedNavigation"
                 IsBackButtonVisible="Collapsed"
-                IsSettingsVisible="False"
+                IsSettingsVisible="False" HorizontalAlignment="Center"
                 MenuItemsSource="{x:Bind ViewModel.Feeds, Mode=OneWay}"
                 SelectedItem="{x:Bind ViewModel.SelectedFeed, Mode=TwoWay}"
                 PaneDisplayMode="Top">
@@ -45,6 +45,6 @@
                 </muxc:NavigationView.FooterMenuItems>-->
             </muxc:NavigationView>
         </StackPanel>
-        <controls:FeedListView Grid.Row="1" FeedSource="{x:Bind ViewModel.SelectedFeed.FeedSource, Mode=OneWay}" HorizontalAlignment="Stretch"/>
+        <controls:FeedListView MaxWidth="700" Grid.Row="1" FeedSource="{x:Bind ViewModel.SelectedFeed.FeedSource, Mode=OneWay}" HorizontalAlignment="Stretch"/>
     </Grid>
 </Page>

@@ -41,9 +41,20 @@ namespace DarkSky
 		[ObservableProperty]
 		private MainViewModel viewModel;
 		private readonly Dictionary<Type, Type> viewModelsToViews = new();
+
+		/*
+		 * Used to determine if primary pane is collapsed or expanded
+		 * If colapsed then the columnspan is 1, otherwise if expanded it is 3
+		 */
+		[ObservableProperty]
+		private bool primaryPaneCollapsed = false;
+		private int BoolToColumnSpan(bool value) => value ? 1 : 3; // Bound by primary pane
+
 		public MainPage()
 		{
 			this.InitializeComponent();
+			AppNavigation.SelectedItem = AppNavigation.MenuItems[0];
+			Bindings.Update();
 			/*
 			 * Navigate the secondary page
 			 * The SecondaryNavigationMessage contains a "ViewModel" Type and a "payload" object
@@ -53,21 +64,25 @@ namespace DarkSky
 			viewModelsToViews[typeof(ProfileViewModel)] = typeof(ProfilePage);
 			WeakReferenceMessenger.Default.Register<SecondaryNavigationMessage>(this, (r, m) =>
 			{
-				if(m.Value is not null)
+				if (m.Value is not null)
 				{
-					if(m.Value.payload is ProfileViewModel)
+					if (m.Value.payload is ProfileViewModel)
 					{
 						PrimaryPane.Navigate(viewModelsToViews[m.Value.ViewModel], m.Value.payload);
 						AppNavigation.SelectedItem = null;
 					}
 					else
 					{
-						SecondaryPane.Visibility = Visibility.Visible;
+						SecondaryPaneContainer.Visibility = Visibility.Visible;
+						PrimaryPaneCollapsed = true;
 						SecondaryPane.Navigate(viewModelsToViews[m.Value.ViewModel], m.Value.payload);
 					}
 				}
-				else //new SecondaryNavigation(null) go to null
-					SecondaryPane.Visibility = Visibility.Collapsed;
+				else //new SecondaryNavigation(null) go to null{
+				{
+					SecondaryPaneContainer.Visibility = Visibility.Collapsed;
+					PrimaryPaneCollapsed = false;
+				}
 			});
 
 			WeakReferenceMessenger.Default.Register<ErrorMessage>(this, async (r, m) =>
@@ -88,8 +103,6 @@ namespace DarkSky
 			base.OnNavigatedTo(e);
 			ViewModel = App.Current.Services.GetService<MainViewModel>();
 			WindowService.Initialize(AppTitleBar, AppTitle);
-			AppNavigation.SelectedItem = AppNavigation.MenuItems[0];
-			Bindings.Update();
 
 			// fix weird titlebar bug
 			AppTitleBar.Height = 50;
@@ -109,39 +122,40 @@ namespace DarkSky
 
 		private void AppNavigation_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
 		{
+			if (args.IsSettingsSelected == true)
+			{
+				PrimaryPane.Navigate(typeof(SettingsPage), args.RecommendedNavigationTransitionInfo);
+				return;
+			}
 			if (sender.SelectedItem is null) return;
 
 			if(sender.SelectedItem == AppNavigation.MenuItems[0])
 			{
-				PrimaryPane.Navigate(typeof(HomePage));
+				PrimaryPane.Navigate(typeof(HomePage), args.RecommendedNavigationTransitionInfo);
 			}
 			else if (sender.SelectedItem == AppNavigation.MenuItems[1])
 			{
-				PrimaryPane.Navigate(typeof(NotificationPage));
+				PrimaryPane.Navigate(typeof(NotificationPage), args.RecommendedNavigationTransitionInfo);
 			}
 			else if (sender.SelectedItem == AppNavigation.MenuItems[2])
 			{
-				PrimaryPane.Navigate(typeof(SearchPage));
+				PrimaryPane.Navigate(typeof(SearchPage), args.RecommendedNavigationTransitionInfo);
 			}
 			else if (sender.SelectedItem == AppNavigation.MenuItems[3])
 			{
-				PrimaryPane.Navigate(typeof(ChatPage));
+				PrimaryPane.Navigate(typeof(ChatPage), args.RecommendedNavigationTransitionInfo);
 			}
 			else if (sender.SelectedItem == AppNavigation.MenuItems[4])
 			{
-				PrimaryPane.Navigate(typeof(FeedsPage));
+				PrimaryPane.Navigate(typeof(FeedsPage), args.RecommendedNavigationTransitionInfo);
 			}
 			else if (sender.SelectedItem == AppNavigation.MenuItems[5])
 			{
-				PrimaryPane.Navigate(typeof(ListsPage));
+				PrimaryPane.Navigate(typeof(ListsPage), args.RecommendedNavigationTransitionInfo);
 			}
 			else if (sender.SelectedItem == AppNavigation.FooterMenuItems[1])
 			{
 				PrimaryPane.Navigate(typeof(ProfilePage), ViewModel.CurrentProfile);
-			}
-			else if (sender.SelectedItem == AppNavigation.FooterMenuItems[2])
-			{
-				PrimaryPane.Navigate(typeof(SettingsPage));
 			}
 		}
 
@@ -150,7 +164,8 @@ namespace DarkSky
 			if (args.InvokedItem is null) return;
 			if (args.InvokedItem.ToString() == "New Post")
 			{
-				SecondaryPane.Visibility = Visibility.Visible;
+				SecondaryPaneContainer.Visibility = Visibility.Visible;
+				PrimaryPaneCollapsed = true;
 				SecondaryPane.Navigate(typeof(CreatePostPage));
 			}
 		}
@@ -160,6 +175,11 @@ namespace DarkSky
 			// fix weird titlebar bug
 			AppTitleBar.Height = 50;
 			AppTitleBar.Height = 48;
+
+			if(e.NewSize.Width > 500)
+				VisualStateManager.GoToState(this, "WideState", true);
+			else
+				VisualStateManager.GoToState(this, "NarrowState", true);
 		}
 	}
 }

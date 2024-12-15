@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -300,7 +300,7 @@ namespace Cube.UI.Animations
             {
                 // Offset:<270.253, 450.25>
                 var geometry = PathGeometry_0();
-                var result = CreateSpriteShape(geometry, new Matrix3x2(1F, 0F, 0F, 1F, 270.252991F, 450.25F), ColorBrush_AlmostWhite_FFFFFEFF()); ;
+                var result = CreateSpriteShape(geometry, new Matrix3x2(1F, 0F, 0F, 1F, 270.252991F, 450.25F), ColorBrush_AlmostWhite_FFFFFEFF());
                 return result;
             }
 
@@ -309,7 +309,7 @@ namespace Cube.UI.Animations
             CompositionSpriteShape SpriteShape_1()
             {
                 // Offset:<4.463, 1018.215>, Rotation:-176.9999734298508 degrees, Scale:<1, 1>
-                var result = CreateSpriteShape(PathGeometry_1(), new Matrix3x2(-0.99862957F, -0.0523358099F, 0.0523358099F, -0.99862957F, 4.46299982F, 1018.21503F)); ;
+                var result = CreateSpriteShape(PathGeometry_1(), new Matrix3x2(-0.99862957F, -0.0523358099F, 0.0523358099F, -0.99862957F, 4.46299982F, 1018.21503F));
                 result.StrokeBrush = AnimatedColorBrush_White_to_TransparentWhite();
                 result.StrokeDashCap = CompositionStrokeCap.Round;
                 result.StrokeStartCap = CompositionStrokeCap.Round;

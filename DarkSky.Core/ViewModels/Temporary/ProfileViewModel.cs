@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using DarkSky.Core.Classes;
 using DarkSky.Core.Cursors;
 using DarkSky.Core.Cursors.Feeds;
@@ -102,8 +102,6 @@ namespace DarkSky.Core.ViewModels.Temporary
 				this.PinnedPost = await PostFactory.CreateAsync(Profile.PinnedPost.Uri);
 				this.PinnedPost.IsPinned = true;
 			}
-
-
 		}
 	}
 }

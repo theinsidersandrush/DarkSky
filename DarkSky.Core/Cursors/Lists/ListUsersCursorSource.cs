@@ -1,0 +1,32 @@
+﻿using DarkSky.Core.ViewModels.Temporary;
+using FishyFlip.Lexicon.App.Bsky.Graph;
+using FishyFlip.Lexicon.App.Bsky.Notification;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DarkSky.Core.Cursors.Lists
+{
+	/*
+	 * Get users added to a list
+	 * Using this API https://docs.bsky.app/docs/api/app-bsky-graph-get-list
+	 */
+	public class ListUsersCursorSource : AbstractCursorSource<ListItemView>
+	{
+		private ListViewModel List;
+		public ListUsersCursorSource(ListViewModel list) : base() 
+		{
+			this.List = list;
+		}
+
+		protected override async Task OnGetMoreItemsAsync(int limit = 50)
+		{
+			GetListOutput list = (await atProtoService.ATProtocolClient.Graph.GetListAsync(List.ListView.Uri, limit, Cursor)).AsT0;
+			Cursor = list.Cursor;
+			foreach (var item in list.Items)
+				Add(item);
+		}
+	}
+}

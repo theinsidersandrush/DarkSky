@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace DarkSky.Core.Cursors
 {
@@ -22,7 +23,7 @@ namespace DarkSky.Core.Cursors
 			Cursor = notifications.Cursor;
 			foreach (var item in notifications.Notifications)
 			{
-				Items.Add(item);
+				Add(item);
 			}
 		}
 	}

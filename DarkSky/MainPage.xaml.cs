@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Diagnostics;
 using Cube.UI.Brushes;
+using DarkSky.Views.Temporary;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -48,12 +49,14 @@ namespace DarkSky
 		 * If colapsed then the columnspan is 1, otherwise if expanded it is 3
 		 */
 		[ObservableProperty]
-		private bool primaryPaneCollapsed = false;
+		private bool primaryPaneCollapsed = true;
+		private bool CollapseByDefault = true;
 		private int BoolToColumnSpan(bool value) => value ? 1 : 3; // Bound by primary pane
 
 		public MainPage()
 		{
 			this.InitializeComponent();
+			PrimaryPaneCollapsed = CollapseByDefault;
 			var m = new MicaAltBrush();
 			m.Kind = (int)BackdropKind.BaseAlt;
 			this.Background = m;
@@ -66,11 +69,12 @@ namespace DarkSky
 			 */
 			viewModelsToViews[typeof(PostViewModel)] = typeof(PostPage);
 			viewModelsToViews[typeof(ProfileViewModel)] = typeof(ProfilePage);
+			viewModelsToViews[typeof(ListViewModel)] = typeof(ListPage);
 			WeakReferenceMessenger.Default.Register<SecondaryNavigationMessage>(this, (r, m) =>
 			{
 				if (m.Value is not null)
 				{
-					if (m.Value.payload is ProfileViewModel)
+					if (m.Value.payload is ProfileViewModel || m.Value.payload is ListViewModel)
 					{
 						PrimaryPane.Navigate(viewModelsToViews[m.Value.ViewModel], m.Value.payload);
 						AppNavigation.SelectedItem = null;
@@ -85,7 +89,7 @@ namespace DarkSky
 				else //new SecondaryNavigation(null) go to null{
 				{
 					SecondaryPaneContainer.Visibility = Visibility.Collapsed;
-					PrimaryPaneCollapsed = false;
+					PrimaryPaneCollapsed = CollapseByDefault; // expand if user chooses too
 				}
 			});
 
@@ -183,7 +187,10 @@ namespace DarkSky
 			try
 			{
 				if (e.NewSize.Width > 500)
+				{
 					VisualStateManager.GoToState(this, "WideState", true);
+					PrimaryPaneCollapsed = CollapseByDefault;
+				}
 				else
 				{
 					VisualStateManager.GoToState(this, "NarrowState", true);
@@ -191,6 +198,11 @@ namespace DarkSky
 				}
 			}
 			catch { }
+		}
+
+		private void PrimaryPaneToggle_Click(object sender, RoutedEventArgs e)
+		{
+			CollapseByDefault = (bool)PrimaryPaneToggle.IsChecked;
 		}
 	}
 }

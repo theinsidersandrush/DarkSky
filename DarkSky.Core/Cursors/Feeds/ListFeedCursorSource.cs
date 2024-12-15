@@ -4,6 +4,7 @@ using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace DarkSky.Core.Cursors.Feeds
 	 * Get posts from a List
 	 * https://docs.bsky.app/docs/api/app-bsky-feed-get-list-feed
 	 */
-	public class ListFeedCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
+	public class ListFeedCursorSource : AbstractCursorSource<PostViewModel>, ICursorSource
 	{
 		private string ListUri;
 		public ListFeedCursorSource(string list) : base()
@@ -26,7 +27,7 @@ namespace DarkSky.Core.Cursors.Feeds
 			GetListFeedOutput list = (await atProtoService.ATProtocolClient.Feed.GetListFeedAsync(new ATUri(ListUri), limit, Cursor)).AsT0;
 			Cursor = list.Cursor;
 			foreach (var item in list.Feed)
-				Items.Add(PostFactory.Create(item));
+				((ObservableCollection<PostViewModel>)Items).Add(PostFactory.Create(item));
 		}
 	}
 }

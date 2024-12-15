@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Messages;
 using DarkSky.Core.ViewModels;
+using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -32,5 +33,12 @@ namespace DarkSky.Views
 		{
 			this.InitializeComponent();
 		}
-    }
+
+		private void CursorListView_ItemClicked(object sender, ItemClickEventArgs e)
+		{
+			WeakReferenceMessenger.Default.Send(
+				new SecondaryNavigationMessage(
+					new SecondaryNavigation(typeof(PostViewModel), e.ClickedItem as PostViewModel)));
+		}
+	}
 }

@@ -11,7 +11,9 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:classes="using:DarkSky.Core.Classes" 
-    xmlns:helpers="using:DarkSky.Helpers" xmlns:usercontrols="using:DarkSky.UserControls" xmlns:controls="using:DarkSky.Controls"
+    xmlns:helpers="using:DarkSky.Helpers" 
+    xmlns:usercontrols="using:DarkSky.UserControls" 
+    xmlns:controls="using:DarkSky.Controls" xmlns:temporary="using:DarkSky.Core.ViewModels.Temporary"
     NavigationCacheMode="Disabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
@@ -21,8 +23,8 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <usercontrols:FeedListView Grid.Row="2" FeedSource="{x:Bind Profile.SelectedProfileNavigationItem.FeedSource, Mode=OneWay}" HorizontalAlignment="Stretch">
-            <usercontrols:FeedListView.Header>
+        <usercontrols:CursorListView Grid.Row="2" ItemClicked="CursorListView_ItemClicked" CursorSource="{x:Bind Profile.SelectedProfileNavigationItem.CursorSource, Mode=OneWay}" HorizontalAlignment="Stretch">
+            <usercontrols:CursorListView.Header>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -68,13 +70,20 @@
                     SelectedItem="{x:Bind Profile.SelectedProfileNavigationItem, Mode=TwoWay}"
                     PaneDisplayMode="Top">
                         <muxc:NavigationView.MenuItemTemplate>
-                            <DataTemplate x:DataType="classes:FeedNavigationItem" >
+                            <DataTemplate x:DataType="classes:CursorNavigationItem" >
                                 <muxc:NavigationViewItem Content="{x:Bind Name, Mode=OneWay}"/>
                             </DataTemplate>
                         </muxc:NavigationView.MenuItemTemplate>
                     </muxc:NavigationView>
                 </Grid>
-            </usercontrols:FeedListView.Header>
-        </usercontrols:FeedListView>
+            </usercontrols:CursorListView.Header>
+            <usercontrols:CursorListView.ItemTemplate>
+                <DataTemplate x:DataType="temporary:PostViewModel">
+                    <Border BorderThickness="{x:Bind helpers:UIHelper.Border(HasReply), Mode=OneWay}" Margin="-16, 0, -16, 0" Padding="0, 0, 16, 0" BorderBrush="{ThemeResource MicaBorderBrush}">
+                        <usercontrols:PostControl Post="{x:Bind Mode=OneWay}"/>
+                    </Border>
+                </DataTemplate>
+            </usercontrols:CursorListView.ItemTemplate>
+        </usercontrols:CursorListView>
     </Grid>
 </Page>

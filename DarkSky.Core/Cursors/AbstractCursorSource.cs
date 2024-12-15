@@ -9,6 +9,7 @@ using FishyFlip.Lexicon.App.Bsky.Graph;
 using FishyFlip.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -20,12 +21,12 @@ namespace DarkSky.Core.Cursors
 	 * Implements ICursorSource with common logic for refreshing and a constructor with ATProtocol service
 	 * https://docs.bsky.app/docs/tutorials/viewing-feeds
 	 */
-	public abstract partial class AbstractCursorSource<T> : ObservableObject, ICursorSource<T>
+	public abstract partial class AbstractCursorSource<T> : ObservableObject, ICursorSource
 	{
 		[ObservableProperty]
 		private bool isLoading = false;
 
-		public ObservableCollection<T> Items { get; } = new();
+		public IEnumerable Items { get; } = new ObservableCollection<T>();
 
 		protected string Cursor = "";
 		protected ATProtoService atProtoService = ServiceContainer.Services.GetService<ATProtoService>();
@@ -52,15 +53,16 @@ namespace DarkSky.Core.Cursors
 
 		public async Task RefreshAsync()
 		{
-			Cursor = "";
-			Items.Clear();
+			Clear();
 			await GetMoreItemsAsync();
 		}
 
 		public void Clear()
 		{
-			Items.Clear();
+			((ObservableCollection<T>)Items).Clear();
 			Cursor = "";
 		}
+
+		protected void Add(T item) => ((ObservableCollection<T>)Items).Add(item);
 	}
 }

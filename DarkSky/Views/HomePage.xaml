@@ -10,29 +10,29 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:FishyFlip.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:classes="using:DarkSky.Core.Classes"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:classes="using:DarkSky.Core.Classes" xmlns:temporary="using:DarkSky.Core.ViewModels.Temporary" xmlns:helpers="using:DarkSky.Helpers"
     NavigationCacheMode="Enabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     mc:Ignorable="d">
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel
-            Grid.Row="0"
-            Background="{ThemeResource MicaDarkBrush}"
+            Grid.Row="0" Height="49"
+            Background="{ThemeResource MicaDarkerBrush}"
             BorderBrush="{ThemeResource MicaBorderBrush}"
             BorderThickness="0,0,0,1">
             <muxc:NavigationView
-                x:Name="FeedNavigation"
+                x:Name="FeedNavigation" Height="48"
                 IsBackButtonVisible="Collapsed"
                 IsSettingsVisible="False" HorizontalAlignment="Center"
                 MenuItemsSource="{x:Bind ViewModel.Feeds, Mode=OneWay}"
                 SelectedItem="{x:Bind ViewModel.SelectedFeed, Mode=TwoWay}"
                 PaneDisplayMode="Top">
                 <muxc:NavigationView.MenuItemTemplate>
-                    <DataTemplate x:DataType="classes:FeedNavigationItem" >
+                    <DataTemplate x:DataType="classes:CursorNavigationItem" >
                         <muxc:NavigationViewItem Content="{x:Bind Name, Mode=OneWay}"/>
                     </DataTemplate>
                 </muxc:NavigationView.MenuItemTemplate>
@@ -45,6 +45,14 @@
                 </muxc:NavigationView.FooterMenuItems>-->
             </muxc:NavigationView>
         </StackPanel>
-        <controls:FeedListView MaxWidth="700" Grid.Row="1" FeedSource="{x:Bind ViewModel.SelectedFeed.FeedSource, Mode=OneWay}" HorizontalAlignment="Stretch"/>
+        <controls:CursorListView CursorSource="{x:Bind ViewModel.SelectedFeed.CursorSource, Mode=OneWay}" ItemClicked="CursorListView_ItemClicked" MaxWidth="700" Grid.Row="1" HorizontalAlignment="Stretch">
+            <controls:CursorListView.ItemTemplate>
+                <DataTemplate x:DataType="temporary:PostViewModel">
+                    <Border BorderThickness="{x:Bind helpers:UIHelper.Border(HasReply), Mode=OneWay}" Margin="-16, 0, -16, 0" Padding="0, 0, 16, 0" BorderBrush="{ThemeResource MicaBorderBrush}">
+                        <controls:PostControl Post="{x:Bind Mode=OneWay}"/>
+                    </Border>
+                </DataTemplate>
+            </controls:CursorListView.ItemTemplate>
+        </controls:CursorListView>
     </Grid>
 </Page>

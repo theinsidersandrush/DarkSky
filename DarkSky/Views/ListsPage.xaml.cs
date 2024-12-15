@@ -1,4 +1,7 @@
-﻿using DarkSky.Core.ViewModels;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using DarkSky.Core.Messages;
+using DarkSky.Core.ViewModels;
+using DarkSky.Core.ViewModels.Temporary;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -31,45 +34,11 @@ namespace DarkSky.Views
 			_ = ViewModel.ListsSource.GetMoreItemsAsync();
 		}
 
-		private async void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
-			=> await ViewModel.ListsSource.RefreshAsync();
-
-		#region Incremental loading code
-		/*
-		 * When Listview reaches bottom call FeedSource to generate more posts
-		 */
-		private ScrollViewer _scrollViewer;
-		private void ListView_Loaded(object sender, RoutedEventArgs e)
+		private void ListsList_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			_scrollViewer = GetScrollViewer(ListsList);
-
-			if (_scrollViewer != null)
-			{
-				_scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
-			}
+			WeakReferenceMessenger.Default.Send(
+				new SecondaryNavigationMessage(
+					new SecondaryNavigation(typeof(ListViewModel), e.ClickedItem as ListViewModel)));
 		}
-
-		private async void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-		{
-			if (_scrollViewer.VerticalOffset >= _scrollViewer.ScrollableHeight - 10) // Threshold to trigger loading
-				await ViewModel.ListsSource.GetMoreItemsAsync();
-		}
-
-		private ScrollViewer GetScrollViewer(DependencyObject element)
-		{
-			if (element is ScrollViewer)
-				return (ScrollViewer)element;
-
-			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
-			{
-				var child = VisualTreeHelper.GetChild(element, i);
-				var result = GetScrollViewer(child);
-				if (result != null)
-					return result;
-			}
-			return null;
-		}
-
-		#endregion
 	}
 }

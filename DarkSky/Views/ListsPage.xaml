@@ -8,7 +8,7 @@
     xmlns:local="using:DarkSky.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:classes="using:DarkSky.Core.Classes" xmlns:notification="using:FishyFlip.Lexicon.App.Bsky.Notification" xmlns:helpers="using:DarkSky.Helpers" xmlns:temporary="using:DarkSky.Core.ViewModels.Temporary"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:classes="using:DarkSky.Core.Classes" xmlns:notification="using:FishyFlip.Lexicon.App.Bsky.Notification" xmlns:helpers="using:DarkSky.Helpers" xmlns:temporary="using:DarkSky.Core.ViewModels.Temporary" xmlns:usercontrols="using:DarkSky.UserControls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -16,53 +16,49 @@
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" BorderThickness="0, 0, 0, 1" BorderBrush="{ThemeResource MicaBorderBrush}">
-                <StackPanel
-            Padding="32"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Spacing="8">
-                    <TextBlock
-                FontSize="24"
-                HorizontalTextAlignment="Center"
-                Text="Lists" />
-                    <TextBlock
-                Text="A better list view is coming. The app is being built up rapidly."
-                TextWrapping="WrapWholeWords" />
-                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-                        <HyperlinkButton Content="Send feedback in GitHub" NavigateUri="https://github.com/FireCubeStudios/DarkSky"/>
-                        <HyperlinkButton Content="Contact me in Discord" NavigateUri="https://discord.com/invite/3WYcKat"/>
-                    </StackPanel>
+            <Grid Grid.Row="0" Height="49" Padding="12, 8, 12, 8" BorderThickness="0, 0, 0, 1" BorderBrush="{ThemeResource MicaBorderBrush}">
+                <StackPanel Spacing="12" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Your lists" FontWeight="SemiBold" FontSize="16"/>
+                    <TextBlock Text="View your public lists which can drive feeds." Opacity="0.7" VerticalAlignment="Bottom"/>
                 </StackPanel>
+                <Button IsEnabled="False" Style="{ThemeResource ToolbarButton}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <icons:FluentSymbolIcon Symbol="Add20"/>
+                </Button>
             </Grid>
-            <muxc:ProgressBar x:Name="Progress" Grid.Row="1" x:Load="{x:Bind ViewModel.ListsSource.IsLoading, Mode=OneWay}" IsIndeterminate="True"/>
-            <RefreshContainer Grid.Row="2" RefreshRequested="RefreshContainer_RefreshRequested" HorizontalAlignment="Stretch">
-                <ListView x:Name="ListsList" SelectionMode="None" ItemsSource="{x:Bind ViewModel.ListsSource.Items, Mode=OneWay}" HorizontalAlignment="Stretch" Loaded="ListView_Loaded">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="temporary:ListViewModel">
-                            <StackPanel Orientation="Horizontal" Spacing="4" Padding="12, 8, 12, 8">
-                                <PersonPicture ProfilePicture="{x:Bind helpers:UIHelper.Img(Avatar), Mode=OneWay}" Height="28" Margin="0, 0, 8, 0"/>
+            <usercontrols:CursorListView x:Name="UsersLists" Grid.Row="1"
+                ItemClicked="ListsList_ItemClick"
+                CursorSource="{x:Bind ViewModel.ListsSource, Mode=OneWay}">
+                <usercontrols:CursorListView.ItemTemplate>
+                    <DataTemplate x:DataType="temporary:ListViewModel">
+                        <Grid Padding="12, 8, 12, 8" BorderThickness="0, 0, 0, 1" RowSpacing="8" ColumnSpacing="8" Margin="-16, 0, -16, 0" BorderBrush="{ThemeResource MicaBorderBrush}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Grid.Column="0" CornerRadius="8" Height="48" Width="48">
+                                <Image Source="{x:Bind helpers:UIHelper.Img(Avatar), Mode=OneWay}" Stretch="Fill"/>
+                            </Border>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Spacing="4" Padding="12, 8, 12, 8">
                                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                                <TextBlock Text="{x:Bind Description, Mode=OneWay}" VerticalAlignment="Center"/>
-                                <TextBlock Text="{x:Bind helpers:UIHelper.SimpleDate(CreatedAt), Mode=OneWay}" Opacity="0.7" VerticalAlignment="Center"/>
+                                <StackPanel Spacing="4" Orientation="Horizontal">
+                                    <TextBlock Text="List by " Opacity="0.7" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{x:Bind ListView.Creator.Handle, Mode=OneWay}" Opacity="0.7" VerticalAlignment="Center"/>
+                                    <TextBlock Text="• Created " Opacity="0.7" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{x:Bind helpers:UIHelper.SimpleDate(CreatedAt), Mode=OneWay}" Opacity="0.7" VerticalAlignment="Center"/>
+                                </StackPanel>
                             </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Padding" Value="0" />
-                            <Setter Property="Margin" Value="0" />
-                            <Setter Property="MaxWidth" Value="600" />
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="VerticalContentAlignment" Value="Center" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
-            </RefreshContainer>
+                            <TextBlock Text="{x:Bind Description, Mode=OneWay}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="WrapWholeWords"/>
+                        </Grid>
+                    </DataTemplate>
+                </usercontrols:CursorListView.ItemTemplate>
+            </usercontrols:CursorListView>
         </Grid>
     </Grid>
 </Page>

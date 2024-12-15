@@ -7,12 +7,13 @@ using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DarkSky.Core.Cursors.Feeds
 {
-	public class TimelineFeedCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
+	public class TimelineFeedCursorSource : AbstractCursorSource<PostViewModel>, ICursorSource
 	{
 		public TimelineFeedCursorSource() : base() { }
 
@@ -36,7 +37,7 @@ namespace DarkSky.Core.Cursors.Feeds
 					{ // add regular posts
 					  // only add if it did not appear before, maybe as part of a reply chain
 						if (!postID.Contains(item.Post.Cid))
-							Items.Add(PostFactory.Create(item));
+							((ObservableCollection<PostViewModel>)Items).Add(PostFactory.Create(item));
 					}
 					else // the post is a reply, use logic to filter
 					{
@@ -57,10 +58,10 @@ namespace DarkSky.Core.Cursors.Feeds
 								if (item.Reason is null)
 								{
 									if (parent.Cid != root.Cid)  // only show root reply if parent is not root
-										Items.Add(new PostViewModel((PostView)reply.Root) { HasReply = true });
-									Items.Add(new PostViewModel((PostView)reply.Parent) { HasReply = true, IsReply = true });
+										((ObservableCollection<PostViewModel>)Items).Add(new PostViewModel((PostView)reply.Root) { HasReply = true });
+									((ObservableCollection<PostViewModel>)Items).Add(new PostViewModel((PostView)reply.Parent) { HasReply = true, IsReply = true });
 								}
-								Items.Add(PostFactory.Create(item)); // Show the regular post
+								((ObservableCollection<PostViewModel>)Items).Add(PostFactory.Create(item)); // Show the regular post
 
 								postID.Add(root.Cid); // add root to hashset so we can filter if it appears later
 							}

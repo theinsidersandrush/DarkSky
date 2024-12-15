@@ -154,9 +154,6 @@
     <Compile Include="UserControls\Embeds\QuoteEmbed.xaml.cs">
       <DependentUpon>QuoteEmbed.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\FeedListView.xaml.cs">
-      <DependentUpon>FeedListView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\PostControl.xaml.cs">
       <DependentUpon>PostControl.xaml</DependentUpon>
     </Compile>
@@ -172,6 +169,12 @@
     </Compile>
     <Compile Include="UserControls\PostThreadView.xaml.cs">
       <DependentUpon>PostThreadView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CursorListView.xaml.cs">
+      <DependentUpon>CursorListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProfileControl.xaml.cs">
+      <DependentUpon>ProfileControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>
@@ -309,10 +312,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\FeedListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\PostControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -330,6 +329,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\PostThreadView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\CursorListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ProfileControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

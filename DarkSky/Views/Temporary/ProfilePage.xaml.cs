@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using DarkSky.Core.Messages;
 using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon.App.Bsky.Feed;
 using System;
@@ -38,6 +40,13 @@ namespace DarkSky.Views
 		{
 			base.OnNavigatedTo(e);
 			Profile = e.Parameter as ProfileViewModel;
+		}
+
+		private void CursorListView_ItemClicked(object sender, ItemClickEventArgs e)
+		{
+			WeakReferenceMessenger.Default.Send(
+				new SecondaryNavigationMessage(
+					new SecondaryNavigation(typeof(PostViewModel), e.ClickedItem as PostViewModel)));
 		}
 	}
 }

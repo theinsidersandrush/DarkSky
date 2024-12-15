@@ -223,7 +223,7 @@ namespace DarkSky.Controls
 				// Format "mention://did?did={mention.Did}"
 				string did = HttpUtility.ParseQueryString(uri.Query)["did"];
 				WeakReferenceMessenger.Default.Send(new SecondaryNavigationMessage(
-					new SecondaryNavigation(typeof(ProfileViewModel), await ProfileFactory.Create(new ATDid(did)))));
+					new SecondaryNavigation(typeof(ProfileViewModel), await ProfileFactory.CreateAsync(new ATDid(did)))));
 			}
 		}
 	}

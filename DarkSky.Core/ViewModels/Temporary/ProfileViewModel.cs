@@ -66,10 +66,10 @@ namespace DarkSky.Core.ViewModels.Temporary
 		private RichText richDescription;
 
 		#region Feeds
-		public ObservableCollection<FeedNavigationItem> ProfileNavigationItems = new();
+		public ObservableCollection<CursorNavigationItem> ProfileNavigationItems = new();
 
 		[ObservableProperty]
-		private FeedNavigationItem selectedProfileNavigationItem;
+		private CursorNavigationItem selectedProfileNavigationItem;
 		#endregion
 
 		public ProfileViewModel(ProfileViewDetailed profileView) 
@@ -84,10 +84,10 @@ namespace DarkSky.Core.ViewModels.Temporary
 			this.FollowersCount = profileView.FollowersCount ?? 0;
 			this.FollowsCount = profileView.FollowsCount ?? 0;
 			this.PostsCount = profileView.PostsCount ?? 0;
-			ProfileNavigationItems.Add(new FeedNavigationItem("Posts", new ProfileFeedCursorSource(this, "posts_no_replies")));
+			ProfileNavigationItems.Add(new CursorNavigationItem("Posts", new ProfileFeedCursorSource(this, "posts_no_replies")));
 			SelectedProfileNavigationItem = ProfileNavigationItems[0];
-			ProfileNavigationItems.Add(new FeedNavigationItem("Replies", new ProfileFeedCursorSource(this, "posts_with_replies")));
-			ProfileNavigationItems.Add(new FeedNavigationItem("Media", new ProfileFeedCursorSource(this, "posts_with_media")));
+			ProfileNavigationItems.Add(new CursorNavigationItem("Replies", new ProfileFeedCursorSource(this, "posts_with_replies")));
+			ProfileNavigationItems.Add(new CursorNavigationItem("Media", new ProfileFeedCursorSource(this, "posts_with_media")));
 			// Profile Descriptions supports Facets but the API does not return them
 			// To fix this we manually parse the Facets using FishyFlip Facet.Parse method
 			RichDescription = new RichText(Description, Facet.Parse(Description, new ProfileViewBasic[0]).ToList());

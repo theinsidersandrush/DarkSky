@@ -5,12 +5,13 @@ using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DarkSky.Core.Cursors.Feeds
 {
-	public class FeedCursorSource : AbstractCursorSource<PostViewModel>, IFeedCursorSource
+	public class FeedCursorSource : AbstractCursorSource<PostViewModel>, ICursorSource
 	{
 		private string FeedUri;
 		public FeedCursorSource(string feed) : base()
@@ -23,7 +24,7 @@ namespace DarkSky.Core.Cursors.Feeds
 			GetFeedOutput timeLine = (await atProtoService.ATProtocolClient.Feed.GetFeedAsync(new ATUri(FeedUri), limit, Cursor)).AsT0;
 			Cursor = timeLine.Cursor;
 			foreach (var item in timeLine.Feed)
-				Items.Add(PostFactory.Create(item));
+				((ObservableCollection<PostViewModel>)Items).Add(PostFactory.Create(item));
 		}
 	}
 }

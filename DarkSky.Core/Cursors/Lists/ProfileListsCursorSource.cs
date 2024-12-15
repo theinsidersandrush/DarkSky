@@ -5,11 +5,16 @@ using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Lexicon.App.Bsky.Graph;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DarkSky.Core.Cursors.Lists
 {
+	/*
+	 * Get the lists of a profile
+	 * https://docs.bsky.app/docs/api/app-bsky-graph-get-lists
+	 */
 	public class ProfileListsCursorSource : AbstractCursorSource<ListViewModel>
 	{
 		private ProfileViewModel Profile;
@@ -24,7 +29,7 @@ namespace DarkSky.Core.Cursors.Lists
 			Cursor = lists.Cursor;
 
 			foreach (var item in lists.Lists)
-				Items.Add(new ListViewModel(item));
+				Add(new ListViewModel(item));
 		}
 	}
 }

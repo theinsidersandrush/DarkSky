@@ -16,10 +16,13 @@ namespace DarkSky.Core.Factories
 	 */
 	public class ProfileFactory
 	{
-		public static async Task<ProfileViewModel> Create(ProfileViewBasic profileView)
-			=> await ProfileFactory.Create(profileView.Did);
+		public static async Task<ProfileViewModel> CreateAsync(ProfileView profileView)
+	=> await ProfileFactory.CreateAsync(profileView.Did);
 
-		public static async Task<ProfileViewModel> Create(ATIdentifier Identifier)
+		public static async Task<ProfileViewModel> CreateAsync(ProfileViewBasic profileView)
+			=> await ProfileFactory.CreateAsync(profileView.Did);
+
+		public static async Task<ProfileViewModel> CreateAsync(ATIdentifier Identifier)
 		{
 			var proto = ServiceContainer.Services.GetService<ATProtoService>().ATProtocolClient;
 			var profile = await proto.Actor.GetProfileAsync(Identifier);

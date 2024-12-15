@@ -76,12 +76,13 @@
                 <icons:FluentIconElement Symbol="Search20" />
             </AutoSuggestBox.QueryIcon>
         </AutoSuggestBox>
-        <ToggleButton x:Name="PrimaryPaneToggle" IsChecked="{x:Bind PrimaryPaneCollapsed, Mode=TwoWay}" Visibility="Visible" Height="32" Foreground="{ThemeResource HvidSortBrush}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 8, 200, 0" Canvas.ZIndex="2" Style="{ThemeResource ToolbarToggleButton}">
+        <ToggleButton x:Name="PrimaryPaneToggle" IsChecked="{x:Bind PrimaryPaneCollapsed, Mode=TwoWay}"
+                      Click="PrimaryPaneToggle_Click" Visibility="Visible" Height="32" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 8, 200, 0" Canvas.ZIndex="2" Style="{ThemeResource ToolbarToggleButton}">
            <!-- <Grid Visibility="Collapsed"> bug not working
                 <icons:FluentSymbolIcon x:Name="Collapsed" Symbol="ChevronLeft20" x:Load="{x:Bind PrimaryPaneCollapsed, Mode=OneWay}" Foreground="{ThemeResource HvidSortBrush}"/>
                 <icons:FluentSymbolIcon x:Name="Expanded" Symbol="ChevronRight20" x:Load="{x:Bind helpers:UIHelper.invert(PrimaryPaneCollapsed), Mode=OneWay}" Margin="0, 0, 3, 0" Foreground="{ThemeResource HvidSortBrush}"/>
             </Grid>-->
-            <icons:FluentSymbolIcon Symbol="PaneClose20" RenderTransformOrigin="0.5, 0.5">
+            <icons:FluentSymbolIcon Symbol="PaneClose20" RenderTransformOrigin="0.5, 0.5" Foreground="{ThemeResource HvidSortBrush}">
                 <icons:FluentSymbolIcon.RenderTransform>
                     <TransformGroup>
                         <RotateTransform Angle="180"/>
@@ -176,7 +177,7 @@
                 <muxc:NavigationViewItem Style="{ThemeResource ContentNavigatonViewItem}" Tag="Profile">
                     <StackPanel>
                         <PersonPicture Height="36" ProfilePicture="{x:Bind img(ViewModel.CurrentProfile.Avatar), Mode=OneWay}" />
-                        <TextBlock x:Name="ProfileText" Visibility="Collapsed" Text="{x:Bind ViewModel.CurrentProfile.DisplayName, Mode=OneWay}" />
+                        <TextBlock x:Name="ProfileText" Text="{x:Bind ViewModel.CurrentProfile.DisplayName, Mode=OneWay}" />
                     </StackPanel>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.FooterMenuItems>

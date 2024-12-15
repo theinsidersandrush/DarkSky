@@ -17,10 +17,10 @@ namespace DarkSky.Core.ViewModels
 {
 	public partial class HomeFeedViewModel : ObservableObject
 	{
-		public ObservableCollection<FeedNavigationItem> Feeds = new();
+		public ObservableCollection<CursorNavigationItem> Feeds = new();
 
 		[ObservableProperty]
-		private FeedNavigationItem selectedFeed;
+		private CursorNavigationItem selectedFeed;
 
 		private ATProtoService atProtoService;
 		public HomeFeedViewModel(ATProtoService atProtoService)
@@ -54,11 +54,16 @@ namespace DarkSky.Core.ViewModels
 							if ((bool)item.Pinned && item.TypeValue == "feed")
 							{
 								var f = (await atProtoService.ATProtocolClient.Feed.GetFeedGeneratorAsync(new ATUri(item.Value))).AsT0;
-								Feeds.Add(new FeedNavigationItem(f.View.DisplayName, new FeedCursorSource(item.Value)));
+								Feeds.Add(new CursorNavigationItem(f.View.DisplayName, new FeedCursorSource(item.Value)));
+							}
+							else if ((bool)item.Pinned && item.TypeValue == "list")
+							{
+								var f = (await atProtoService.ATProtocolClient.Graph.GetListAsync(new ATUri(item.Value))).AsT0;
+								Feeds.Add(new CursorNavigationItem(f.List.Name, new ListFeedCursorSource(item.Value)));
 							}
 
 							if (item.TypeValue == "timeline")
-								Feeds.Add(new FeedNavigationItem("Following", new TimelineFeedCursorSource()));
+								Feeds.Add(new CursorNavigationItem("Following", new TimelineFeedCursorSource()));
 
 							if (SelectedFeed is null) // percieved faster performance
 								SelectedFeed = Feeds[0];

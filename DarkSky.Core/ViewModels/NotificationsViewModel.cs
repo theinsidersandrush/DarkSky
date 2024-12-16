@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Classes;
 using DarkSky.Core.Cursors;
@@ -36,7 +36,6 @@ namespace DarkSky.Core.ViewModels
 		{
 			try
 			{
-				
 			}
 			catch (Exception e)
 			{

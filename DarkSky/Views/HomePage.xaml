@@ -45,14 +45,6 @@
                 </muxc:NavigationView.FooterMenuItems>-->
             </muxc:NavigationView>
         </StackPanel>
-        <controls:CursorListView CursorSource="{x:Bind ViewModel.SelectedFeed.CursorSource, Mode=OneWay}" ItemClicked="CursorListView_ItemClicked" MaxWidth="700" Grid.Row="1" HorizontalAlignment="Stretch">
-            <controls:CursorListView.ItemTemplate>
-                <DataTemplate x:DataType="temporary:PostViewModel">
-                    <Border BorderThickness="{x:Bind helpers:UIHelper.Border(HasReply), Mode=OneWay}" Margin="-16, 0, -16, 0" Padding="0, 0, 16, 0" BorderBrush="{ThemeResource MicaBorderBrush}">
-                        <controls:PostControl Post="{x:Bind Mode=OneWay}"/>
-                    </Border>
-                </DataTemplate>
-            </controls:CursorListView.ItemTemplate>
-        </controls:CursorListView>
+        <controls:CursorListView CursorSource="{x:Bind ViewModel.SelectedFeed.CursorSource, Mode=OneWay}" ItemClicked="CursorListView_ItemClicked" MaxWidth="700" Grid.Row="1" HorizontalAlignment="Stretch"/>
     </Grid>
 </Page>

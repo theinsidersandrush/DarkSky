@@ -56,15 +56,7 @@
             </muxc:NavigationView>
         </Grid>
         <Grid Grid.Row="1">
-            <usercontrols:CursorListView x:Name="PostsList" ItemClicked="PostsList_ItemClicked" CursorSource="{x:Bind List.ListFeedCursorSource, Mode=OneWay}" Visibility="Visible" HorizontalAlignment="Stretch">
-                <usercontrols:CursorListView.ItemTemplate>
-                    <DataTemplate x:DataType="temporary:PostViewModel">
-                        <Border BorderThickness="{x:Bind helpers:UIHelper.Border(HasReply), Mode=OneWay}" Margin="-16, 0, -16, 0" Padding="0, 0, 16, 0" BorderBrush="{ThemeResource MicaBorderBrush}">
-                            <usercontrols:PostControl Post="{x:Bind Mode=OneWay}"/>
-                        </Border>
-                    </DataTemplate>
-                </usercontrols:CursorListView.ItemTemplate>
-            </usercontrols:CursorListView>
+            <usercontrols:CursorListView x:Name="PostsList" ItemClicked="PostsList_ItemClicked" CursorSource="{x:Bind List.ListFeedCursorSource, Mode=OneWay}" Visibility="Visible" HorizontalAlignment="Stretch"/>
             <usercontrols:CursorListView x:Name="UsersLists" 
                 ItemClicked="UsersLists_ItemClicked"
                 CursorSource="{x:Bind List.ListUsersCursorSource, Mode=OneWay}" Visibility="Collapsed">

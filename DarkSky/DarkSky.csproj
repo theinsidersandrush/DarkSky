@@ -139,6 +139,10 @@
     <Compile Include="Controls\RichPostTextBox.xaml.cs">
       <DependentUpon>RichPostTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Templates\CursorItemSelector.cs" />
+    <Compile Include="Templates\CursorItemTemplates.xaml.cs">
+      <DependentUpon>CursorItemTemplates.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Embeds\EmbedControl.xaml.cs">
       <DependentUpon>EmbedControl.xaml</DependentUpon>
     </Compile>
@@ -289,6 +293,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\RichPostTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Templates\CursorItemTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

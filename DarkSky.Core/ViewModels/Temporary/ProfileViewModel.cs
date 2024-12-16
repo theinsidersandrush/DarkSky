@@ -2,6 +2,7 @@
 using DarkSky.Core.Classes;
 using DarkSky.Core.Cursors;
 using DarkSky.Core.Cursors.Feeds;
+using DarkSky.Core.Cursors.Lists;
 using DarkSky.Core.Factories;
 using DarkSky.Core.Services;
 using FishyFlip.Lexicon.App.Bsky.Actor;
@@ -88,6 +89,10 @@ namespace DarkSky.Core.ViewModels.Temporary
 			SelectedProfileNavigationItem = ProfileNavigationItems[0];
 			ProfileNavigationItems.Add(new CursorNavigationItem("Replies", new ProfileFeedCursorSource(this, "posts_with_replies")));
 			ProfileNavigationItems.Add(new CursorNavigationItem("Media", new ProfileFeedCursorSource(this, "posts_with_media")));
+			ProfileNavigationItems.Add(new CursorNavigationItem("Lists", new ProfileListsCursorSource(this)));
+
+
+
 			// Profile Descriptions supports Facets but the API does not return them
 			// To fix this we manually parse the Facets using FishyFlip Facet.Parse method
 			RichDescription = new RichText(Description, Facet.Parse(Description, new ProfileViewBasic[0]).ToList());

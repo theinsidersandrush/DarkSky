@@ -5,10 +5,52 @@
     xmlns:local="using:DarkSky.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
+    xmlns:templates="using:DarkSky.Templates" 
+    xmlns:temporary="using:DarkSky.Core.ViewModels.Temporary" 
+    xmlns:helpers="using:DarkSky.Helpers"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <!-- Item template selector for posts, lists etc.-->
+        <!-- The resource dictionary contains the item templates and selector resource-->
+        <templates:CursorItemSelector x:Key="CursorItemSelector" 
+                              PostItemTemplate="{StaticResource PostItemTemplate}"
+                              ListItemTemplate="{StaticResource ListItemTemplate}"/>
+        
+        <DataTemplate x:Key="PostItemTemplate" x:DataType="temporary:PostViewModel">
+            <Border BorderThickness="{x:Bind helpers:UIHelper.Border(HasReply), Mode=OneWay}" Margin="-16, 0, -16, 0" Padding="0, 0, 16, 0" BorderBrush="{ThemeResource MicaBorderBrush}">
+                <local:PostControl Post="{x:Bind Mode=OneWay}"/>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ListItemTemplate" x:DataType="temporary:ListViewModel">
+            <Grid Padding="12, 8, 12, 8" BorderThickness="0, 0, 0, 1" RowSpacing="8" ColumnSpacing="8" Margin="-16, 0, -16, 0" BorderBrush="{ThemeResource MicaBorderBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Grid.Column="0" CornerRadius="8" Height="48" Width="48">
+                    <Image Source="{x:Bind helpers:UIHelper.Img(Avatar), Mode=OneWay}" Stretch="Fill"/>
+                </Border>
+                <StackPanel Grid.Row="0" Grid.Column="1" Spacing="4" Padding="12, 8, 12, 8">
+                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    <StackPanel Spacing="4" Orientation="Horizontal">
+                        <TextBlock Text="List by " Opacity="0.7" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Bind ListView.Creator.Handle, Mode=OneWay}" Opacity="0.7" VerticalAlignment="Center"/>
+                        <TextBlock Text="• Created " Opacity="0.7" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Bind helpers:UIHelper.SimpleDate(CreatedAt), Mode=OneWay}" Opacity="0.7" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+                <TextBlock Text="{x:Bind Description, Mode=OneWay}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="WrapWholeWords"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -17,8 +59,8 @@
         <muxc:ProgressBar x:Name="Progress" Grid.Row="0" x:Load="{x:Bind CursorSource.IsLoading, Mode=OneWay}" IsIndeterminate="True"/>
         <RefreshContainer Grid.Row="1" RefreshRequested="RefreshContainer_RefreshRequested" HorizontalAlignment="Stretch">
             <ListView x:Name="CursorList" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None" 
-             ItemsSource="{x:Bind CursorSource.Items, Mode=OneWay}" 
-             ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}"
+             ItemsSource="{x:Bind CursorSource.Items, Mode=OneWay}"
+             ItemTemplateSelector="{StaticResource CursorItemSelector}"
              HorizontalAlignment="Stretch"
              Loaded="ListView_Loaded"
              Header="{x:Bind Header, Mode=OneWay}"/>

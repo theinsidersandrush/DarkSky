@@ -3,6 +3,7 @@ using DarkSky.Core.Cursors;
 using DarkSky.Core.Cursors.Feeds;
 using DarkSky.Core.Messages;
 using DarkSky.Core.ViewModels.Temporary;
+using DarkSky.Templates;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -61,7 +62,16 @@ namespace DarkSky.UserControls
 		}
 
 		public static readonly DependencyProperty ItemTemplateProperty =
-			DependencyProperty.Register("ItemTemplate",typeof(DataTemplate),typeof(CursorListView),new PropertyMetadata(null));
+			DependencyProperty.Register("ItemTemplate",typeof(DataTemplate),typeof(CursorListView),new PropertyMetadata(null, OnItemTemplateChanged));
+
+		private static void OnItemTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is CursorListView c)
+			{
+				c.CursorList.ItemTemplateSelector = null;
+				c.CursorList.ItemTemplate = e.NewValue as DataTemplate;
+			}
+		}
 
 		public DataTemplate ItemTemplate
 		{
@@ -74,6 +84,7 @@ namespace DarkSky.UserControls
 		public CursorListView()
 		{
 			this.InitializeComponent();
+			//CursorList.ItemTemplateSelector = new CursorItemSelector();
 		}
 
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)

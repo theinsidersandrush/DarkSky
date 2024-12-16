@@ -77,13 +77,6 @@
                     </muxc:NavigationView>
                 </Grid>
             </usercontrols:CursorListView.Header>
-            <usercontrols:CursorListView.ItemTemplate>
-                <DataTemplate x:DataType="temporary:PostViewModel">
-                    <Border BorderThickness="{x:Bind helpers:UIHelper.Border(HasReply), Mode=OneWay}" Margin="-16, 0, -16, 0" Padding="0, 0, 16, 0" BorderBrush="{ThemeResource MicaBorderBrush}">
-                        <usercontrols:PostControl Post="{x:Bind Mode=OneWay}"/>
-                    </Border>
-                </DataTemplate>
-            </usercontrols:CursorListView.ItemTemplate>
         </usercontrols:CursorListView>
     </Grid>
 </Page>

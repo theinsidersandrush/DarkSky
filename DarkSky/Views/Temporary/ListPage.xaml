@@ -47,36 +47,19 @@
             </StackPanel>
             <TextBlock Text="{x:Bind List.Description, Mode=OneWay}" Margin="0, 8, 0, -4" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
             <muxc:NavigationView Grid.Column="0" Grid.ColumnSpan="2"
-                x:Name="ListNavigation" Grid.Row="2" SelectionChanged="ListNavigation_SelectionChanged"
-                IsBackButtonVisible="Collapsed" IsSettingsVisible="False" PaneDisplayMode="Top">
-                <muxc:NavigationView.MenuItems>
-                    <muxc:NavigationViewItem Content="Posts"/>
-                    <muxc:NavigationViewItem Content="Users"/>
-                </muxc:NavigationView.MenuItems>
+                x:Name="ListNavigation" Grid.Row="2" Height="48"
+               IsBackButtonVisible="Collapsed"
+               IsSettingsVisible="False"
+               MenuItemsSource="{x:Bind List.Cursors, Mode=OneWay}"
+               SelectedItem="{x:Bind List.SelectedCursor, Mode=TwoWay}"
+               PaneDisplayMode="Top">
+                <muxc:NavigationView.MenuItemTemplate>
+                    <DataTemplate x:DataType="classes:CursorNavigationItem" >
+                        <muxc:NavigationViewItem Content="{x:Bind Name, Mode=OneWay}"/>
+                    </DataTemplate>
+                </muxc:NavigationView.MenuItemTemplate>
             </muxc:NavigationView>
         </Grid>
-        <Grid Grid.Row="1">
-            <usercontrols:CursorListView x:Name="PostsList" ItemClicked="PostsList_ItemClicked" CursorSource="{x:Bind List.ListFeedCursorSource, Mode=OneWay}" Visibility="Visible" HorizontalAlignment="Stretch"/>
-            <usercontrols:CursorListView x:Name="UsersLists" 
-                ItemClicked="UsersLists_ItemClicked"
-                CursorSource="{x:Bind List.ListUsersCursorSource, Mode=OneWay}" Visibility="Collapsed">
-                <usercontrols:CursorListView.ItemTemplate>
-                    <DataTemplate x:DataType="graph:ListItemView">
-                        <Grid Padding="12, 8, 12, 8" ColumnSpacing="12" BorderThickness="0, 0, 0, 1" Margin="-16, 0, -16, 0" BorderBrush="{ThemeResource MicaBorderBrush}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <PersonPicture Grid.Column="0" Height="36" VerticalAlignment="Top" ProfilePicture="{x:Bind helpers:UIHelper.Img(Subject.Avatar), Mode=OneWay}" />
-                            <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock Text="{x:Bind Subject.DisplayName, Mode=OneWay}" FontWeight="SemiBold" FontSize="16"/>
-                                <TextBlock Text="{x:Bind Subject.Handle, Mode=OneWay}" Opacity="0.7"/>
-                                <TextBlock Text="{x:Bind Subject.Description, Mode=OneWay}" Margin="0, 4, 0, 0" MaxLines="3" TextTrimming="CharacterEllipsis"/>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </usercontrols:CursorListView.ItemTemplate>
-            </usercontrols:CursorListView>
-        </Grid>
+        <usercontrols:CursorListView x:Name="PostsUsersList" Grid.Row="1" CursorSource="{x:Bind List.SelectedCursor.CursorSource, Mode=OneWay}" ItemsSource="{x:Bind List.SelectedCursor.CursorSource.Items, Mode=OneWay}" HorizontalAlignment="Stretch"/>
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
-﻿using DarkSky.Core.ViewModels.Temporary;
+﻿using DarkSky.Core.Factories;
+using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon.App.Bsky.Graph;
 using FishyFlip.Lexicon.App.Bsky.Notification;
 using System;
@@ -13,7 +14,7 @@ namespace DarkSky.Core.Cursors.Lists
 	 * Get users added to a list
 	 * Using this API https://docs.bsky.app/docs/api/app-bsky-graph-get-list
 	 */
-	public class ListUsersCursorSource : AbstractCursorSource<ListItemView>
+	public class ListUsersCursorSource : AbstractCursorSource<ProfileViewModel>
 	{
 		private ListViewModel List;
 		public ListUsersCursorSource(ListViewModel list) : base() 
@@ -26,7 +27,10 @@ namespace DarkSky.Core.Cursors.Lists
 			GetListOutput list = (await atProtoService.ATProtocolClient.Graph.GetListAsync(List.ListView.Uri, limit, Cursor)).AsT0;
 			Cursor = list.Cursor;
 			foreach (var item in list.Items)
-				Add(item);
+			{
+				if(item.Subject is not null)
+					Add(ProfileFactory.Create(item.Subject));
+			}
 		}
 	}
 }

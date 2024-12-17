@@ -29,7 +29,6 @@
                 </Button>
             </Grid>
             <usercontrols:CursorListView x:Name="UsersLists" Grid.Row="1"
-                ItemClicked="ListsList_ItemClick"
                 CursorSource="{x:Bind ViewModel.ListsSource, Mode=OneWay}"/>
         </Grid>
     </Grid>

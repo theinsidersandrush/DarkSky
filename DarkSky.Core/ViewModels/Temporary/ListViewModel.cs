@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DarkSky.Core.Classes;
 using DarkSky.Core.Cursors.Feeds;
 using DarkSky.Core.Cursors.Lists;
+using FishyFlip.Lexicon.App.Bsky.Feed;
 using FishyFlip.Lexicon.App.Bsky.Graph;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +15,12 @@ namespace DarkSky.Core.ViewModels.Temporary
 {
 	public partial class ListViewModel : ObservableObject
 	{
+
+		public ObservableCollection<CursorNavigationItem> Cursors = new();
+
+		[ObservableProperty]
+		private CursorNavigationItem selectedCursor;
+
 		[ObservableProperty]
 		private string name;
 
@@ -32,6 +41,7 @@ namespace DarkSky.Core.ViewModels.Temporary
 
 		[ObservableProperty]
 		private ListView listView;
+
 		public ListViewModel(ListView listView)
 		{
 			this.ListView = listView;
@@ -39,9 +49,12 @@ namespace DarkSky.Core.ViewModels.Temporary
 			this.Description = listView.Description ?? "";
 			this.Avatar = listView.Avatar ?? "https://raw.githubusercontent.com/FireCubeStudios/DarkSky/refs/heads/master/DarkSky/Assets/BlueSky/list.webp";
 			this.CreatedAt = listView.IndexedAt ?? DateTime.Now;
-			this.ListUsersCursorSource = new ListUsersCursorSource(this);
 			if (listView.Uri is not null)
-				this.ListFeedCursorSource = new ListFeedCursorSource(listView.Uri.ToString());
+			{
+				Cursors.Add(new CursorNavigationItem("Posts", new ListFeedCursorSource(listView.Uri.ToString())));
+				Cursors.Add(new CursorNavigationItem("Users", new ListUsersCursorSource(this)));
+				SelectedCursor = Cursors[0];
+			}	
 		}
 	}
 }

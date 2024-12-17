@@ -38,51 +38,35 @@ namespace DarkSky.Views.Temporary
 		public ListPage()
 		{
 			this.InitializeComponent();
-			ListNavigation.SelectedItem = ListNavigation.MenuItems[0];
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
 			List = e.Parameter as ListViewModel;
-			ListNavigation.SelectedItem = ListNavigation.MenuItems[0];
 		}
 
 		private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
 		{
 			WeakReferenceMessenger.Default.Send(
 				new SecondaryNavigationMessage(
-					new SecondaryNavigation(typeof(ProfileViewModel), await ProfileFactory.CreateAsync(List.ListView.Creator))));
+					new SecondaryNavigation(typeof(ProfileViewModel), ProfileFactory.Create(List.ListView.Creator))));
 		}
 
 		private void ListNavigation_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
 		{
-			if (sender.SelectedItem is null) return;
+			if (sender.SelectedItem is null || List is null) return;
 
 			if (sender.SelectedItem == ListNavigation.MenuItems[0])
 			{
-				PostsList.Visibility = Visibility.Visible;
-				UsersLists.Visibility = Visibility.Collapsed;
+				PostsUsersList.CursorSource = List.ListFeedCursorSource;
+				PostsUsersList.ItemsSource = List.ListFeedCursorSource.Items;
 			}
 			else if (sender.SelectedItem == ListNavigation.MenuItems[1])
 			{
-				PostsList.Visibility = Visibility.Collapsed;
-				UsersLists.Visibility = Visibility.Visible;
+				PostsUsersList.CursorSource = List.ListUsersCursorSource;
+				PostsUsersList.ItemsSource = List.ListUsersCursorSource.Items;
 			}
-		}
-
-		private async void UsersLists_ItemClicked(object sender, ItemClickEventArgs e)
-		{
-			WeakReferenceMessenger.Default.Send(
-					new SecondaryNavigationMessage(
-						new SecondaryNavigation(typeof(ProfileViewModel), await ProfileFactory.CreateAsync((e.ClickedItem as ListItemView).Subject))));
-		}
-
-		private void PostsList_ItemClicked(object sender, ItemClickEventArgs e)
-		{
-			WeakReferenceMessenger.Default.Send(
-				new SecondaryNavigationMessage(
-					new SecondaryNavigation(typeof(PostViewModel), e.ClickedItem as PostViewModel)));
 		}
 	}
 }

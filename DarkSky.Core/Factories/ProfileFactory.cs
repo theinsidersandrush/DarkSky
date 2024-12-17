@@ -16,11 +16,27 @@ namespace DarkSky.Core.Factories
 	 */
 	public class ProfileFactory
 	{
-		public static async Task<ProfileViewModel> CreateAsync(ProfileView profileView)
-	=> await ProfileFactory.CreateAsync(profileView.Did);
+		public static ProfileViewModel Create(ProfileView profileView)
+		{ 
+			return new ProfileViewModel(profileView.Did)
+			{
+				Handle = profileView.Handle,
+				DisplayName = profileView.DisplayName,
+				Avatar = profileView.Avatar,
+				Description = profileView.Description,
+				CreatedAt = profileView.CreatedAt ?? profileView.IndexedAt ?? DateTime.Now
+			};
+		}
 
-		public static async Task<ProfileViewModel> CreateAsync(ProfileViewBasic profileView)
-			=> await ProfileFactory.CreateAsync(profileView.Did);
+		public static ProfileViewModel Create(ProfileViewBasic profileView)
+		{
+			return new ProfileViewModel(profileView.Did)
+			{
+				Handle = profileView.Handle,
+				DisplayName = profileView.DisplayName,
+				Avatar = profileView.Avatar
+			};
+		}
 
 		public static async Task<ProfileViewModel> CreateAsync(ATIdentifier Identifier)
 		{

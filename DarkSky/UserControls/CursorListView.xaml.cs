@@ -89,7 +89,29 @@ namespace DarkSky.UserControls
 
 		private void ListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
-			ItemClicked?.Invoke(this, e);
+			if(ItemClicked is not null)
+				ItemClicked.Invoke(this, e);
+			else
+			{
+				if (e.ClickedItem is PostViewModel)
+				{
+					WeakReferenceMessenger.Default.Send(
+						new SecondaryNavigationMessage(
+							new SecondaryNavigation(typeof(PostViewModel), e.ClickedItem as PostViewModel)));
+				}
+				else if (e.ClickedItem is ProfileViewModel)
+				{
+					WeakReferenceMessenger.Default.Send(
+						new SecondaryNavigationMessage(
+							new SecondaryNavigation(typeof(ProfileViewModel), e.ClickedItem as ProfileViewModel)));
+				}
+				else if (e.ClickedItem is ListViewModel)
+				{
+					WeakReferenceMessenger.Default.Send(
+						new SecondaryNavigationMessage(
+							new SecondaryNavigation(typeof(ListViewModel), e.ClickedItem as ListViewModel)));
+				}
+			}
 		}
 
 		private async void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)

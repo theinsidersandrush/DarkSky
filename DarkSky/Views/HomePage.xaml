@@ -45,6 +45,6 @@
                 </muxc:NavigationView.FooterMenuItems>-->
             </muxc:NavigationView>
         </StackPanel>
-        <controls:CursorListView CursorSource="{x:Bind ViewModel.SelectedFeed.CursorSource, Mode=OneWay}" ItemClicked="CursorListView_ItemClicked" MaxWidth="700" Grid.Row="1" HorizontalAlignment="Stretch"/>
+        <controls:CursorListView CursorSource="{x:Bind ViewModel.SelectedFeed.CursorSource, Mode=OneWay}" MaxWidth="700" Grid.Row="1" HorizontalAlignment="Stretch"/>
     </Grid>
 </Page>

@@ -36,17 +36,14 @@ namespace DarkSky.Views
 			this.InitializeComponent();
 		}
 
-		protected override void OnNavigatedTo(NavigationEventArgs e)
+		protected async override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
-			Profile = e.Parameter as ProfileViewModel;
-		}
-
-		private void CursorListView_ItemClicked(object sender, ItemClickEventArgs e)
-		{
-			WeakReferenceMessenger.Default.Send(
-				new SecondaryNavigationMessage(
-					new SecondaryNavigation(typeof(PostViewModel), e.ClickedItem as PostViewModel)));
+			if(e.Parameter is ProfileViewModel)
+			{
+				Profile = e.Parameter as ProfileViewModel;
+				await Profile.LoadDetailedAsync();
+			}
 		}
 	}
 }

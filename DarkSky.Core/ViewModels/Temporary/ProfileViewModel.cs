@@ -16,6 +16,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
 
 namespace DarkSky.Core.ViewModels.Temporary
 {
@@ -50,6 +52,9 @@ namespace DarkSky.Core.ViewModels.Temporary
 		[ObservableProperty]
 		private long postsCount;
 
+		[ObservableProperty]
+		private DateTime createdAt;
+
 		#endregion
 
 		[ObservableProperty]
@@ -73,8 +78,18 @@ namespace DarkSky.Core.ViewModels.Temporary
 		private CursorNavigationItem selectedProfileNavigationItem;
 		#endregion
 
-		public ProfileViewModel(ProfileViewDetailed profileView) 
+		/*
+		 * Used in scenarios where full profile details are not needed like in search, lists
+		 * Used alongside LoadDetailedAsync to get more details
+		 */
+		private bool IsDetailed = false;
+		public ProfileViewModel(ATDid did) => this.did = did;
+
+		public ProfileViewModel(ProfileViewDetailed profileView) => Setup(profileView);
+
+		private async void Setup(ProfileViewDetailed profileView)
 		{
+			IsDetailed = true; // Profile is now detailed
 			this.Profile = profileView;
 			this.Handle = profileView.Handle;
 			this.Did = profileView.Did;
@@ -85,6 +100,7 @@ namespace DarkSky.Core.ViewModels.Temporary
 			this.FollowersCount = profileView.FollowersCount ?? 0;
 			this.FollowsCount = profileView.FollowsCount ?? 0;
 			this.PostsCount = profileView.PostsCount ?? 0;
+			this.CreatedAt = profileView.CreatedAt ?? profileView.IndexedAt ?? DateTime.Now;
 			ProfileNavigationItems.Add(new CursorNavigationItem("Posts", new ProfileFeedCursorSource(this, "posts_no_replies")));
 			SelectedProfileNavigationItem = ProfileNavigationItems[0];
 			ProfileNavigationItems.Add(new CursorNavigationItem("Replies", new ProfileFeedCursorSource(this, "posts_with_replies")));
@@ -97,16 +113,25 @@ namespace DarkSky.Core.ViewModels.Temporary
 			// To fix this we manually parse the Facets using FishyFlip Facet.Parse method
 			RichDescription = new RichText(Description, Facet.Parse(Description, new ProfileViewBasic[0]).ToList());
 
-			Setup();
-		}
-
-		private async void Setup()
-		{
 			if (Profile.PinnedPost is not null)
 			{
 				this.PinnedPost = await PostFactory.CreateAsync(Profile.PinnedPost.Uri);
 				this.PinnedPost.IsPinned = true;
 			}
+		}
+
+		/*
+		 * Used to load the ProfileDetailedView from the DID
+		 * Sometimes profiles will only have few details usually used in lists, search etc.
+		 * When a profile is opened this method will usually be called to get all details
+		 * Used in the ProfilePage when a profile is loaded there
+		 */
+		public async Task LoadDetailedAsync()
+		{
+			if (IsDetailed) return; // Don't load if already detailed
+			var proto = ServiceContainer.Services.GetService<ATProtoService>().ATProtocolClient;
+			var profile = await proto.Actor.GetProfileAsync(Did);
+			Setup(profile.AsT0);
 		}
 	}
 }

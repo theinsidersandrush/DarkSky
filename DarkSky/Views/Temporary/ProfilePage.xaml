@@ -23,7 +23,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <usercontrols:CursorListView Grid.Row="2" ItemClicked="CursorListView_ItemClicked" CursorSource="{x:Bind Profile.SelectedProfileNavigationItem.CursorSource, Mode=OneWay}" HorizontalAlignment="Stretch">
+        <usercontrols:CursorListView Grid.Row="2" CursorSource="{x:Bind Profile.SelectedProfileNavigationItem.CursorSource, Mode=OneWay}" HorizontalAlignment="Stretch">
             <usercontrols:CursorListView.Header>
                 <Grid>
                     <Grid.RowDefinitions>

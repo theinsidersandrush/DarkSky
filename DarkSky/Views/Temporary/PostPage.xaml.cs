@@ -56,7 +56,7 @@ namespace DarkSky.Views
 		{
 			WeakReferenceMessenger.Default.Send(
 				new SecondaryNavigationMessage(
-					new SecondaryNavigation(typeof(ProfileViewModel), await ProfileFactory.CreateAsync(Post.InternalPost.Author))));
+					new SecondaryNavigation(typeof(ProfileViewModel), ProfileFactory.Create(Post.InternalPost.Author))));
 		}
 	}
 }

@@ -34,7 +34,6 @@ namespace DarkSky.Core.Services
 					/*Session session2 = new Session(session1.Did, session1.DidDoc, session1.Handle, session1.Email, session1.AccessJwt, session1.RefreshJwt);
 					var authSession = new AuthSession(session2);
 					Session session3 = await ATProtocolClient.AuthenticateWithPasswordSessionAsync(authSession);*/
-
 					WeakReferenceMessenger.Default.Send(new AuthenticationSessionMessage(ATProtocolClient.Session));
 				}
 				else

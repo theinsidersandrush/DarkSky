@@ -12,6 +12,7 @@ namespace DarkSky.Templates
 	public class CursorItemSelector : DataTemplateSelector
 	{
 		public DataTemplate PostItemTemplate { get; set; }
+		public DataTemplate ProfileItemTemplate { get; set; }
 		public DataTemplate ListItemTemplate { get; set; }
 
 		protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
@@ -19,6 +20,10 @@ namespace DarkSky.Templates
 			if (item is PostViewModel)
 			{
 				return PostItemTemplate;
+			}
+			else if (item is ProfileViewModel)
+			{
+				return ProfileItemTemplate;
 			}
 			else if (item is ListViewModel)
 			{

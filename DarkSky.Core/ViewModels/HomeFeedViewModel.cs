@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using DarkSky.Core.Classes;
-using DarkSky.Core.Helpers;
+using DarkSky.Core.Cursors;
+using DarkSky.Core.Cursors.Feeds;
 using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using FishyFlip.Lexicon.App.Bsky.Actor;
@@ -16,10 +17,10 @@ namespace DarkSky.Core.ViewModels
 {
 	public partial class HomeFeedViewModel : ObservableObject
 	{
-		public ObservableCollection<FeedNavigationItem> Feeds = new();
+		public ObservableCollection<CursorNavigationItem> Feeds = new();
 
 		[ObservableProperty]
-		private FeedNavigationItem selectedFeed;
+		private CursorNavigationItem selectedFeed;
 
 		private ATProtoService atProtoService;
 		public HomeFeedViewModel(ATProtoService atProtoService)
@@ -30,8 +31,8 @@ namespace DarkSky.Core.ViewModels
 				Setup(m.Value);
 			});
 
-			if (atProtoService.Session is not null)
-				Setup(atProtoService.Session);
+			if (atProtoService.ATProtocolClient.Session is not null)
+				Setup(atProtoService.ATProtocolClient.Session);
 		}
 
 		// todo fix
@@ -41,12 +42,10 @@ namespace DarkSky.Core.ViewModels
 			{
 				SelectedFeed = null;
 				Feeds.Clear();
-				atProtoService.Session = session;
 				var x = await atProtoService.ATProtocolClient.Actor.GetPreferencesAsync();
 				var preferences = x.AsT0;
 				foreach (var p in preferences.Preferences)
 				{
-					Debug.WriteLine(p.Type);
 					if (p.Type == "app.bsky.actor.defs#savedFeedsPrefV2")
 					{
 						SavedFeedsPrefV2 feeds = p as SavedFeedsPrefV2;
@@ -55,17 +54,27 @@ namespace DarkSky.Core.ViewModels
 							if ((bool)item.Pinned && item.TypeValue == "feed")
 							{
 								var f = (await atProtoService.ATProtocolClient.Feed.GetFeedGeneratorAsync(new ATUri(item.Value))).AsT0;
-								Feeds.Add(new FeedNavigationItem(f.View.DisplayName, new FeedCursorSource(atProtoService, item.Value)));
+								Feeds.Add(new CursorNavigationItem(f.View.DisplayName, new FeedCursorSource(item.Value)));
+							}
+							else if ((bool)item.Pinned && item.TypeValue == "list")
+							{
+								var f = (await atProtoService.ATProtocolClient.Graph.GetListAsync(new ATUri(item.Value))).AsT0;
+								Feeds.Add(new CursorNavigationItem(f.List.Name, new ListFeedCursorSource(item.Value)));
 							}
 
 							if (item.TypeValue == "timeline")
-								Feeds.Add(new FeedNavigationItem("Following", new TimelineFeedCursorSource(atProtoService)));
+								Feeds.Add(new CursorNavigationItem("Following", new TimelineFeedCursorSource()));
+
+							if (SelectedFeed is null) // percieved faster performance
+								SelectedFeed = Feeds[0];
 						}
 					}
 				}
-				SelectedFeed = Feeds[0];
 			}
-			catch { }
+			catch (Exception e)
+			{
+				WeakReferenceMessenger.Default.Send(new ErrorMessage(e));
+			}
 		}
 	}
 }

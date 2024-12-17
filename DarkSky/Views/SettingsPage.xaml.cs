@@ -1,4 +1,5 @@
 ﻿using DarkSky.Core.Services;
+using DarkSky.Core.Services.Interfaces;
 using DarkSky.Core.ViewModels;
 using DarkSky.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +37,6 @@ namespace DarkSky.Views
 		{
 			ATProtoService atProtoService = App.Current.Services.GetService<ATProtoService>();
 			ICredentialService credentialService = App.Current.Services.GetService<ICredentialService>();
-			atProtoService.Session = null;
 			credentialService.RemoveCredentials();
 			((Frame)Window.Current.Content).Navigate(typeof(LoginPage));
 		}

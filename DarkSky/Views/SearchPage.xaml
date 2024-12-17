@@ -5,10 +5,29 @@
     xmlns:local="using:DarkSky.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:classes="using:DarkSky.Core.Classes" 
+    xmlns:notification="using:FishyFlip.Lexicon.App.Bsky.Notification"
+    xmlns:helpers="using:DarkSky.Helpers" 
+    xmlns:temporary="using:DarkSky.Core.ViewModels.Temporary" 
+    xmlns:usercontrols="using:DarkSky.UserControls" 
+    xmlns:icons="using:Cube.UI.Icons"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    NavigationCacheMode="Enabled"
+    mc:Ignorable="d">
     <Grid>
-
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Height="49" Padding="12, 8, 12, 8" BorderThickness="0, 0, 0, 1" BorderBrush="{ThemeResource MicaBorderBrush}">
+                <AutoSuggestBox HorizontalAlignment="Stretch">
+                    <AutoSuggestBox.QueryIcon>
+                        <icons:FluentIconElement Symbol="Search20"/>
+                    </AutoSuggestBox.QueryIcon>
+                </AutoSuggestBox>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

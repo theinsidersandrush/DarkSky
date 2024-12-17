@@ -2,6 +2,7 @@
 using DarkSky.Core.ViewModels.Temporary;
 using FishyFlip.Lexicon.App.Bsky.Embed;
 using FishyFlip.Lexicon.App.Bsky.Feed;
+using FishyFlip.Lexicon.Com.Atproto.Repo;
 using FishyFlip.Lexicon.Com.Atproto.Sync;
 using FishyFlip.Models;
 using Ipfs;
@@ -30,13 +31,13 @@ namespace DarkSky.Core.Factories
 			return ViewModel;
 		}
 
-		public async static Task<PostViewModel> Create(ViewRecord viewRecord)
+		public async static Task<PostViewModel> CreateAsync(ViewRecord viewRecord)
+			=> await PostFactory.CreateAsync(viewRecord.Uri);
+
+		public async static Task<PostViewModel> CreateAsync(ATUri Uri)
 		{
-			var p = ServiceContainer.Services.GetService<ATProtoService>();
-			var proto = p.ATProtocolClient;
-			var list = new List<ATUri>();
-			list.Add(viewRecord.Uri);
-			var result = await proto.GetPostsAsync(list);
+			var proto = ServiceContainer.Services.GetService<ATProtoService>().ATProtocolClient;
+			var result = await proto.GetPostsAsync(new List<ATUri> { Uri });
 			return new PostViewModel(result.AsT0.Posts[0]);
 		}
 	}

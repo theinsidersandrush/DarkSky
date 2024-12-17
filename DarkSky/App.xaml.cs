@@ -25,13 +25,14 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using DarkSky.Core.Services;
 using DarkSky.Core.Classes;
+using DarkSky.Core.Services.Interfaces;
 
 namespace DarkSky
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    sealed partial class App : Application
+	/// <summary>
+	/// Provides application-specific behavior to supplement the default Application class.
+	/// </summary>
+	sealed partial class App : Application
     {
 		public static IServiceProvider ConfigureServices()
 		{
@@ -39,12 +40,14 @@ namespace DarkSky
 
 			services.AddSingleton<ICredentialService, CredentialService>();
 			services.AddSingleton<ISettingsService, SettingsService>();
+			services.AddSingleton<IAccountService, AccountService>();
 			services.AddSingleton<ATProtoService>();
 			services.AddTransient<LoginViewModel>();
 			services.AddTransient<MainViewModel>();
 			services.AddTransient<SettingsViewModel>();
-			services.AddSingleton<ProfileViewModel>();
+			services.AddTransient<NotificationsViewModel>();
 			services.AddSingleton<HomeFeedViewModel>();
+			services.AddSingleton<ListsViewModel>();
 
 			NavigationService navigationService = new();
 			navigationService.RegisterViewForViewModel(typeof(MainViewModel), typeof(MainPage));
@@ -63,6 +66,7 @@ namespace DarkSky
 		/// </summary>
 		public IServiceProvider Services { get; set; }
 
+		private CredentialService CredentialService = new CredentialService();
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
@@ -70,6 +74,13 @@ namespace DarkSky
 		public App()
         {
 			this.InitializeComponent();
+			if (CredentialService.Count() != 0)
+			{
+				App.Current.Services = ServiceContainer.Services = ConfigureServices();
+				Credential credentials = CredentialService.GetCredential();
+				ATProtoService proto = Services.GetService<ATProtoService>();
+				_ = proto.LoginAsync(credentials.username, credentials.password);
+			}
 			this.Suspending += OnSuspending;
 			UnhandledException += OnUnhandledException;
 			TaskScheduler.UnobservedTaskException += OnUnobservedException;
@@ -103,19 +114,15 @@ namespace DarkSky
 
             if (e.PrelaunchActivated == false)
             {
+				Windows.ApplicationModel.Core.CoreApplication.EnablePrelaunch(true);
 				if (rootFrame.Content == null)
 				{
-					CredentialService credentialService = new CredentialService();
-					if (credentialService.Count() == 0)
+					if (CredentialService.Count() == 0)
 					{
 						rootFrame.Navigate(typeof(LoginPage), e.Arguments);
 					}
 					else // login, initialise DI, go to mainpage
 					{
-						App.Current.Services = ServiceContainer.Services = ConfigureServices();
-						Credential credentials = credentialService.GetCredential();
-						ATProtoService proto = Services.GetService<ATProtoService>();
-						await proto.LoginAsync(credentials.username, credentials.password);
 						rootFrame.Navigate(typeof(MainPage), e.Arguments);
 					}
 				}

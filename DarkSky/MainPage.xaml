@@ -8,11 +8,31 @@
     xmlns:local="using:DarkSky"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls" xmlns:helpers="using:DarkSky.Helpers"
     SizeChanged="Page_SizeChanged"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Background="{ThemeResource MicaDeepBrush}">
+        <!-- Triggered when window gets big-->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="WideState">
+                    <VisualState.Setters>
+                        <Setter Target="AppNavigation.PaneDisplayMode" Value="LeftCompact"/>
+                        <Setter Target="ProfileText.Visibility" Value="Visible"/>
+                        <Setter Target="NavigationContent.Margin" Value="0, 0, 8, 8"/>
+                        <Setter Target="PrimaryPaneToggle.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.Setters>
+                        <Setter Target="AppNavigation.PaneDisplayMode" Value="Top"/>
+                        <Setter Target="ProfileText.Visibility" Value="Collapsed"/>
+                        <Setter Target="NavigationContent.Margin" Value="8"/>
+                        <Setter Target="PrimaryPaneToggle.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Border
             x:Name="AppTitleBar"
             Height="48"
@@ -44,7 +64,7 @@
                     Text="Insider"/>
             </StackPanel>
         </Border>
-        <AutoSuggestBox
+        <AutoSuggestBox x:Name="SearchBox" Visibility="Collapsed"
             Width="384"
             Height="32"
             Margin="0,8,0,0"
@@ -56,6 +76,21 @@
                 <icons:FluentIconElement Symbol="Search20" />
             </AutoSuggestBox.QueryIcon>
         </AutoSuggestBox>
+        <ToggleButton x:Name="PrimaryPaneToggle" IsChecked="{x:Bind PrimaryPaneCollapsed, Mode=TwoWay}"
+                      Click="PrimaryPaneToggle_Click" Visibility="Visible" Height="32" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 8, 200, 0" Canvas.ZIndex="2" Style="{ThemeResource ToolbarToggleButton}">
+           <!-- <Grid Visibility="Collapsed"> bug not working
+                <icons:FluentSymbolIcon x:Name="Collapsed" Symbol="ChevronLeft20" x:Load="{x:Bind PrimaryPaneCollapsed, Mode=OneWay}" Foreground="{ThemeResource HvidSortBrush}"/>
+                <icons:FluentSymbolIcon x:Name="Expanded" Symbol="ChevronRight20" x:Load="{x:Bind helpers:UIHelper.invert(PrimaryPaneCollapsed), Mode=OneWay}" Margin="0, 0, 3, 0" Foreground="{ThemeResource HvidSortBrush}"/>
+            </Grid>-->
+            <icons:FluentSymbolIcon Symbol="PaneClose20" RenderTransformOrigin="0.5, 0.5" Foreground="{ThemeResource HvidSortBrush}">
+                <icons:FluentSymbolIcon.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform Angle="180"/>
+                        <TranslateTransform Y="2" X="2"/>
+                    </TransformGroup>
+                </icons:FluentSymbolIcon.RenderTransform>
+            </icons:FluentSymbolIcon>
+        </ToggleButton>
         <muxc:InfoBar
             x:Name="Errorbar"
             Canvas.ZIndex="5"
@@ -68,13 +103,14 @@
             Grid.Row="1"
             Margin="0,48,0,0"
             IsBackButtonVisible="Collapsed"
+            IsSettingsVisible="True"
             IsBackEnabled="False"
             IsPaneOpen="True"
             IsPaneToggleButtonVisible="False"
-            IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="AppNavigation_ItemInvoked"
             OpenPaneLength="72"
+            CompactPaneLength="72"
             PaneDisplayMode="Left"
             SelectionChanged="AppNavigation_SelectionChanged"
             Style="{ThemeResource StoreNavigationViewStyle}">
@@ -101,12 +137,17 @@
                         </toolkit:DropShadowPanel>
                     </Grid>-->
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Chat">
+                <muxc:NavigationViewItem Content="Search" Visibility="Collapsed">
+                    <muxc:NavigationViewItem.Icon>
+                        <icons:FluentIconElement Symbol="Search24" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Content="Chat" Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <icons:FluentIconElement Symbol="Chat24" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Feeds">
+                <muxc:NavigationViewItem Content="Feeds" Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <icons:FluentIconElement Symbol="BroadActivityFeed24" />
                     </muxc:NavigationViewItem.Icon>
@@ -136,44 +177,39 @@
                 <muxc:NavigationViewItem Style="{ThemeResource ContentNavigatonViewItem}" Tag="Profile">
                     <StackPanel>
                         <PersonPicture Height="36" ProfilePicture="{x:Bind img(ViewModel.CurrentProfile.Avatar), Mode=OneWay}" />
-                        <TextBlock Text="{x:Bind ViewModel.CurrentProfile.DisplayName, Mode=OneWay}" />
+                        <TextBlock x:Name="ProfileText" Text="{x:Bind ViewModel.CurrentProfile.DisplayName, Mode=OneWay}" />
                     </StackPanel>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Settings" Tag="Settings">
-                    <muxc:NavigationViewItem.Icon>
-                        <icons:FluentIconElement Symbol="Settings24" />
-                    </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.FooterMenuItems>
 
             <muxc:NavigationView.Content>
-                <Grid
-                    Background="{ThemeResource MicaDarkBrush}"
-                    BorderBrush="{ThemeResource MicaBorderBrush}"
-                    BorderThickness="1,1,0,0"
-                    CornerRadius="8, 0, 0, 0">
-                    <Grid Background="{ThemeResource MicaBlurBrush}">
-                        <Grid x:Name="DualPane" Visibility="Visible">
+                <Grid x:Name="NavigationContent" Margin="0, 0, 8, 8" CornerRadius="8">
+                    <Grid>
+                        <Grid x:Name="DualPane" Visibility="Visible" ColumnSpacing="8">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="500" MinWidth="400"/>
-                                <ColumnDefinition Width="*" MinWidth="200" />
+                                <ColumnDefinition Width="*" MinWidth="460"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Frame
-                                x:Name="PrimaryPane"
-                                Grid.Column="0"
-                                BorderBrush="{ThemeResource MicaBorderBrush}"
-                                BorderThickness="0,0,1,0" />
-                            <Frame x:Name="SecondaryPane" Grid.Column="1" />
-
+                            <Grid x:Name="PrimaryPaneContainer" Canvas.ZIndex="1" Grid.ColumnSpan="{x:Bind BoolToColumnSpan(PrimaryPaneCollapsed), Mode=OneWay}" Grid.Column="0" Background="{ThemeResource MicaDarkerBrush}" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource MicaBorderBrush}">
+                                <Grid Background="{ThemeResource MicaBlurBrush}">
+                                    <Frame x:Name="PrimaryPane"/>
+                                </Grid>
+                            </Grid>
+                            <Grid x:Name="SecondaryPaneContainer" Canvas.ZIndex="0" Visibility="Collapsed" Grid.Column="1" Grid.ColumnSpan="2" Background="{ThemeResource MicaDarkerBrush}" CornerRadius="8" BorderThickness="1" BorderBrush="{ThemeResource MicaBorderBrush}">
+                                <Grid Background="{ThemeResource MicaBlurBrush}">
+                                    <Frame x:Name="SecondaryPane"/>
+                                </Grid>
+                            </Grid>
                             <toolkit:GridSplitter
                                 x:Name="PaneSplitter"
-                                Grid.Column="1"
+                                Grid.Column="1" x:Load="False"
                                 Width="16"
                                 HorizontalAlignment="Left"
                                 ResizeBehavior="BasedOnAlignment"
                                 ResizeDirection="Auto">
                                 <toolkit:GridSplitter.RenderTransform>
-                                    <TranslateTransform X="-8" />
+                                    <TranslateTransform X="-12" />
                                 </toolkit:GridSplitter.RenderTransform>
                             </toolkit:GridSplitter>
 

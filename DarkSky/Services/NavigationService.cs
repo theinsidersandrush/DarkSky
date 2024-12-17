@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
-using DarkSky.Core.Services;
+using DarkSky.Core.Services.Interfaces;
 
 namespace DarkSky.Services
 {

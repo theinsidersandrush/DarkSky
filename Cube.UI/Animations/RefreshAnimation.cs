@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Windows.Graphics;
@@ -191,7 +191,7 @@ namespace Cube.UI.Animations
             {
                 // Offset:<439.375, 431.447>
                 var geometry = PathGeometry();
-                var result = CreateSpriteShape(geometry, new Matrix3x2(1F, 0F, 0F, 1F, 439.375F, 431.446991F), ColorBrush_White()); ;
+                var result = CreateSpriteShape(geometry, new Matrix3x2(1F, 0F, 0F, 1F, 439.375F, 431.446991F), ColorBrush_White());
                 return result;
             }
 

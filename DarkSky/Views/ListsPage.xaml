@@ -8,28 +8,28 @@
     xmlns:local="using:DarkSky.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:classes="using:DarkSky.Core.Classes" xmlns:notification="using:FishyFlip.Lexicon.App.Bsky.Notification" xmlns:helpers="using:DarkSky.Helpers" xmlns:temporary="using:DarkSky.Core.ViewModels.Temporary" xmlns:usercontrols="using:DarkSky.UserControls"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Grid>
-        <StackPanel
-            Padding="32"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Spacing="8">
-            <TextBlock
-                FontSize="24"
-                HorizontalTextAlignment="Center"
-                Text="Lists are coming soon.." />
-            <TextBlock
-                HorizontalTextAlignment="Center"
-                Text="The app is being built up rapidly. Follow the progress in BlueSky, GitHub or Discord."
-                TextWrapping="WrapWholeWords" />
-            <HyperlinkButton HorizontalAlignment="Center" Content="See progress in BlueSky" NavigateUri="https://bsky.app/profile/firecube.bsky.social"/>
-            <HyperlinkButton HorizontalAlignment="Center" Content="Send feedback in GitHub" NavigateUri="https://github.com/FireCubeStudios/DarkSky"/>
-            <HyperlinkButton HorizontalAlignment="Center" Content="Join the Discord" NavigateUri="https://discord.com/invite/3WYcKat"/>
-        </StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Height="49" Padding="12, 8, 12, 8" BorderThickness="0, 0, 0, 1" BorderBrush="{ThemeResource MicaBorderBrush}">
+                <StackPanel Spacing="12" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="Your lists" FontWeight="SemiBold" FontSize="16"/>
+                    <TextBlock Text="View your public lists which can drive feeds." Opacity="0.7" VerticalAlignment="Bottom"/>
+                </StackPanel>
+                <Button IsEnabled="False" Style="{ThemeResource ToolbarButton}" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <icons:FluentSymbolIcon Symbol="Add20"/>
+                </Button>
+            </Grid>
+            <usercontrols:CursorListView x:Name="UsersLists" Grid.Row="1"
+                CursorSource="{x:Bind ViewModel.ListsSource, Mode=OneWay}"/>
+        </Grid>
     </Grid>
 </Page>

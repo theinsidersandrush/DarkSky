@@ -52,7 +52,7 @@ namespace DarkSky.Helpers
 
 		public static ImageSource Img(string uri)
 		{
-			if (uri == null)
+			if (String.IsNullOrEmpty(uri))
 				return new BitmapImage();
 
 			// Create a BitmapImage and set its UriSource to the provided Uri

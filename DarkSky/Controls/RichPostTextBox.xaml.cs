@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -21,5 +22,16 @@ namespace DarkSky.Controls
 		{
 			this.InitializeComponent();
 		}
+
+		// used in progress ring to show number of characters left
+		public double LimitValue(string text) => 300 - text.Length;
+		public string LimitValueStr(string text) => LimitValue(text).ToString();
+
+		private void UserControl_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
+		{
+			PostText.Width = e.NewSize.Width - 36;
+		}
+
+		public string gettext() => PostText.Text;
 	}
 }

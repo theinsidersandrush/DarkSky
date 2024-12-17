@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,9 +57,9 @@ namespace Cube.UI.Helpers
             }
             else
             {
-                red = (255 - red) * correctionFactor + red;
-                green = (255 - green) * correctionFactor + green;
-                blue = (255 - blue) * correctionFactor + blue;
+                red = ((255 - red) * correctionFactor) + red;
+                green = ((255 - green) * correctionFactor) + green;
+                blue = ((255 - blue) * correctionFactor) + blue;
             }
 
             return Color.FromArgb(color.A, (byte)red, (byte)green, (byte)blue);

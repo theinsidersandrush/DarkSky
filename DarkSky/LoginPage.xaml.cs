@@ -5,6 +5,7 @@ using DarkSky.Core.Messages;
 using DarkSky.Core.Services;
 using DarkSky.Core.ViewModels;
 using DarkSky.Services;
+using FishyFlip.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.ServiceModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -40,7 +42,6 @@ namespace DarkSky
 
 			WeakReferenceMessenger.Default.Register<ErrorMessage>(this, async (r, m) =>
 			{
-
 				Errorbar.IsOpen = true;
 				Errorbar.Title = m.Value.Message;
 				Errorbar.Content = m.Value.StackTrace;
@@ -54,16 +55,15 @@ namespace DarkSky
 			LoginBar.Visibility = Visibility.Visible;
 			ATProtoService proto = new();
 			CredentialService credentialService = new CredentialService();
-			await proto.LoginAsync(UsernameBox.Text, PasswordBox.Text);
-			if (proto.Session is not null)
+			await proto.LoginAsync(UsernameBox.Text, PasswordBox.Password);
+			if (proto.ATProtocolClient.Session is not null)
 			{
-				credentialService.SaveCredential(new Credential(proto.Session.Handle.Handle, PasswordBox.Text, proto.Session.RefreshJwt));
+				credentialService.SaveCredential(new Credential(proto.ATProtocolClient.Session.Handle.Handle, PasswordBox.Password, proto.ATProtocolClient.Session.RefreshJwt));
 
 				App.Current.Services = ServiceContainer.Services = App.ConfigureServices();
 
 				ATProtoService protoDI = App.Current.Services.GetService<ATProtoService>();
 				protoDI.ATProtocolClient = proto.ATProtocolClient;
-				protoDI.Session = proto.Session;
 				((Frame)Window.Current.Content).Navigate(typeof(MainPage));
 			}
 			LoginBar.Visibility = Visibility.Collapsed;

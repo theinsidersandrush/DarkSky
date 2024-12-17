@@ -1,4 +1,6 @@
-﻿using DarkSky.Core.Factories;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using DarkSky.Core.Factories;
+using DarkSky.Core.Messages;
 using DarkSky.Core.ViewModels.Temporary;
 using DarkSky.UserControls.Embeds;
 using FishyFlip.Lexicon;
@@ -32,65 +34,22 @@ namespace DarkSky.UserControls
 		public PostViewModel Post
 		{
 			get => (PostViewModel)GetValue(PostProperty);
-			set
-			{
-				SetValue(PostProperty, value);
-				if(value is not null)
-					SetPost(value.InternalPost);
-			}
+			set => SetValue(PostProperty, value);
 		}
 
 		public static readonly DependencyProperty PostProperty =
-				   DependencyProperty.Register("Post", typeof(PostViewModel), typeof(PostControl), null);
+				   DependencyProperty.Register("Post", typeof(PostViewModel), typeof(PostControl), new PropertyMetadata(null, OnPostChanged));
+
+		// Adding the PropertyChanged method fixes virtualisation duplication bug
+		private static void OnPostChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			if (d is PostControl p)
+				p.Bindings.Update();
+		}
 
 		public PostControl()
 		{
 			this.InitializeComponent();
-		}
-
-		public async void SetPost(PostView post) 
-		{
-			if (post.Embed is not null)
-			{
-				if (post.Embed.Type == "app.bsky.embed.images#view")
-				{
-					EmbedContent.Visibility = Visibility.Visible;
-					Embeds.ImageEmbed embed = new();
-					embed.AddImages(post.Embed as ViewImages);
-					EmbedContent.Content = embed;
-				}
-				else if (post.Embed.Type == "app.bsky.embed.external#view")
-				{
-					EmbedContent.Visibility = Visibility.Visible;
-					Embeds.LinkEmbed embed = new();
-					embed.AddLink(post.Embed as ViewExternal);
-					EmbedContent.Content = embed;
-				}
-				else if (post.Embed.Type == "app.bsky.embed.record#view")
-				{
-					try
-					{
-						PostControl embed = new();
-						embed.Post = await PostFactory.Create(((ViewRecord)(post.Embed as ViewRecordDef).Record));
-						EmbedContent.Content = embed;
-						EmbedContent.Visibility = Visibility.Visible;
-					}
-					catch { }
-				}
-				else if (post.Embed.Type == "app.bsky.embed.recordWithMedia")
-				{
-					EmbedContent.Visibility = Visibility.Visible;
-					PostControl embed = new();
-					//embed.Post = (post.Embed as RecordWithMediaViewEmbed).Record.Post;
-					EmbedContent.Content = embed;
-				}
-				else
-				{
-					Debug.WriteLine(post.Embed.Type);
-					EmbedContent.Content = null;
-					EmbedContent.Visibility = Visibility.Collapsed;
-				}
-			}
 		}
 	}
 }

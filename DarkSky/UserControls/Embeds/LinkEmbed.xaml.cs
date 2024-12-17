@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -42,5 +43,10 @@ namespace DarkSky.UserControls.Embeds
 				EmbedImage.Source = new BitmapImage(new Uri(Embed.Thumb));
 			}
 		}
-	}
+
+		private async void Button_Click(object sender, RoutedEventArgs e)
+		{
+			await Launcher.LaunchUriAsync(new Uri(embed.Uri));
+		}
+    }
 }

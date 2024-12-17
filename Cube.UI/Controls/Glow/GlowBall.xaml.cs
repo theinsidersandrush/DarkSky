@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,6 +29,5 @@ namespace Cube.UI.Controls.Glow
                    DependencyProperty.Register("Color", typeof(Color), typeof(UserControl), null);
 
         public GlowBall() => this.InitializeComponent();
-
     }
 }

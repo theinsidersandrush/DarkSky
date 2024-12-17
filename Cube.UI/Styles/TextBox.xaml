@@ -106,7 +106,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderThickness">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <!--  <DoubleAnimation Storyboard.TargetName="BottomBar" Duration="0:0:0.3" Storyboard.TargetProperty="ScaleX" EnableDependentAnimation="True" To="0"/>-->
+                                      <!--  <DoubleAnimation Storyboard.TargetName="BottomBar" Duration="0:0:0.3" Storyboard.TargetProperty="ScaleX" EnableDependentAnimation="True" To="0"/>-->
                                     </Storyboard>
                                 </VisualState>
 
